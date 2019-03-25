@@ -13,5 +13,7 @@ add_executable(verse_accumulator
     src/mainwindow.ui
     src/sqlitestoragebackend.cpp
     src/storagecache.cpp
-    src/verse.cpp)
+    src/verse.cpp
+    src/verseentry.cpp
+    src/verseentry.ui)
 target_link_libraries(verse_accumulator PRIVATE Qt5::Widgets)
