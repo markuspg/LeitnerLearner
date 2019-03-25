@@ -6,7 +6,12 @@ set(CMAKE_AUTOUIC ON)
 find_package(Qt5 COMPONENTS Widgets REQUIRED)
 
 add_executable(verse_accumulator
+    src/abstractstoragebackend.cpp
+    src/filestoragebackend.cpp
     src/main.cpp
     src/mainwindow.cpp
-    src/mainwindow.ui)
+    src/mainwindow.ui
+    src/sqlitestoragebackend.cpp
+    src/storagecache.cpp
+    src/verse.cpp)
 target_link_libraries(verse_accumulator PRIVATE Qt5::Widgets)
