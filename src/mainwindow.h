@@ -4,6 +4,7 @@
 #include <QMainWindow>
 
 class AbstractStorageBackend;
+class ConfigurationHandler;
 
 namespace Ui {
 class MainWindow;
@@ -18,7 +19,8 @@ public:
     ~MainWindow() override;
 
 private:
-    AbstractStorageBackend *storageBackend = nullptr;
+    ConfigurationHandler *const configHndlr = nullptr;
+    AbstractStorageBackend *const storageBackend = nullptr;
     Ui::MainWindow *const ui = nullptr;
 };
 
