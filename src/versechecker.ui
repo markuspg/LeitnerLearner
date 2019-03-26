@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>VerseChecker</class>
+ <widget class="QWidget" name="VerseChecker">
+  <property name="windowTitle">
+   <string>Verse Checker</string>
+  </property>
+  <layout class="QVBoxLayout" name="VLVerseChecker">
+   <item>
+    <widget class="QPlainTextEdit" name="PTEVerseText"/>
+   </item>
+   <item>
+    <layout class="QHBoxLayout" name="HLButtons">
+     <item>
+      <widget class="QPushButton" name="PBWrong">
+       <property name="enabled">
+        <bool>false</bool>
+       </property>
+       <property name="text">
+        <string>Show</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="PBCorrect">
+       <property name="enabled">
+        <bool>false</bool>
+       </property>
+       <property name="text">
+        <string>Correct</string>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </item>
+  </layout>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>
