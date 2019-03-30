@@ -1,12 +1,16 @@
 cmake_minimum_required(VERSION 3.7.1 FATAL_ERROR)
 
+project(LeitnerLearner
+    VERSION 0.1
+    LANGUAGES CXX)
+
 set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTOUIC ON)
 set(CMAKE_CXX_STANDARD 14)
 
 find_package(Qt5 COMPONENTS Widgets REQUIRED)
 
-add_executable(verse_accumulator
+add_executable(leitner_learner
     src/abstractstoragebackend.cpp
     src/configurationhandler.cpp
     src/filestoragebackend.cpp
@@ -20,4 +24,4 @@ add_executable(verse_accumulator
     src/versechecker.ui
     src/verseentry.cpp
     src/verseentry.ui)
-target_link_libraries(verse_accumulator PRIVATE Qt5::Widgets)
+target_link_libraries(leitner_learner PRIVATE Qt5::Widgets)
