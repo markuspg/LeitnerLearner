@@ -1,24 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <author/>
- <comment/>
- <exportmacro/>
  <class>MainWindow</class>
- <widget name="MainWindow" class="QMainWindow">
-  <property name="geometry">
-   <rect>
-    <x>0</x>
-    <y>0</y>
-    <width>800</width>
-    <height>600</height>
-   </rect>
-  </property>
+ <widget class="QMainWindow" name="MainWindow">
   <property name="windowTitle">
-   <string>MainWindow</string>
+   <string>LeitnerLearner</string>
   </property>
-  <widget name="menubar" class="QMenuBar"/>
-  <widget name="centralwidget" class="QWidget"/>
-  <widget name="statusbar" class="QStatusBar"/>
+  <widget class="QWidget" name="MWCentralwidget">
+   <layout class="QVBoxLayout" name="VLCentralWidget">
+    <item>
+     <widget class="QTabWidget" name="TWModeSelector">
+      <property name="currentIndex">
+       <number>0</number>
+      </property>
+      <widget class="QWidget" name="TCheck">
+       <attribute name="title">
+        <string>Check</string>
+       </attribute>
+       <layout class="QVBoxLayout" name="VLCheck">
+        <item>
+         <widget class="QWidget" name="WCheck" native="true"/>
+        </item>
+       </layout>
+      </widget>
+      <widget class="QWidget" name="TEntry">
+       <attribute name="title">
+        <string>Enter</string>
+       </attribute>
+       <layout class="QVBoxLayout" name="VLEntry">
+        <item>
+         <widget class="QWidget" name="WEntry" native="true"/>
+        </item>
+       </layout>
+      </widget>
+     </widget>
+    </item>
+   </layout>
+  </widget>
+  <widget class="QStatusBar" name="statusbar"/>
  </widget>
- <pixmapfunction/>
+ <resources/>
  <connections/>
 </ui>
