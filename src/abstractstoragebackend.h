@@ -1,11 +1,18 @@
 #ifndef ABSTRACTSTORAGEBACKEND_H
 #define ABSTRACTSTORAGEBACKEND_H
 
+#include <QException>
 #include <QObject>
 
 #include "verse.h"
 
 class Verse;
+
+class IOException : public QException
+{
+    IOException* clone() const override;
+    void raise() const override;
+};
 
 class AbstractStorageBackend : public QObject
 {
