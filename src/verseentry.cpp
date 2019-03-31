@@ -1,3 +1,4 @@
+#include "booktitles.h"
 #include "ui_verseentry.h"
 #include "verse.h"
 #include "verseentry.h"
@@ -9,6 +10,12 @@ VerseEntry::VerseEntry(QWidget *const argParent) :
     ui->setupUi(this);
     connect(ui->PBAdd, &QPushButton::clicked,
             this, &VerseEntry::OnAddButtonClicked);
+
+    for (const auto &bookData : bookTitles) {
+        QVariant tmpData;
+        tmpData.setValue(&bookData);
+        ui->CBBibleBook->addItem(tr(bookData.second), tmpData);
+    }
 }
 
 VerseEntry::~VerseEntry()
@@ -22,7 +29,10 @@ void VerseEntry::OnAddButtonClicked()
     setEnabled(false);
 
     // emit the signal to save the verse
-    emit Req_VerseSaving(Verse{});
+    emit Req_VerseSaving(Verse{ui->CBBibleBook->currentData().value<BookInfoPairPtr>(),
+                               static_cast<unsigned short>(ui->SBChapterNo->value()),
+                               static_cast<unsigned short>(ui->SBVerseNo->value()),
+                               ui->PTEVerseText->toPlainText()});
 }
 
 void VerseEntry::OnVerseSavingFailed()

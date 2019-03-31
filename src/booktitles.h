@@ -74,7 +74,7 @@ constexpr auto bookTitles = std::experimental::make_array(
     std::make_pair(EBibleBook::Thrd_John, QT_TR_NOOP("3 John")),
     std::make_pair(EBibleBook::Jude, QT_TR_NOOP("Jude")),
     std::make_pair(EBibleBook::Rev, QT_TR_NOOP("Revelation")));
-using BookInfoPair = decltype(bookTitles)::value_type;
-Q_DECLARE_METATYPE(BookInfoPair)
+using BookInfoPairPtr = const decltype(bookTitles)::value_type*;
+Q_DECLARE_METATYPE(BookInfoPairPtr)
 
 #endif // BOOKTITLES_H

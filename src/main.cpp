@@ -7,6 +7,7 @@ int main(int argc, char *argv[]) {
     QApplication app{argc, argv};
     app.setApplicationName("LeitnerLearner");
 
+    qRegisterMetaType<BookInfoPairPtr>();
     qRegisterMetaType<Verse>();
 
     MainWindow mainWin;
