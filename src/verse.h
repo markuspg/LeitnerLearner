@@ -14,6 +14,11 @@ public:
     Verse(const BookInfoPairPtr argBook, const unsigned short argChapterNo,
           const unsigned short argVerseNo, const QString &argText);
 
+    BookInfoPairPtr GetBookInfoPairPtr() const noexcept { return book; }
+    unsigned short GetChapterNo() const noexcept { return chapterNo; }
+    unsigned short GetVerseNo() const noexcept { return verseNo; }
+    const QString& GetText() const noexcept { return text; }
+
 private:
     const BookInfoPairPtr book = nullptr;
     unsigned short chapterNo = std::numeric_limits<unsigned short>::max();
