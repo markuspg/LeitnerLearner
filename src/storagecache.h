@@ -1,6 +1,8 @@
 #ifndef STORAGECACHE_H
 #define STORAGECACHE_H
 
+#include "constants.h"
+
 class StorageCache
 {
 public:
@@ -10,7 +12,7 @@ public:
     void ItemGotAnsweredWrongly(const unsigned short argItemsCurrentCat);
 
 private:
-    unsigned long itemsPerCat[7];
+    unsigned long itemsPerCat[categoryQty];
 };
 
 #endif // STORAGECACHE_H
