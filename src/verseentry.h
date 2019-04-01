@@ -29,6 +29,7 @@ private:
 
 private slots:
     void OnAddButtonClicked();
+    void OnTextChanged();
 };
 
 #endif // VERSEENTRY_H

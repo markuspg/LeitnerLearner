@@ -10,6 +10,8 @@ VerseEntry::VerseEntry(QWidget *const argParent) :
     ui->setupUi(this);
     connect(ui->PBAdd, &QPushButton::clicked,
             this, &VerseEntry::OnAddButtonClicked);
+    connect(ui->PTEVerseText, &QPlainTextEdit::textChanged,
+            this, &VerseEntry::OnTextChanged);
 
     for (const auto &bookData : bookTitles) {
         QVariant tmpData;
@@ -34,6 +36,16 @@ void VerseEntry::OnAddButtonClicked()
                                static_cast<unsigned short>(ui->SBVerseNo->value()),
                                ui->PTEVerseText->toPlainText()});
 }
+
+void VerseEntry::OnTextChanged()
+{
+    if (ui->PTEVerseText->toPlainText().isEmpty() == true) {
+        ui->PBAdd->setEnabled(false);
+    } else {
+        ui->PBAdd->setEnabled(true);
+    }
+}
+
 
 void VerseEntry::OnVerseSavingFailed()
 {
