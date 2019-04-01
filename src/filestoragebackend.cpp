@@ -16,9 +16,9 @@ FileStorageBackend::FileStorageBackend(QObject *const argParent) :
             throw IOException{};
         }
     }
-    for (unsigned short i = 1; i < categoryQty; ++i) {
+    for (unsigned short i = 0; i < categoryQty; ++i) {
         QDir catDir{QStandardPaths::writableLocation(QStandardPaths::AppDataLocation)
-                    + "/bibleVerse/" + QString::number(i)};
+                    + "/bibleVerse/" + QString::number(i + 1)};
         if (QFile::exists(catDir.absolutePath()) == false) {
             if (catDir.mkpath(catDir.absolutePath()) == false) {
                 qWarning() << "Failed to create category directories"
