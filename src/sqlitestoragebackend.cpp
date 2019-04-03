@@ -16,3 +16,8 @@ void SqliteStorageBackend::SaveVerse(const Verse &argVerse)
 
     emit VerseSavingFailed();
 }
+
+bool SqliteStorageBackend::UpdateCache()
+{
+    return false;
+}

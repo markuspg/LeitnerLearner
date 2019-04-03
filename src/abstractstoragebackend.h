@@ -4,6 +4,7 @@
 #include <QException>
 #include <QObject>
 
+#include "storagecache.h"
 #include "verse.h"
 
 class Verse;
@@ -30,6 +31,11 @@ signals:
     void VerseRetrievalSucceeded(Verse argVerse);
     void VerseSavingFailed();
     void VerseSavingSucceeded();
+
+protected:
+    virtual bool UpdateCache() = 0;
+
+    StorageCache cache;
 };
 
 #endif // ABSTRACTSTORAGEBACKEND_H

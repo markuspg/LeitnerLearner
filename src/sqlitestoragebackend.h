@@ -13,6 +13,9 @@ public:
 public slots:
     void RetrieveRandomVerse() override;
     void SaveVerse(const Verse &argVerse) override;
+
+protected:
+    bool UpdateCache() override;
 };
 
 #endif // SQLITESTORAGEBACKEND_H

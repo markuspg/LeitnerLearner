@@ -10,6 +10,8 @@ public:
 
     void ItemGotAnsweredCorrectly(const unsigned short argItemsCurrentCat);
     void ItemGotAnsweredWrongly(const unsigned short argItemsCurrentCat);
+    void SetCategoryQty(const unsigned short argCatIdx,
+                        const unsigned long argQty);
 
 private:
     unsigned long itemsPerCat[categoryQty];
