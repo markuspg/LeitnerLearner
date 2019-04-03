@@ -34,7 +34,7 @@ void VerseEntry::OnAddButtonClicked()
     emit Req_VerseSaving(Verse{ui->CBBibleBook->currentData().value<BookInfoPairPtr>(),
                                static_cast<unsigned short>(ui->SBChapterNo->value()),
                                static_cast<unsigned short>(ui->SBVerseNo->value()),
-                               ui->PTEVerseText->toPlainText()});
+                               ui->PTEVerseText->toPlainText(), 0});
 }
 
 void VerseEntry::OnTextChanged()
