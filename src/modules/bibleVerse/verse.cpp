@@ -10,3 +10,15 @@ Verse::Verse(const BookInfoPairPtr argBook, const unsigned short argChapterNo,
     text{argText}
 {
 }
+
+QByteArray Verse::GetData() const
+{
+    return text.toUtf8();
+}
+
+QString Verse::GetIdentifier() const
+{
+    return QString{book->second}
+            + "_" + QString::number(chapterNo)
+            + "-" + QString::number(verseNo);
+}

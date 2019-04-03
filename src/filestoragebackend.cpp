@@ -42,14 +42,12 @@ void FileStorageBackend::RetrieveRandomVerse()
 void FileStorageBackend::SaveVerse(const Verse &argVerse)
 {
     QFile outFile{QStandardPaths::writableLocation(QStandardPaths::AppDataLocation)
-                  + "/bibleVerse/1/" + argVerse.GetBookInfoPairPtr()->second
-                  + "_" + QString::number(argVerse.GetChapterNo())
-                  + "-" + QString::number(argVerse.GetVerseNo()) +  ".txt"};
+                  + "/bibleVerse/1/" + argVerse.GetIdentifier() + ".txt"};
     if (outFile.open(QIODevice::Text | QIODevice::WriteOnly) == false) {
         emit VerseSavingFailed();
         return;
     }
-    const auto outDataBuf{argVerse.GetText().toUtf8()};
+    const auto outDataBuf{argVerse.GetData()};
     if (outFile.write(outDataBuf) == outDataBuf.size()) {
         emit VerseSavingSucceeded();
         return;

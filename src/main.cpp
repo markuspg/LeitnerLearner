@@ -4,13 +4,15 @@
 #include <QFile>
 #include <QStandardPaths>
 
+#include "abstractdatatype.h"
 #include "mainwindow.h"
-#include "verse.h"
+#include "modules/bibleVerse/verse.h"
 
 int main(int argc, char *argv[]) {
     QApplication app{argc, argv};
     app.setApplicationName("LeitnerLearner");
 
+    qRegisterMetaType<AbstractDataTypeSharedPtr>();
     qRegisterMetaType<BookInfoPairPtr>();
     qRegisterMetaType<Verse>();
 

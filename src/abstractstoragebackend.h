@@ -5,7 +5,7 @@
 #include <QObject>
 
 #include "storagecache.h"
-#include "verse.h"
+#include "modules/bibleVerse/verse.h"
 
 class Verse;
 

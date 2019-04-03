@@ -1,13 +1,14 @@
 #ifndef VERSE_H
 #define VERSE_H
 
-#include "booktitles.h"
+#include "../../abstractdatatype.h"
+#include "../../booktitles.h"
 
 #include <limits>
 
 #include <QString>
 
-class Verse
+class Verse : public AbstractDataType
 {
 public:
     Verse() = default;
@@ -15,10 +16,8 @@ public:
           const unsigned short argVerseNo, const QString &argText,
           const unsigned short argCurrCat);
 
-    BookInfoPairPtr GetBookInfoPairPtr() const noexcept { return book; }
-    unsigned short GetChapterNo() const noexcept { return chapterNo; }
-    unsigned short GetVerseNo() const noexcept { return verseNo; }
-    const QString& GetText() const noexcept { return text; }
+    QByteArray GetData() const override;
+    QString GetIdentifier() const override;
 
 private:
     const BookInfoPairPtr book = nullptr;

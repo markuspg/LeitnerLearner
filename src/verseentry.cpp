@@ -1,7 +1,7 @@
 #include "booktitles.h"
 #include "ui_verseentry.h"
-#include "verse.h"
 #include "verseentry.h"
+#include "modules/bibleVerse/verse.h"
 
 VerseEntry::VerseEntry(QWidget *const argParent) :
     QWidget{argParent},
