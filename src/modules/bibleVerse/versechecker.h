@@ -1,15 +1,14 @@
 #ifndef VERSECHECKER_H
 #define VERSECHECKER_H
 
-#include <QWidget>
-
-class Verse;
+#include "../../abstractdatachecker.h"
+#include "verse.h"
 
 namespace Ui {
 class VerseChecker;
 } // namespace Ui
 
-class VerseChecker : public QWidget
+class VerseChecker : public AbstractDataChecker
 {
     Q_OBJECT
 

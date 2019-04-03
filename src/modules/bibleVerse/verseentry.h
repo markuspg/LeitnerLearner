@@ -1,7 +1,7 @@
 #ifndef VERSEENTRY_H
 #define VERSEENTRY_H
 
-#include <QWidget>
+#include "../../abstractdataentry.h"
 
 class Verse;
 
@@ -9,7 +9,7 @@ namespace Ui {
 class VerseEntry;
 } // namespace Ui
 
-class VerseEntry : public QWidget
+class VerseEntry : public AbstractDataEntry
 {
     Q_OBJECT
 

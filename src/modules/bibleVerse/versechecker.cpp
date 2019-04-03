@@ -1,9 +1,9 @@
+#include "verse.h"
 #include "versechecker.h"
 #include "ui_versechecker.h"
-#include "modules/bibleVerse/verse.h"
 
 VerseChecker::VerseChecker(QWidget *const argParent) :
-    QWidget{argParent},
+    AbstractDataChecker{argParent},
     ui{new Ui::VerseChecker}
 {
     ui->setupUi(this);

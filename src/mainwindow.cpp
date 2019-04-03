@@ -3,8 +3,8 @@
 #include "mainwindow.h"
 #include "sqlitestoragebackend.h"
 #include "ui_mainwindow.h"
-#include "versechecker.h"
-#include "verseentry.h"
+#include "modules/bibleVerse/versechecker.h"
+#include "modules/bibleVerse/verseentry.h"
 
 #include <QDebug>
 

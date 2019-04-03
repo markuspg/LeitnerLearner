@@ -11,6 +11,8 @@ set(CMAKE_CXX_STANDARD 14)
 find_package(Qt5 COMPONENTS Widgets REQUIRED)
 
 add_executable(leitner_learner
+    src/abstractdatachecker.cpp
+    src/abstractdataentry.cpp
     src/abstractdatatype.cpp
     src/abstractstoragebackend.cpp
     src/configurationhandler.cpp
@@ -20,9 +22,9 @@ add_executable(leitner_learner
     src/mainwindow.ui
     src/sqlitestoragebackend.cpp
     src/storagecache.cpp
-    src/versechecker.cpp
-    src/versechecker.ui
-    src/verseentry.cpp
-    src/verseentry.ui
-    src/modules/bibleVerse/verse.cpp)
+    src/modules/bibleVerse/verse.cpp
+    src/modules/bibleVerse/versechecker.cpp
+    src/modules/bibleVerse/versechecker.ui
+    src/modules/bibleVerse/verseentry.cpp
+    src/modules/bibleVerse/verseentry.ui)
 target_link_libraries(leitner_learner PRIVATE Qt5::Widgets)
