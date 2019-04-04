@@ -2,6 +2,7 @@
 #define VERSEENTRY_H
 
 #include "../../abstractdataentry.h"
+#include "verse.h"
 
 class Verse;
 

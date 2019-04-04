@@ -12,6 +12,7 @@ find_package(Qt5 COMPONENTS Widgets REQUIRED)
 
 add_executable(leitner_learner
     src/abstractdatachecker.cpp
+    src/abstractdatachecker.ui
     src/abstractdataentry.cpp
     src/abstractdatatype.cpp
     src/abstractstoragebackend.cpp
@@ -24,7 +25,6 @@ add_executable(leitner_learner
     src/storagecache.cpp
     src/modules/bibleVerse/verse.cpp
     src/modules/bibleVerse/versechecker.cpp
-    src/modules/bibleVerse/versechecker.ui
     src/modules/bibleVerse/verseentry.cpp
     src/modules/bibleVerse/verseentry.ui)
 target_link_libraries(leitner_learner PRIVATE Qt5::Widgets)
