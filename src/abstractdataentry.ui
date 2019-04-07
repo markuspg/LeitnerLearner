@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>AbstractDataEntry</class>
+ <widget class="QWidget" name="AbstractDataEntry">
+  <property name="windowTitle">
+   <string>Abstract Data Entry</string>
+  </property>
+  <layout class="QVBoxLayout" name="VLAbstractDataEntry">
+   <item>
+    <widget class="QPushButton" name="PBAdd">
+     <property name="enabled">
+      <bool>false</bool>
+     </property>
+     <property name="text">
+      <string>Add</string>
+     </property>
+    </widget>
+   </item>
+  </layout>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>
