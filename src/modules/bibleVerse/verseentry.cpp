@@ -11,12 +11,6 @@ VerseEntry::VerseEntry(QWidget *const argParent) :
             this, &VerseEntry::OnAddButtonClicked);
     connect(ui->PTEVerseText, &QPlainTextEdit::textChanged,
             this, &VerseEntry::OnTextChanged);
-
-    for (const auto &bookData : bookTitles) {
-        QVariant tmpData;
-        tmpData.setValue(&bookData);
-        ui->CBBibleBook->addItem(tr(bookData.second), tmpData);
-    }
 }
 
 VerseEntry::~VerseEntry()
