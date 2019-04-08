@@ -24,6 +24,9 @@ VerseEntryWdgt::~VerseEntryWdgt()
 
 AbstractDataTypeSharedPtr VerseEntryWdgt::GetDataPr()
 {
+    if (dataHasBeenCompleted == false) {
+        return AbstractDataTypeSharedPtr{};
+    }
     return AbstractDataTypeSharedPtr{
         new Verse{ui->CBBibleBook->currentData().value<BookInfoPairPtr>(),
                   static_cast<unsigned short>(ui->SBChapterNo->value()),
@@ -34,6 +37,7 @@ AbstractDataTypeSharedPtr VerseEntryWdgt::GetDataPr()
 void VerseEntryWdgt::OnDataChanged()
 {
     if (ui->PTEVerseText->toPlainText().size() != 0) {
+        dataHasBeenCompleted = true;
         emit DataComplete();
     }
 }
