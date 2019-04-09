@@ -13,6 +13,10 @@ public:
     explicit AbstractEntryWdgt(QWidget *const argParent = nullptr);
 
     /*!
+     * \brief Clear the entry widget and prepare for next entry (e.g. increment indices)
+     */
+    virtual void ClearAndPrepare() = 0;
+    /*!
      * \brief GetDataPr returns a pointer to the data and otherwise an empty shared pointer
      * \return A shared pointer pointing to the data (or an empty one)
      */

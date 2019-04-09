@@ -28,7 +28,6 @@ add_executable(leitner_learner
     src/modules/bibleVerse/verse.cpp
     src/modules/bibleVerse/versechecker.cpp
     src/modules/bibleVerse/verseentry.cpp
-    src/modules/bibleVerse/verseentry.ui
     src/modules/bibleVerse/verseentrywdgt.cpp
     src/modules/bibleVerse/verseentrywdgt.ui)
 target_link_libraries(leitner_learner PRIVATE Qt5::Widgets)

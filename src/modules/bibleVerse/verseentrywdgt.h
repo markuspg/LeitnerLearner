@@ -16,6 +16,7 @@ public:
     explicit VerseEntryWdgt(QWidget *const argParent = nullptr);
     ~VerseEntryWdgt() override;
 
+    void ClearAndPrepare() override;
     AbstractDataTypeSharedPtr GetDataPr() override;
 
 private:

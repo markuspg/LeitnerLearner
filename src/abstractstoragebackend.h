@@ -4,8 +4,8 @@
 #include <QException>
 #include <QObject>
 
+#include "abstractdatatype.h"
 #include "storagecache.h"
-#include "modules/bibleVerse/verse.h"
 
 class Verse;
 
@@ -24,13 +24,13 @@ public:
 
 public slots:
     virtual void RetrieveRandomVerse() = 0;
-    virtual void SaveVerse(const Verse &argVerse) = 0;
+    virtual void SaveData(const AbstractDataTypeSharedPtr &argData) = 0;
 
 signals:
     void VerseRetrievalFailed();
     void VerseRetrievalSucceeded(Verse argVerse);
-    void VerseSavingFailed();
-    void VerseSavingSucceeded();
+    void DataSavingFailed();
+    void DataSavingSucceeded();
 
 protected:
     virtual bool UpdateCache() = 0;

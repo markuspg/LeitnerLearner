@@ -12,7 +12,7 @@ public:
 
 public slots:
     void RetrieveRandomVerse() override;
-    void SaveVerse(const Verse &argVerse) override;
+    void SaveData(const AbstractDataTypeSharedPtr &argData) override;
 
 protected:
     bool UpdateCache() override;

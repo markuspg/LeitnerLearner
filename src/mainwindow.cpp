@@ -34,12 +34,12 @@ MainWindow::MainWindow(QWidget *const argParent) :
     }
     tmpChecker->show();
     const auto tmpEntry = new VerseEntry{this};
-    connect(tmpEntry, &VerseEntry::Req_VerseSaving,
-            storageBackend, &AbstractStorageBackend::SaveVerse);
-    connect(storageBackend, &AbstractStorageBackend::VerseSavingFailed,
-            tmpEntry, &VerseEntry::OnVerseSavingFailed);
-    connect(storageBackend, &AbstractStorageBackend::VerseSavingSucceeded,
-            tmpEntry, &VerseEntry::OnVerseSavingSucceeded);
+    connect(tmpEntry, &AbstractDataEntry::Req_DataSaving,
+            storageBackend, &AbstractStorageBackend::SaveData);
+    connect(storageBackend, &AbstractStorageBackend::DataSavingFailed,
+            tmpEntry, &AbstractDataEntry::OnDataSavingFailed);
+    connect(storageBackend, &AbstractStorageBackend::DataSavingSucceeded,
+            tmpEntry, &AbstractDataEntry::OnDataSavingSucceeded);
     tmpLayoutItem = ui->VLEntry->replaceWidget(ui->WEntry, tmpEntry);
     if (tmpLayoutItem != nullptr) {
         tmpLayoutItem->widget()->deleteLater();

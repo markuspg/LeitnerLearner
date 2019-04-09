@@ -22,6 +22,12 @@ VerseEntryWdgt::~VerseEntryWdgt()
     delete ui;
 }
 
+void VerseEntryWdgt::ClearAndPrepare()
+{
+    ui->PTEVerseText->setPlainText("");
+    ui->SBVerseNo->setValue(ui->SBVerseNo->value() + 1);
+}
+
 AbstractDataTypeSharedPtr VerseEntryWdgt::GetDataPr()
 {
     if (dataHasBeenCompleted == false) {

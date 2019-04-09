@@ -10,11 +10,11 @@ void SqliteStorageBackend::RetrieveRandomVerse()
     emit VerseRetrievalFailed();
 }
 
-void SqliteStorageBackend::SaveVerse(const Verse &argVerse)
+void SqliteStorageBackend::SaveData(const AbstractDataTypeSharedPtr &argData)
 {
-    Q_UNUSED(argVerse)
+    Q_UNUSED(argData)
 
-    emit VerseSavingFailed();
+    emit DataSavingFailed();
 }
 
 bool SqliteStorageBackend::UpdateCache()

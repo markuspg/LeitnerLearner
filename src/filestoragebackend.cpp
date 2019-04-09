@@ -39,20 +39,24 @@ void FileStorageBackend::RetrieveRandomVerse()
     emit VerseRetrievalFailed();
 }
 
-void FileStorageBackend::SaveVerse(const Verse &argVerse)
+void FileStorageBackend::SaveData(const AbstractDataTypeSharedPtr &argData)
 {
+    if (!argData) {
+        qWarning() << "Empty data got passed for saving";
+        emit DataSavingFailed();
+    }
     QFile outFile{QStandardPaths::writableLocation(QStandardPaths::AppDataLocation)
-                  + "/bibleVerse/1/" + argVerse.GetIdentifier() + ".txt"};
+                  + "/bibleVerse/1/" + argData->GetIdentifier() + ".txt"};
     if (outFile.open(QIODevice::Text | QIODevice::WriteOnly) == false) {
-        emit VerseSavingFailed();
+        emit DataSavingFailed();;
         return;
     }
-    const auto outDataBuf{argVerse.GetData()};
+    const auto outDataBuf{argData->GetData()};
     if (outFile.write(outDataBuf) == outDataBuf.size()) {
-        emit VerseSavingSucceeded();
+        emit DataSavingSucceeded();
         return;
     }
-    emit VerseSavingFailed();
+    emit DataSavingFailed();
 }
 
 bool FileStorageBackend::UpdateCache()
