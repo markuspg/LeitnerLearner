@@ -21,16 +21,8 @@
 #include "configurationhandler.h"
 
 constexpr auto confsAndDefaults = std::experimental::make_array(
-    std::make_pair(ConfigurationHandler::ECV::LAST_SAVED_BOOK,
-                   bookTitles.at(0).second),
     std::make_pair(ConfigurationHandler::ECV::STORAGE_BACKEND,
-                   "file"),
-    std::make_pair(ConfigurationHandler::ECV::DEFAULT_TRANSLATION,
-                   ""),
-    std::make_pair(ConfigurationHandler::ECV::LAST_SAVED_VERSE_NO,
-                   ""),
-    std::make_pair(ConfigurationHandler::ECV::LAST_SAVED_CHAPTER_NO,
-                   ""));
+                   "file"));
 
 ConfigurationHandler::ConfigurationHandler(QObject *const argParent) :
     QObject{argParent}

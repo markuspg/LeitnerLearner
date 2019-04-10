@@ -28,10 +28,6 @@ class ConfigurationHandler : public QObject
 
 public:
     enum class EConfigValues {
-        DEFAULT_TRANSLATION,
-        LAST_SAVED_BOOK,
-        LAST_SAVED_CHAPTER_NO,
-        LAST_SAVED_VERSE_NO,
         STORAGE_BACKEND,
     };
     using ECV = EConfigValues;

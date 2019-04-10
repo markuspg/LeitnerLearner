@@ -24,9 +24,9 @@ SqliteStorageBackend::SqliteStorageBackend(QObject *const argParent) :
 {
 }
 
-void SqliteStorageBackend::RetrieveRandomVerse()
+void SqliteStorageBackend::RetrieveRandomData()
 {
-    emit VerseRetrievalFailed();
+    emit DataRetrievalFailed();
 }
 
 void SqliteStorageBackend::SaveData(const AbstractDataTypeSharedPtr &argData)

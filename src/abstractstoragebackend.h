@@ -20,13 +20,11 @@
 #ifndef ABSTRACTSTORAGEBACKEND_H
 #define ABSTRACTSTORAGEBACKEND_H
 
-#include <QException>
-#include <QObject>
-
 #include "abstractdatatype.h"
 #include "storagecache.h"
 
-class Verse;
+#include <QException>
+#include <QObject>
 
 class IOException : public QException
 {
@@ -42,12 +40,12 @@ public:
     explicit AbstractStorageBackend(QObject *const argParent = nullptr);
 
 public slots:
-    virtual void RetrieveRandomVerse() = 0;
+    virtual void RetrieveRandomData() = 0;
     virtual void SaveData(const AbstractDataTypeSharedPtr &argData) = 0;
 
 signals:
-    void VerseRetrievalFailed();
-    void VerseRetrievalSucceeded(Verse argVerse);
+    void DataRetrievalFailed();
+    void DataRetrievalSucceeded(AbstractDataTypeSharedPtr argData);
     void DataSavingFailed();
     void DataSavingSucceeded();
 

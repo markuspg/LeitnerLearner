@@ -71,7 +71,7 @@ void AbstractDataEntry::OnDataSavingSucceeded()
     // clear the data entry widget and prepare entry of next data
     entryWdgt->ClearAndPrepare();
 
-    // allow the user to send next request to save a verse
+    // allow the user to send next request to save data
     setEnabled(true);
 
     // the "Add" push button shall be disabled until next data is available

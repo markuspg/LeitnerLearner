@@ -30,7 +30,7 @@ public:
     explicit FileStorageBackend(QObject *const argParent = nullptr);
 
 public slots:
-    void RetrieveRandomVerse() override;
+    void RetrieveRandomData() override;
     void SaveData(const AbstractDataTypeSharedPtr &argData) override;
 
 protected:

@@ -24,8 +24,8 @@
 #include <QStandardPaths>
 
 #include "abstractdatatype.h"
+#include "booktitles.h"
 #include "mainwindow.h"
-#include "modules/bibleVerse/verse.h"
 
 int main(int argc, char *argv[]) {
     QApplication app{argc, argv};
@@ -33,7 +33,6 @@ int main(int argc, char *argv[]) {
 
     qRegisterMetaType<AbstractDataTypeSharedPtr>();
     qRegisterMetaType<BookInfoPairPtr>();
-    qRegisterMetaType<Verse>();
 
     QDir dataDir{QStandardPaths::writableLocation(QStandardPaths::AppDataLocation)};
     if (QFile::exists(dataDir.absolutePath()) == false) {

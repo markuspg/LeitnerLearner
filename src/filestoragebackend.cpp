@@ -53,9 +53,9 @@ FileStorageBackend::FileStorageBackend(QObject *const argParent) :
     }
 }
 
-void FileStorageBackend::RetrieveRandomVerse()
+void FileStorageBackend::RetrieveRandomData()
 {
-    emit VerseRetrievalFailed();
+    emit DataRetrievalFailed();
 }
 
 void FileStorageBackend::SaveData(const AbstractDataTypeSharedPtr &argData)

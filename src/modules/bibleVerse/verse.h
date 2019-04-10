@@ -46,6 +46,5 @@ private:
     const QString text;
 
 };
-Q_DECLARE_METATYPE(Verse)
 
 #endif // VERSE_H
