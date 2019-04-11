@@ -19,18 +19,17 @@
 
 #include "storagecache.h"
 
-#include <stdexcept>
+#include <iostream>
 
-StorageCache::StorageCache() :
-    itemsPerCat{}
+bool StorageCache::SetCategoryQty(const EModIds argMod,
+                                  const unsigned short argCatIdx,
+                                  const unsigned long argQty) noexcept
 {
-}
-
-void StorageCache::SetCategoryQty(const unsigned short argCatIdx,
-                                  const unsigned long argQty)
-{
-    if (argCatIdx >= categoryQty) {
-        throw std::out_of_range{"Invalid category index given for update"};
+    try {
+        itemsPerModPerCat.at(argMod).at(argCatIdx) = argQty;
+    } catch ([[maybe_unused]] const std::out_of_range &argExc) {
+        std::cerr << "Invalid access of \"itemsPerModPerCat\"\n";
+        return false;
     }
-    itemsPerCat[argCatIdx] = argQty;
+    return true;
 }

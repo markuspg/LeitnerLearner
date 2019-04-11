@@ -21,19 +21,20 @@
 #define STORAGECACHE_H
 
 #include "constants.h"
+#include "modules/helpers.h"
+
+#include <map>
 
 class StorageCache
 {
 public:
-    explicit StorageCache();
-
     void ItemGotAnsweredCorrectly(const unsigned short argItemsCurrentCat);
     void ItemGotAnsweredWrongly(const unsigned short argItemsCurrentCat);
-    void SetCategoryQty(const unsigned short argCatIdx,
-                        const unsigned long argQty);
+    bool SetCategoryQty(EModIds argMod, unsigned short argCatIdx,
+                        unsigned long argQty) noexcept;
 
 private:
-    unsigned long itemsPerCat[categoryQty];
+    std::map<EModIds, std::array<unsigned long, categoryQty>> itemsPerModPerCat;
 };
 
 #endif // STORAGECACHE_H

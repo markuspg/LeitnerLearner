@@ -17,9 +17,7 @@
  *  along with LeitnerLearner.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "constants.h"
 #include "filestoragebackend.h"
-#include "modules/helpers.h"
 
 #include <QDebug>
 #include <QDir>
@@ -29,7 +27,9 @@
 FileStorageBackend::FileStorageBackend(QObject *const argParent) :
     AbstractStorageBackend{argParent}
 {
+    // prepare storage directories for all modules' data
     for (const auto &moduleData : GetModuleNames()) {
+        // first create the modules' directories themselves
         const QString dataDirPath{QStandardPaths::writableLocation(
                                       QStandardPaths::AppDataLocation)
                                   + "/" + moduleData.second};
@@ -40,6 +40,7 @@ FileStorageBackend::FileStorageBackend(QObject *const argParent) :
                 throw IOException{};
             }
         }
+        // then create the directories for the different learning levels
         for (unsigned short i = 0; i < categoryQty; ++i) {
             QDir catDir{dataDirPath + "/" + QString::number(i + 1)};
             if (QFile::exists(catDir.absolutePath()) == false) {
@@ -94,10 +95,13 @@ bool FileStorageBackend::UpdateCache()
             return false;
         }
         QDir dirInfo{dirPath};
-        cache.SetCategoryQty(i,
+        if (cache.SetCategoryQty(EModIds::BibleVerse, i,
                              static_cast<unsigned long>(dirInfo.entryList(
                                                             QStringList{"*.txt"},
-                                                            QDir::Files).size()));
+                                                            QDir::Files).size()))
+                == false) {
+            return false;
+        }
     }
     return true;
 }
