@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.7.1 FATAL_ERROR)
+cmake_minimum_required(VERSION 3.13.4 FATAL_ERROR)
 
 project(LeitnerLearner
     VERSION 0.1
@@ -6,7 +6,7 @@ project(LeitnerLearner
 
 set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTOUIC ON)
-set(CMAKE_CXX_STANDARD 14)
+set(CMAKE_CXX_STANDARD 17)
 
 find_package(Qt5 COMPONENTS Widgets REQUIRED)
 
