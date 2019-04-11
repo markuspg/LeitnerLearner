@@ -17,8 +17,9 @@
  *  along with LeitnerLearner.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "booktitles.h"
 #include "configurationhandler.h"
+
+#include <experimental/array>
 
 constexpr auto confsAndDefaults = std::experimental::make_array(
     std::make_pair(ConfigurationHandler::ECV::STORAGE_BACKEND,

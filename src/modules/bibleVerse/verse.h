@@ -20,8 +20,8 @@
 #ifndef VERSE_H
 #define VERSE_H
 
+#include "booktitles.h"
 #include "../../abstractdatatype.h"
-#include "../../booktitles.h"
 
 #include <limits>
 

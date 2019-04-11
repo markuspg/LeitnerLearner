@@ -24,8 +24,8 @@
 #include <QStandardPaths>
 
 #include "abstractdatatype.h"
-#include "booktitles.h"
 #include "mainwindow.h"
+#include "modules/bibleVerse/booktitles.h"
 
 int main(int argc, char *argv[]) {
     QApplication app{argc, argv};
