@@ -17,31 +17,19 @@
  *  along with LeitnerLearner.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef ABSTRACTDATATYPE_H
-#define ABSTRACTDATATYPE_H
+#include "helpers.h"
 
-#include "modules/helpers.h"
+#include <experimental/array>
 
-#include <QMetaType>
+constexpr ModNamesArr moduleNames = std::experimental::make_array(
+            std::make_pair(EModIds::BibleVerse, "BibleVerse"));
 
-#include <memory>
-
-class AbstractDataType
+const char * GetModuleNameById(const EModIds argId)
 {
-public:
-    explicit AbstractDataType(EModIds argType);
-    virtual ~AbstractDataType() = default;
+    return moduleNames.at(static_cast<ModNamesArr::size_type>(argId)).second;
+}
 
-    virtual QByteArray GetData() const = 0;
-    virtual QString GetIdentifier() const = 0;
-    inline EModIds GetType() const noexcept;
-
-private:
-    const EModIds type;
-};
-using AbstractDataTypeSharedPtr = std::shared_ptr<AbstractDataType>;
-Q_DECLARE_METATYPE(AbstractDataTypeSharedPtr)
-
-EModIds AbstractDataType::GetType() const noexcept { return type; }
-
-#endif // ABSTRACTDATATYPE_H
+const ModNamesArr& GetModuleNames()
+{
+    return moduleNames;
+}

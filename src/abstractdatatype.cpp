@@ -18,3 +18,8 @@
  */
 
 #include "abstractdatatype.h"
+
+AbstractDataType::AbstractDataType(const EModIds argType) :
+    type{argType}
+{
+}

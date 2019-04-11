@@ -25,6 +25,7 @@ add_executable(leitner_learner
     src/mainwindow.ui
     src/sqlitestoragebackend.cpp
     src/storagecache.cpp
+    src/modules/helpers.cpp
     src/modules/bibleVerse/verse.cpp
     src/modules/bibleVerse/versechecker.cpp
     src/modules/bibleVerse/verseentry.cpp

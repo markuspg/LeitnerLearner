@@ -17,31 +17,18 @@
  *  along with LeitnerLearner.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef ABSTRACTDATATYPE_H
-#define ABSTRACTDATATYPE_H
+#ifndef HELPERS_H
+#define HELPERS_H
 
-#include "modules/helpers.h"
+#include <array>
 
-#include <QMetaType>
-
-#include <memory>
-
-class AbstractDataType
-{
-public:
-    explicit AbstractDataType(EModIds argType);
-    virtual ~AbstractDataType() = default;
-
-    virtual QByteArray GetData() const = 0;
-    virtual QString GetIdentifier() const = 0;
-    inline EModIds GetType() const noexcept;
-
-private:
-    const EModIds type;
+enum class EModIds {
+    BibleVerse,
 };
-using AbstractDataTypeSharedPtr = std::shared_ptr<AbstractDataType>;
-Q_DECLARE_METATYPE(AbstractDataTypeSharedPtr)
 
-EModIds AbstractDataType::GetType() const noexcept { return type; }
+using ModNamesArr = std::array<std::pair<EModIds, const char *>, 1>;
 
-#endif // ABSTRACTDATATYPE_H
+const char * GetModuleNameById(EModIds argModId);
+const ModNamesArr& GetModuleNames();
+
+#endif // HELPERS_H

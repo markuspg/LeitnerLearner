@@ -19,6 +19,7 @@
 
 #include "constants.h"
 #include "filestoragebackend.h"
+#include "modules/helpers.h"
 
 #include <QDebug>
 #include <QDir>
@@ -28,22 +29,25 @@
 FileStorageBackend::FileStorageBackend(QObject *const argParent) :
     AbstractStorageBackend{argParent}
 {
-    QDir dataDir{QStandardPaths::writableLocation(QStandardPaths::AppDataLocation)
-                 + "/bibleVerse"};
-    if (QFile::exists(dataDir.absolutePath()) == false) {
-        if (dataDir.mkpath(dataDir.absolutePath()) == false) {
-            qWarning() << "Failed to create data directory for FileStorageBackend";
-            throw IOException{};
-        }
-    }
-    for (unsigned short i = 0; i < categoryQty; ++i) {
-        QDir catDir{QStandardPaths::writableLocation(QStandardPaths::AppDataLocation)
-                    + "/bibleVerse/" + QString::number(i + 1)};
-        if (QFile::exists(catDir.absolutePath()) == false) {
-            if (catDir.mkpath(catDir.absolutePath()) == false) {
-                qWarning() << "Failed to create category directories"
-                              " for FileStorageBackend";
+    for (const auto &moduleData : GetModuleNames()) {
+        const QString dataDirPath{QStandardPaths::writableLocation(
+                                      QStandardPaths::AppDataLocation)
+                                  + "/" + moduleData.second};
+        QDir dataDir{dataDirPath};
+        if (QFile::exists(dataDir.absolutePath()) == false) {
+            if (dataDir.mkpath(dataDir.absolutePath()) == false) {
+                qWarning() << "Failed to create data directory for FileStorageBackend";
                 throw IOException{};
+            }
+        }
+        for (unsigned short i = 0; i < categoryQty; ++i) {
+            QDir catDir{dataDirPath + "/" + QString::number(i + 1)};
+            if (QFile::exists(catDir.absolutePath()) == false) {
+                if (catDir.mkpath(catDir.absolutePath()) == false) {
+                    qWarning() << "Failed to create category directories"
+                                  " for FileStorageBackend";
+                    throw IOException{};
+                }
             }
         }
     }
@@ -65,7 +69,8 @@ void FileStorageBackend::SaveData(const AbstractDataTypeSharedPtr &argData)
         emit DataSavingFailed();
     }
     QFile outFile{QStandardPaths::writableLocation(QStandardPaths::AppDataLocation)
-                  + "/bibleVerse/1/" + argData->GetIdentifier() + ".txt"};
+                  + QString{"/%1/1/"}.arg(GetModuleNameById(argData->GetType()))
+                            + argData->GetIdentifier() + ".txt"};
     if (outFile.open(QIODevice::Text | QIODevice::WriteOnly) == false) {
         emit DataSavingFailed();;
         return;
@@ -82,7 +87,8 @@ bool FileStorageBackend::UpdateCache()
 {
     for (unsigned short i = 0; i < categoryQty; ++i) {
         const QString dirPath{QStandardPaths::writableLocation(
-                              QStandardPaths::AppDataLocation) + "/bibleVerse/"
+                              QStandardPaths::AppDataLocation)
+                              + QString{"/%1/"}.arg(GetModuleNameById(EModIds::BibleVerse))
                               + QString::number(i + 1)};
         if (QFile::exists(dirPath) == false) {
             return false;
