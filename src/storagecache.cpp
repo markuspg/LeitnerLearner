@@ -21,6 +21,46 @@
 
 #include <iostream>
 
+void StorageCache::ItemGotAnsweredCorrectly(const EModIds argItemsMod,
+                                            const unsigned short argItemsCurrentCat)
+{
+    auto &currMod{itemsPerModPerCat.at(argItemsMod)};
+
+    // if the item is already in the highest category it cannot be moved further
+    if (argItemsCurrentCat == categoryQty - 1) {
+        return;
+    }
+
+    const auto currLevelQty = currMod.at(argItemsCurrentCat);
+    // the quantity in any level should never be attempted to be decreased below 0
+    if (currLevelQty == 0) {
+        std::cerr << "A level's quantity cannot be decreased below '0'" << std::endl;
+        throw std::exception{};
+    }
+    currMod.at(argItemsCurrentCat) -= 1;
+    currMod.at(argItemsCurrentCat + 1) += 1;
+}
+
+void StorageCache::ItemGotAnsweredWrongly(const EModIds argItemsMod,
+                                          const unsigned short argItemsCurrentCat)
+{
+    auto &currMod{itemsPerModPerCat.at(argItemsMod)};
+
+    // if the item is already in the lowest category it cannot be moved further
+    if (argItemsCurrentCat == 0) {
+        return;
+    }
+
+    const auto currLevelQty = currMod.at(argItemsCurrentCat);
+    // the quantity in any level should never be attempted to be decreased below 0
+    if (currLevelQty == 0) {
+        std::cerr << "A level's quantity cannot be decreased below '0'" << std::endl;
+        throw std::exception{};
+    }
+    currMod.at(argItemsCurrentCat) -= 1;
+    currMod.at(argItemsCurrentCat - 1) += 1;
+}
+
 bool StorageCache::SetCategoryQty(const EModIds argMod,
                                   const unsigned short argCatIdx,
                                   const unsigned long argQty) noexcept

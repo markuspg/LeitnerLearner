@@ -28,8 +28,10 @@
 class StorageCache
 {
 public:
-    void ItemGotAnsweredCorrectly(const unsigned short argItemsCurrentCat);
-    void ItemGotAnsweredWrongly(const unsigned short argItemsCurrentCat);
+    void ItemGotAnsweredCorrectly(EModIds argItemsMod,
+                                  unsigned short argItemsCurrentCat);
+    void ItemGotAnsweredWrongly(EModIds argItemsMod,
+                                unsigned short argItemsCurrentCat);
     bool SetCategoryQty(EModIds argMod, unsigned short argCatIdx,
                         unsigned long argQty) noexcept;
 
