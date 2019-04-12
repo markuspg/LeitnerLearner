@@ -40,16 +40,21 @@ public:
     explicit AbstractStorageBackend(QObject *const argParent = nullptr);
 
 public slots:
+    void MoveDataOneLevelDown(AbstractDataTypeSharedPtr argData);
+    void MoveDataOneLevelUp(AbstractDataTypeSharedPtr argData);
     virtual void RetrieveRandomData() = 0;
     virtual void SaveData(const AbstractDataTypeSharedPtr &argData) = 0;
 
 signals:
+    void DataMovingFailed();
     void DataRetrievalFailed();
     void DataRetrievalSucceeded(AbstractDataTypeSharedPtr argData);
     void DataSavingFailed();
     void DataSavingSucceeded();
 
 protected:
+    virtual void MoveData(AbstractDataTypeSharedPtr argData,
+                          bool argMoveLevelUp) = 0;
     virtual bool UpdateCache() = 0;
 
     StorageCache cache;

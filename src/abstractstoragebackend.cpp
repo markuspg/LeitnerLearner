@@ -33,3 +33,13 @@ AbstractStorageBackend::AbstractStorageBackend(QObject *const argParent) :
     QObject{argParent}
 {
 }
+
+void AbstractStorageBackend::MoveDataOneLevelDown(AbstractDataTypeSharedPtr argData)
+{
+    MoveData(argData, false);
+}
+
+void AbstractStorageBackend::MoveDataOneLevelUp(AbstractDataTypeSharedPtr argData)
+{
+    MoveData(argData, true);
+}

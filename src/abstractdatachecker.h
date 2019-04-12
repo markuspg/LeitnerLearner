@@ -37,6 +37,8 @@ public:
                                  QWidget *const argParent = nullptr);
     ~AbstractDataChecker() override;
 
+public slots:
+    virtual void DataLevelUpdateFailed();
     virtual void SetDataToCheck(const AbstractDataTypeSharedPtr &argData);
 
 signals:

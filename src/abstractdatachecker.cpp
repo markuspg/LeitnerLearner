@@ -43,6 +43,12 @@ AbstractDataChecker::~AbstractDataChecker()
     delete ui;
 }
 
+void AbstractDataChecker::DataLevelUpdateFailed()
+{
+    setStyleSheet("background: red");
+    setEnabled(false);
+}
+
 void AbstractDataChecker::OnPBCorrectClicked()
 {
     SetPBWrongState(EPBWrongState::SHOW);

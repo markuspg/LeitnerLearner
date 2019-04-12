@@ -24,6 +24,15 @@ SqliteStorageBackend::SqliteStorageBackend(QObject *const argParent) :
 {
 }
 
+void SqliteStorageBackend::MoveData(AbstractDataTypeSharedPtr argData,
+                                    const bool argMoveLevelUp)
+{
+    Q_UNUSED(argData)
+    Q_UNUSED(argMoveLevelUp)
+
+    emit DataMovingFailed();
+}
+
 void SqliteStorageBackend::RetrieveRandomData()
 {
     emit DataRetrievalFailed();

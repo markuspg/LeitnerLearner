@@ -43,6 +43,14 @@ MainWindow::MainWindow(QWidget *const argParent) :
 
     ui->setupUi(this);
     const auto tmpChecker = new VerseChecker{this};
+    connect(tmpChecker, &AbstractDataChecker::DataVerificationFailed,
+            storageBackend, &AbstractStorageBackend::MoveDataOneLevelDown);
+    connect(tmpChecker, &AbstractDataChecker::DataVerificationSucceeded,
+            storageBackend, &AbstractStorageBackend::MoveDataOneLevelUp);
+    connect(storageBackend, &AbstractStorageBackend::DataMovingFailed,
+            tmpChecker, &AbstractDataChecker::DataLevelUpdateFailed);
+    connect(storageBackend, &AbstractStorageBackend::DataRetrievalSucceeded,
+            tmpChecker, &AbstractDataChecker::SetDataToCheck);
     auto tmpLayoutItem = ui->VLCheck->replaceWidget(ui->WCheck, tmpChecker);
     if (tmpLayoutItem != nullptr) {
         tmpLayoutItem->widget()->deleteLater();
