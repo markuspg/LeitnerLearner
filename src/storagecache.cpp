@@ -20,6 +20,19 @@
 #include "storagecache.h"
 
 #include <iostream>
+#include <numeric>
+
+unsigned long StorageCache::GetTotalStoredItemsQty() const
+{
+    unsigned long totalQty = 0;
+
+    for (const auto &module : itemsPerModPerCat) {
+        totalQty += std::accumulate(module.second.cbegin(),
+                                    module.second.cend(), 0ul);
+    }
+
+    return totalQty;
+}
 
 void StorageCache::ItemGotAnsweredCorrectly(const EModIds argItemsMod,
                                             const unsigned short argItemsCurrentCat)
