@@ -58,13 +58,13 @@ FileStorageBackend::FileStorageBackend(QObject *const argParent) :
     }
 }
 
-void FileStorageBackend::MoveData(AbstractDataTypeSharedPtr argData,
+bool FileStorageBackend::MoveData(AbstractDataTypeSharedPtr argData,
                                   const bool argMoveLevelUp)
 {
     Q_UNUSED(argData)
     Q_UNUSED(argMoveLevelUp)
 
-    emit DataMovingFailed();
+    return false;
 }
 
 void FileStorageBackend::RetrieveRandomData()

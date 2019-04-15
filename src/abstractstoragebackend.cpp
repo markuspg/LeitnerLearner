@@ -36,10 +36,20 @@ AbstractStorageBackend::AbstractStorageBackend(QObject *const argParent) :
 
 void AbstractStorageBackend::MoveDataOneLevelDown(AbstractDataTypeSharedPtr argData)
 {
-    MoveData(argData, false);
+    if (MoveData(argData, false) == true) {
+        RetrieveRandomData();
+        return;
+    }
+
+    emit DataMovingFailed();
 }
 
 void AbstractStorageBackend::MoveDataOneLevelUp(AbstractDataTypeSharedPtr argData)
 {
-    MoveData(argData, true);
+    if (MoveData(argData, true) == true) {
+        RetrieveRandomData();
+        return;
+    }
+
+    emit DataMovingFailed();
 }
