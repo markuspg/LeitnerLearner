@@ -29,7 +29,7 @@
 class AbstractDataType
 {
 public:
-    explicit AbstractDataType(EModIds argType);
+    explicit AbstractDataType(EModIds argType) noexcept;
     virtual ~AbstractDataType() = default;
 
     virtual QByteArray GetData() const = 0;
