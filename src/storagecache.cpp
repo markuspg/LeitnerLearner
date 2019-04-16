@@ -26,7 +26,7 @@ StorageCache::StorageCache()
 {
     for (const auto &modInfo : GetModuleNames()) {
         itemsPerModPerCat.emplace(modInfo.first,
-                                  std::array<unsigned long, categoryQty>{});
+                                  LevelQtyArr{});
     }
 }
 
@@ -48,7 +48,7 @@ void StorageCache::ItemGotAnsweredCorrectly(const EModIds argItemsMod,
     auto &currMod{itemsPerModPerCat.at(argItemsMod)};
 
     // if the item is already in the highest category it cannot be moved further
-    if (argItemsCurrentCat == categoryQty - 1) {
+    if (argItemsCurrentCat == ll::categoryQty - 1) {
         return;
     }
 

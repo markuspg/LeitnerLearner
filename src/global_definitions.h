@@ -20,6 +20,12 @@
 #ifndef CONSTANTS_H
 #define CONSTANTS_H
 
+namespace ll {
+
+using ItemQty = unsigned long;
+
 constexpr unsigned short categoryQty = 7;
+
+} // namespace ll
 
 #endif // CONSTANTS_H

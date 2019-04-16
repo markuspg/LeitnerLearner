@@ -20,7 +20,7 @@
 #ifndef STORAGECACHE_H
 #define STORAGECACHE_H
 
-#include "constants.h"
+#include "global_definitions.h"
 #include "modules/helpers.h"
 
 #include <map>
@@ -39,7 +39,9 @@ public:
                         unsigned long argQty) noexcept;
 
 private:
-    std::map<EModIds, std::array<unsigned long, categoryQty>> itemsPerModPerCat;
+    using LevelQtyArr = std::array<ll::ItemQty, ll::categoryQty>;
+
+    std::map<EModIds, LevelQtyArr> itemsPerModPerCat;
 };
 
 #endif // STORAGECACHE_H

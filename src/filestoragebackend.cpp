@@ -41,7 +41,7 @@ FileStorageBackend::FileStorageBackend(QObject *const argParent) :
             }
         }
         // then create the directories for the different learning levels
-        for (unsigned short i = 0; i < categoryQty; ++i) {
+        for (unsigned short i = 0; i < ll::categoryQty; ++i) {
             QDir catDir{dataDirPath + "/" + QString::number(i + 1)};
             if (QFile::exists(catDir.absolutePath()) == false) {
                 if (catDir.mkpath(catDir.absolutePath()) == false) {
@@ -96,7 +96,7 @@ void FileStorageBackend::SaveData(const AbstractDataTypeSharedPtr &argData)
 bool FileStorageBackend::UpdateCache()
 {
     for (const auto &modInfo : GetModuleNames()) {
-        for (unsigned short i = 0; i < categoryQty; ++i) {
+        for (unsigned short i = 0; i < ll::categoryQty; ++i) {
             const QString dirPath{QStandardPaths::writableLocation(
                             QStandardPaths::AppDataLocation)
                         + QString{"/%1/"}.arg(GetModuleNameById(modInfo.first))
