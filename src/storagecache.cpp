@@ -22,6 +22,14 @@
 #include <iostream>
 #include <numeric>
 
+StorageCache::StorageCache()
+{
+    for (const auto &modInfo : GetModuleNames()) {
+        itemsPerModPerCat.emplace(modInfo.first,
+                                  std::array<unsigned long, categoryQty>{});
+    }
+}
+
 unsigned long StorageCache::GetTotalStoredItemsQty() const
 {
     unsigned long totalQty = 0;

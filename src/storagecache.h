@@ -28,6 +28,8 @@
 class StorageCache
 {
 public:
+    StorageCache();
+
     unsigned long GetTotalStoredItemsQty() const;
     void ItemGotAnsweredCorrectly(EModIds argItemsMod,
                                   unsigned short argItemsCurrentCat);
