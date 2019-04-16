@@ -95,22 +95,25 @@ void FileStorageBackend::SaveData(const AbstractDataTypeSharedPtr &argData)
 
 bool FileStorageBackend::UpdateCache()
 {
-    for (unsigned short i = 0; i < categoryQty; ++i) {
-        const QString dirPath{QStandardPaths::writableLocation(
-                              QStandardPaths::AppDataLocation)
-                              + QString{"/%1/"}.arg(GetModuleNameById(EModIds::BibleVerse))
-                              + QString::number(i + 1)};
-        if (QFile::exists(dirPath) == false) {
-            return false;
-        }
-        QDir dirInfo{dirPath};
-        if (cache.SetCategoryQty(EModIds::BibleVerse, i,
-                             static_cast<unsigned long>(dirInfo.entryList(
-                                                            QStringList{"*.txt"},
-                                                            QDir::Files).size()))
-                == false) {
-            return false;
+    for (const auto &modInfo : GetModuleNames()) {
+        for (unsigned short i = 0; i < categoryQty; ++i) {
+            const QString dirPath{QStandardPaths::writableLocation(
+                            QStandardPaths::AppDataLocation)
+                        + QString{"/%1/"}.arg(GetModuleNameById(modInfo.first))
+                        + QString::number(i + 1)};
+            if (QFile::exists(dirPath) == false) {
+                return false;
+            }
+            QDir dirInfo{dirPath};
+            if (cache.SetCategoryQty(modInfo.first, i,
+                                     static_cast<unsigned long>(dirInfo.entryList(
+                                                                    QStringList{"*.txt"},
+                                                                    QDir::Files).size()))
+                    == false) {
+                return false;
+            }
         }
     }
+
     return true;
 }
