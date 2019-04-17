@@ -24,6 +24,8 @@
 #include <QFileInfo>
 #include <QStandardPaths>
 
+#include <optional>
+
 FileStorageBackend::FileStorageBackend(QObject *const argParent) :
     AbstractStorageBackend{argParent}
 {
@@ -61,10 +63,48 @@ FileStorageBackend::FileStorageBackend(QObject *const argParent) :
 bool FileStorageBackend::MoveData(AbstractDataTypeSharedPtr argData,
                                   const bool argMoveLevelUp)
 {
-    Q_UNUSED(argData)
-    Q_UNUSED(argMoveLevelUp)
+    const QString dataDirPath{QStandardPaths::writableLocation(
+                                  QStandardPaths::AppDataLocation)
+                              + "/" + GetModuleNameById(argData->GetType())};
 
-    return false;
+    // check in which level the item is contained
+    std::optional<unsigned short> currentLvl;
+    for (unsigned short i = 0; i < ll::categoryQty; ++i) {
+        if (QFile::exists(dataDirPath
+                          + "/" + QString::number(i + 1)
+                          + "/" + argData->GetIdentifier()) == true) {
+            // throw, if the item exists in more than one category
+            if (currentLvl) {
+                qWarning() << "No item may exist in more than one level";
+                throw IOException{};
+                // don't break, the iteration shall include all levels
+            }
+            currentLvl.emplace(i);
+        }
+    }
+    if (!currentLvl) {
+        qWarning() << "Every item has to be contained in exactly one level";
+        throw IOException{};
+    }
+
+    // don't move if the data item cannot be moved any further in its direction
+    if ((argMoveLevelUp == true) && (*currentLvl == ll::categoryQty - 1)) {
+        return true;
+    } else if ((argMoveLevelUp == false) && (*currentLvl == 0)) {
+        return true;
+    }
+
+    // compute the old and new paths ...
+    const QString currFilePath{dataDirPath
+                               + "/" + QString::number(*currentLvl + 1)
+                               + "/" + argData->GetIdentifier()};
+    const auto newLvl = argMoveLevelUp ? *currentLvl + 1 : *currentLvl - 1;
+    const QString newFilePath{dataDirPath
+                              + "/" + QString::number(newLvl + 1)
+                              + "/" + argData->GetIdentifier()};
+
+    // ... and finally attempt to move the file
+    return QFile::rename(currFilePath, newFilePath);
 }
 
 void FileStorageBackend::RetrieveRandomData()
