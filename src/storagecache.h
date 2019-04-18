@@ -29,9 +29,23 @@
 class StorageCache
 {
 public:
+    struct DrawResult {
+        constexpr DrawResult(EModIds argMod, unsigned short argLvlIdx,
+                             ll::ItemQty argItemIdx) :
+            mod{argMod},
+            lvlIdx{argLvlIdx},
+            itemIdx{argItemIdx}
+        {
+        }
+
+        const EModIds mod;
+        const unsigned short lvlIdx;
+        const ll::ItemQty itemIdx;
+    };
+
     StorageCache();
 
-    std::pair<EModIds, unsigned short> DoMonteCarloDraw() const;
+    DrawResult DoMonteCarloDraw() const;
     unsigned long GetTotalStoredItemsQty() const;
     void ItemGotAnsweredCorrectly(EModIds argItemsMod,
                                   unsigned short argItemsCurrentCat);

@@ -31,7 +31,7 @@ StorageCache::StorageCache() :
     }
 }
 
-std::pair<EModIds, unsigned short> StorageCache::DoMonteCarloDraw() const
+StorageCache::DrawResult StorageCache::DoMonteCarloDraw() const
 {
     // draw a random category and level indicator
     const auto modDraw = dist(eng);
@@ -75,7 +75,9 @@ std::pair<EModIds, unsigned short> StorageCache::DoMonteCarloDraw() const
         ++lvlIdx;
     }
 
-    return std::make_pair(chosenModule, chosenLevel);
+    std::uniform_int_distribution<ll::ItemQty> itemDist{
+            0, itemsPerModPerLvl.at(chosenModule).at(chosenLevel) - 1};
+    return DrawResult{chosenModule, chosenLevel, itemDist(eng)};
 }
 
 unsigned long StorageCache::GetTotalStoredItemsQty() const
