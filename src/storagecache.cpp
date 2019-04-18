@@ -22,19 +22,67 @@
 #include <iostream>
 #include <numeric>
 
-StorageCache::StorageCache()
+StorageCache::StorageCache() :
+    eng{std::random_device{}()}
 {
     for (const auto &modInfo : GetModuleNames()) {
-        itemsPerModPerCat.emplace(modInfo.first,
+        itemsPerModPerLvl.emplace(modInfo.first,
                                   LevelQtyArr{});
     }
+}
+
+std::pair<EModIds, unsigned short> StorageCache::DoMonteCarloDraw() const
+{
+    // draw a random category and level indicator
+    const auto modDraw = dist(eng);
+    const auto lvlDraw = dist(eng);
+
+    // iterate modules one after the other and sum up their item quantites
+    auto totalItemQty = 0ul;
+    for (const auto &modLvls : itemsPerModPerLvl) {
+        totalItemQty += std::accumulate(modLvls.second.cbegin(),
+                                        modLvls.second.cend(), 0ul);
+    }
+
+    // choose module
+    auto accumulatedItems = 0ul;
+    EModIds chosenModule = EModIds::ZZZ_MOD_QTY;
+    const auto partitionQty = static_cast<unsigned long>(modDraw * totalItemQty);
+    for (const auto &modLvls : itemsPerModPerLvl) {
+        const auto itemsInMod = std::accumulate(modLvls.second.cbegin(),
+                                                modLvls.second.cend(), 0ul);
+        if ((accumulatedItems + itemsInMod) >= partitionQty) {
+            chosenModule = modLvls.first;
+            break;
+        }
+        accumulatedItems += itemsInMod;
+    }
+
+    // choose level of module
+    accumulatedItems = 0;
+    unsigned short chosenLevel = 0;
+    const auto modQty = std::accumulate(itemsPerModPerLvl.at(chosenModule).cbegin(),
+                                        itemsPerModPerLvl.at(chosenModule).cend(),
+                                        0ul);
+    const auto lvlPartQty = static_cast<unsigned long>(lvlDraw
+                                                       * modQty);
+    unsigned short lvlIdx = 0;
+    for (const auto &lvlQty : itemsPerModPerLvl.at(chosenModule)) {
+        if ((accumulatedItems + lvlQty) >= lvlPartQty) {
+            chosenLevel = lvlIdx;
+            break;
+        }
+        ++lvlIdx;
+    }
+
+    return std::make_pair(chosenModule, chosenLevel);
 }
 
 unsigned long StorageCache::GetTotalStoredItemsQty() const
 {
     unsigned long totalQty = 0;
 
-    for (const auto &module : itemsPerModPerCat) {
+    for (const auto &module : itemsPerModPerLvl) {
         totalQty += std::accumulate(module.second.cbegin(),
                                     module.second.cend(), 0ul);
     }
@@ -45,7 +93,7 @@ unsigned long StorageCache::GetTotalStoredItemsQty() const
 void StorageCache::ItemGotAnsweredCorrectly(const EModIds argItemsMod,
                                             const unsigned short argItemsCurrentCat)
 {
-    auto &currMod{itemsPerModPerCat.at(argItemsMod)};
+    auto &currMod{itemsPerModPerLvl.at(argItemsMod)};
 
     // if the item is already in the highest category it cannot be moved further
     if (argItemsCurrentCat == ll::categoryQty - 1) {
@@ -65,7 +113,7 @@ void StorageCache::ItemGotAnsweredCorrectly(const EModIds argItemsMod,
 void StorageCache::ItemGotAnsweredWrongly(const EModIds argItemsMod,
                                           const unsigned short argItemsCurrentCat)
 {
-    auto &currMod{itemsPerModPerCat.at(argItemsMod)};
+    auto &currMod{itemsPerModPerLvl.at(argItemsMod)};
 
     // if the item is already in the lowest category it cannot be moved further
     if (argItemsCurrentCat == 0) {
@@ -87,7 +135,7 @@ bool StorageCache::SetCategoryQty(const EModIds argMod,
                                   const unsigned long argQty) noexcept
 {
     try {
-        itemsPerModPerCat.at(argMod).at(argCatIdx) = argQty;
+        itemsPerModPerLvl.at(argMod).at(argCatIdx) = argQty;
     } catch ([[maybe_unused]] const std::out_of_range &argExc) {
         std::cerr << "Invalid access of \"itemsPerModPerCat\"\n";
         return false;

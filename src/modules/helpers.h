@@ -24,6 +24,9 @@
 
 enum class EModIds {
     BibleVerse,
+
+    // this element should always be last to represent the quantity of modules
+    ZZZ_MOD_QTY
 };
 
 using ModNamesArr = std::array<std::pair<EModIds, const char *>, 1>;

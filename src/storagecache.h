@@ -24,12 +24,14 @@
 #include "modules/helpers.h"
 
 #include <map>
+#include <random>
 
 class StorageCache
 {
 public:
     StorageCache();
 
+    std::pair<EModIds, unsigned short> DoMonteCarloDraw() const;
     unsigned long GetTotalStoredItemsQty() const;
     void ItemGotAnsweredCorrectly(EModIds argItemsMod,
                                   unsigned short argItemsCurrentCat);
@@ -41,7 +43,9 @@ public:
 private:
     using LevelQtyArr = std::array<ll::ItemQty, ll::categoryQty>;
 
-    std::map<EModIds, LevelQtyArr> itemsPerModPerCat;
+    mutable std::uniform_real_distribution<double> dist;
+    mutable std::mt19937_64 eng;
+    std::map<EModIds, LevelQtyArr> itemsPerModPerLvl;
 };
 
 #endif // STORAGECACHE_H
