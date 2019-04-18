@@ -23,3 +23,12 @@ AbstractDataType::AbstractDataType(const EModIds argType) noexcept :
     type{argType}
 {
 }
+
+AbstractDataTypeSharedPtr AbstractDataType::ParseFromData(
+        const QString &argIdentifier, const QByteArray &argData)
+{
+    Q_UNUSED(argIdentifier)
+    Q_UNUSED(argData)
+
+    return AbstractDataTypeSharedPtr{};
+}

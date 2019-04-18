@@ -109,6 +109,52 @@ bool FileStorageBackend::MoveData(AbstractDataTypeSharedPtr argData,
 
 void FileStorageBackend::RetrieveRandomData()
 {
+    // chose and locate a file
+    const auto drawRes{cache.DoMonteCarloDraw()};
+    const auto modName{GetModuleNameById(drawRes.mod)};
+    QDir dataDir{QStandardPaths::writableLocation(QStandardPaths::AppDataLocation)
+                 + QString{"/%1/%2"}.arg(modName).arg(QString::number(drawRes.lvlIdx))};
+    QFileInfo dataDirInfo(dataDir.absolutePath());
+    if ((dataDirInfo.exists() == false) || (dataDirInfo.isDir() == false)) {
+        qWarning() << "Expected data directory" << dataDir.absolutePath()
+                   << "does not exist";
+        emit DataRetrievalFailed();
+        return;
+    }
+    const auto files{dataDir.entryList(QStringList{".txt"},
+                                       QDir::Files, QDir::Name)};
+
+    // open and read the file
+    const auto dataFileName{files.at(static_cast<int>(drawRes.itemIdx))};
+    QFile dataFile{dataDir.absolutePath() + "/" + dataFileName};
+    if (dataFile.exists() == false) {
+        qWarning() << "Data file" << dataFile.fileName() << "does not exist";
+        emit DataRetrievalFailed();
+        return;
+    }
+    if (dataFile.open(QIODevice::ReadOnly) == false) {
+        qWarning() << "Failed to open data file" << dataFile.fileName();
+        emit DataRetrievalFailed();
+        return;
+    }
+    const auto dataSize{dataFile.size()};
+    QByteArray dataBuf(static_cast<int>(dataSize), '\0');
+    if (dataFile.read(dataBuf.data(), dataSize) != dataSize) {
+        qWarning() << "Failed to read data from" << dataFile.fileName();
+        emit DataRetrievalFailed();
+        return;
+    }
+    dataFile.close();
+
+    // parse the file and emit the result
+    const auto res{AbstractDataType::ParseFromData(
+                       QString{dataFileName}.replace(".txt", ""), dataBuf)};
+
+    if (res) {
+        emit DataRetrievalSucceeded(res);
+        return;
+    }
+    qWarning() << "Could not parse data";
     emit DataRetrievalFailed();
 }
 

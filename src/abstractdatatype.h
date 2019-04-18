@@ -26,6 +26,9 @@
 
 #include <memory>
 
+class AbstractDataType;
+using AbstractDataTypeSharedPtr = std::shared_ptr<AbstractDataType>;
+
 class AbstractDataType
 {
 public:
@@ -35,11 +38,12 @@ public:
     virtual QByteArray GetData() const = 0;
     virtual QString GetIdentifier() const = 0;
     inline EModIds GetType() const noexcept;
+    static AbstractDataTypeSharedPtr ParseFromData(const QString &argIdentifier,
+                                                   const QByteArray &argData);
 
 private:
     const EModIds type;
 };
-using AbstractDataTypeSharedPtr = std::shared_ptr<AbstractDataType>;
 Q_DECLARE_METATYPE(AbstractDataTypeSharedPtr)
 
 EModIds AbstractDataType::GetType() const noexcept { return type; }
