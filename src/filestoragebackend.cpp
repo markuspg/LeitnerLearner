@@ -113,7 +113,7 @@ void FileStorageBackend::RetrieveRandomData()
     const auto drawRes{cache.DoMonteCarloDraw()};
     const auto modName{GetModuleNameById(drawRes.mod)};
     QDir dataDir{QStandardPaths::writableLocation(QStandardPaths::AppDataLocation)
-                 + QString{"/%1/%2"}.arg(modName).arg(QString::number(drawRes.lvlIdx))};
+                 + QString{"/%1/%2"}.arg(modName).arg(QString::number(drawRes.lvlIdx + 1))};
     QFileInfo dataDirInfo(dataDir.absolutePath());
     if ((dataDirInfo.exists() == false) || (dataDirInfo.isDir() == false)) {
         qWarning() << "Expected data directory" << dataDir.absolutePath()
