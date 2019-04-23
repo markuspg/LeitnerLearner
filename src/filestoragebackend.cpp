@@ -124,7 +124,7 @@ void FileStorageBackend::RetrieveRandomData()
         emit DataRetrievalFailed();
         return;
     }
-    const auto files{dataDir.entryList(QStringList{".txt"},
+    const auto files{dataDir.entryList(QStringList{"*.txt"},
                                        QDir::Files, QDir::Name)};
 
     // open and read the file
