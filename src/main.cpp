@@ -22,6 +22,7 @@
 #include <QDir>
 #include <QFile>
 #include <QStandardPaths>
+#include <QTimer>
 
 #include "abstractdatatype.h"
 #include "mainwindow.h"
@@ -44,6 +45,8 @@ int main(int argc, char *argv[]) {
 
     MainWindow mainWin;
     mainWin.show();
+
+    QTimer::singleShot(0, &mainWin, &MainWindow::Initialize);
 
     return app.exec();
 }

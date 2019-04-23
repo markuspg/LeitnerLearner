@@ -37,6 +37,9 @@ public:
     explicit MainWindow(QWidget *const argParent = nullptr);
     ~MainWindow() override;
 
+public slots:
+    void Initialize();
+
 private:
     ConfigurationHandler *const configHndlr = nullptr;
     AbstractStorageBackend *const storageBackend = nullptr;

@@ -60,6 +60,7 @@ MainWindow::MainWindow(QWidget *const argParent) :
         qWarning() << "Could not replace WCheck";
     }
     tmpChecker->show();
+
     const auto tmpEntry = new VerseEntry{this};
     connect(tmpEntry, &AbstractDataEntry::Req_DataSaving,
             storageBackend, &AbstractStorageBackend::SaveData);
@@ -81,4 +82,9 @@ MainWindow::MainWindow(QWidget *const argParent) :
 MainWindow::~MainWindow()
 {
     delete ui;
+}
+
+void MainWindow::Initialize()
+{
+    storageBackend->RetrieveRandomData();
 }
