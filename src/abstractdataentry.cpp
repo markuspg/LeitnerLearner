@@ -34,6 +34,7 @@ AbstractDataEntry::AbstractDataEntry(AbstractEntryWdgt *const argEntryWdgt,
     entryWdgt->setParent(this);
     connect(entryWdgt, &AbstractEntryWdgt::DataComplete,
             this, &AbstractDataEntry::OnDataComplete);
+    ui->VLAbstractDataEntry->insertWidget(0, entryWdgt);
 }
 
 AbstractDataEntry::~AbstractDataEntry()
