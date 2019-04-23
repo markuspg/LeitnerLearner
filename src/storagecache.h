@@ -24,6 +24,7 @@
 #include "modules/helpers.h"
 
 #include <map>
+#include <optional>
 #include <random>
 
 class StorageCache
@@ -45,7 +46,7 @@ public:
 
     StorageCache();
 
-    DrawResult DoMonteCarloDraw() const;
+    std::optional<DrawResult> DoMonteCarloDraw() const;
     unsigned long GetTotalStoredItemsQty() const;
     void ItemGotAnsweredCorrectly(EModIds argItemsMod,
                                   unsigned short argItemsCurrentCat);

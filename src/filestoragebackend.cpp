@@ -111,9 +111,12 @@ void FileStorageBackend::RetrieveRandomData()
 {
     // chose and locate a file
     const auto drawRes{cache.DoMonteCarloDraw()};
-    const auto modName{GetModuleNameById(drawRes.mod)};
+    if (drawRes.has_value() == false) {
+        return;
+    }
+    const auto modName{GetModuleNameById(drawRes->mod)};
     QDir dataDir{QStandardPaths::writableLocation(QStandardPaths::AppDataLocation)
-                 + QString{"/%1/%2"}.arg(modName).arg(QString::number(drawRes.lvlIdx + 1))};
+                 + QString{"/%1/%2"}.arg(modName).arg(QString::number(drawRes->lvlIdx + 1))};
     QFileInfo dataDirInfo(dataDir.absolutePath());
     if ((dataDirInfo.exists() == false) || (dataDirInfo.isDir() == false)) {
         qWarning() << "Expected data directory" << dataDir.absolutePath()
@@ -125,7 +128,7 @@ void FileStorageBackend::RetrieveRandomData()
                                        QDir::Files, QDir::Name)};
 
     // open and read the file
-    const auto dataFileName{files.at(static_cast<int>(drawRes.itemIdx))};
+    const auto dataFileName{files.at(static_cast<int>(drawRes->itemIdx))};
     QFile dataFile{dataDir.absolutePath() + "/" + dataFileName};
     if (dataFile.exists() == false) {
         qWarning() << "Data file" << dataFile.fileName() << "does not exist";
@@ -147,7 +150,7 @@ void FileStorageBackend::RetrieveRandomData()
     dataFile.close();
 
     // parse the file and emit the result
-    const auto res{AbstractDataType::ParseFromData(drawRes.mod, drawRes.lvlIdx,
+    const auto res{AbstractDataType::ParseFromData(drawRes->mod, drawRes->lvlIdx,
                        QString{dataFileName}.replace(".txt", ""), dataBuf)};
 
     if (res) {
