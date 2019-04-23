@@ -18,6 +18,10 @@
  */
 
 #include "abstractdatatype.h"
+#include "modules/bibleVerse/verse.h"
+
+#include <QDebug>
+#include <QRegularExpression>
 
 AbstractDataType::AbstractDataType(const EModIds argType) noexcept :
     type{argType}
@@ -25,10 +29,50 @@ AbstractDataType::AbstractDataType(const EModIds argType) noexcept :
 }
 
 AbstractDataTypeSharedPtr AbstractDataType::ParseFromData(
+        const EModIds argMod, const unsigned short argLevel,
         const QString &argIdentifier, const QByteArray &argData)
 {
-    Q_UNUSED(argIdentifier)
-    Q_UNUSED(argData)
+    if (argMod == EModIds::BibleVerse) {
+        const auto splitRes{argIdentifier.split(QRegularExpression{"[-_]"})};
+        if (splitRes.size() != 3) {
+            qWarning() << "Invalid identifier passed into Verse parser";
+            return AbstractDataTypeSharedPtr{};
+        }
+        const auto bookTitle{splitRes.at(0)};
+        if (bookTitle.isEmpty() == true) {
+            qWarning() << "Invalid book title encountered in Verse parsing";
+            return AbstractDataTypeSharedPtr{};
+        }
+        BookInfoPairPtr bookInfoPairPtr = nullptr;
+        for (const auto &bookInfoPair : bookTitles) {
+            if (bookInfoPair.second == bookTitle) {
+                bookInfoPairPtr = &bookInfoPair;
+                break;
+            }
+        }
+        if (bookInfoPairPtr == nullptr) {
+            qWarning() << "No fitting book title was found";
+            return AbstractDataTypeSharedPtr{};
+        }
+        bool convSucc = false;
+        const auto chapterNo{splitRes.at(1).toUShort(&convSucc)};
+        if (convSucc == false) {
+            qWarning() << "Failed to parse chapter number for Verse";
+            return AbstractDataTypeSharedPtr{};
+        }
+        convSucc = false;
+        const auto verseNo{splitRes.at(2).toUShort(&convSucc)};
+        if (convSucc == false) {
+            qWarning() << "Failed to parse verse number for Verse";
+            return AbstractDataTypeSharedPtr{};
+        }
+        const auto verseText{QString{argData}};
 
+        return std::make_shared<Verse>(bookInfoPairPtr, chapterNo, verseNo,
+                                          argData, argLevel);
+    } else {
+        qWarning() << "Invalid module passed for data type parsing";
+        return AbstractDataTypeSharedPtr{};
+    }
     return AbstractDataTypeSharedPtr{};
 }

@@ -38,7 +38,9 @@ public:
     virtual QByteArray GetData() const = 0;
     virtual QString GetIdentifier() const = 0;
     inline EModIds GetType() const noexcept;
-    static AbstractDataTypeSharedPtr ParseFromData(const QString &argIdentifier,
+    static AbstractDataTypeSharedPtr ParseFromData(EModIds argMod,
+                                                   unsigned short argLevel,
+                                                   const QString &argIdentifier,
                                                    const QByteArray &argData);
 
 private:

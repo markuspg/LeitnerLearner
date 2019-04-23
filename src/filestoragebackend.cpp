@@ -147,7 +147,7 @@ void FileStorageBackend::RetrieveRandomData()
     dataFile.close();
 
     // parse the file and emit the result
-    const auto res{AbstractDataType::ParseFromData(
+    const auto res{AbstractDataType::ParseFromData(drawRes.mod, drawRes.lvlIdx,
                        QString{dataFileName}.replace(".txt", ""), dataBuf)};
 
     if (res) {
