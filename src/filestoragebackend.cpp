@@ -44,7 +44,7 @@ FileStorageBackend::FileStorageBackend(QObject *const argParent) :
         }
         // then create the directories for the different learning levels
         for (ll::Level i = 0; i < ll::levelQty; ++i) {
-            QDir catDir{dataDirPath + "/" + QString::number(i + 1)};
+            QDir catDir{dataDirPath + "/" + QString::number(i)};
             if (QFile::exists(catDir.absolutePath()) == false) {
                 if (catDir.mkpath(catDir.absolutePath()) == false) {
                     qWarning() << "Failed to create category directories"
@@ -71,7 +71,7 @@ bool FileStorageBackend::MoveData(AbstractDataTypeSharedPtr argData,
     std::optional<ll::Level> currentLvl;
     for (ll::Level i = 0; i < ll::levelQty; ++i) {
         if (QFile::exists(dataDirPath
-                          + "/" + QString::number(i + 1)
+                          + "/" + QString::number(i)
                           + "/" + argData->GetIdentifier()) == true) {
             // throw, if the item exists in more than one category
             if (currentLvl) {
@@ -96,11 +96,11 @@ bool FileStorageBackend::MoveData(AbstractDataTypeSharedPtr argData,
 
     // compute the old and new paths ...
     const QString currFilePath{dataDirPath
-                               + "/" + QString::number(*currentLvl + 1)
+                               + "/" + QString::number(*currentLvl)
                                + "/" + argData->GetIdentifier()};
     const auto newLvl = argMoveLevelUp ? *currentLvl + 1 : *currentLvl - 1;
     const QString newFilePath{dataDirPath
-                              + "/" + QString::number(newLvl + 1)
+                              + "/" + QString::number(newLvl)
                               + "/" + argData->GetIdentifier()};
 
     // ... and finally attempt to move the file
@@ -116,7 +116,7 @@ void FileStorageBackend::RetrieveRandomData()
     }
     const auto modName{GetModuleNameById(drawRes->mod)};
     QDir dataDir{QStandardPaths::writableLocation(QStandardPaths::AppDataLocation)
-                 + QString{"/%1/%2"}.arg(modName).arg(QString::number(drawRes->lvlIdx + 1))};
+                 + QString{"/%1/%2"}.arg(modName).arg(QString::number(drawRes->lvlIdx))};
     QFileInfo dataDirInfo(dataDir.absolutePath());
     if ((dataDirInfo.exists() == false) || (dataDirInfo.isDir() == false)) {
         qWarning() << "Expected data directory" << dataDir.absolutePath()
@@ -168,7 +168,7 @@ void FileStorageBackend::SaveData(const AbstractDataTypeSharedPtr &argData)
         emit DataSavingFailed();
     }
     QFile outFile{QStandardPaths::writableLocation(QStandardPaths::AppDataLocation)
-                  + QString{"/%1/1/"}.arg(GetModuleNameById(argData->GetType()))
+                  + QString{"/%1/0/"}.arg(GetModuleNameById(argData->GetType()))
                             + argData->GetIdentifier() + ".txt"};
     if (outFile.open(QIODevice::Text | QIODevice::WriteOnly) == false) {
         emit DataSavingFailed();;
@@ -189,7 +189,7 @@ bool FileStorageBackend::UpdateCache()
             const QString dirPath{QStandardPaths::writableLocation(
                             QStandardPaths::AppDataLocation)
                         + QString{"/%1/"}.arg(GetModuleNameById(modInfo.first))
-                        + QString::number(i + 1)};
+                        + QString::number(i)};
             if (QFile::exists(dirPath) == false) {
                 return false;
             }
