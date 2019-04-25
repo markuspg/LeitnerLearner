@@ -56,7 +56,7 @@ public:
                         ll::ItemQty argQty) noexcept;
 
 private:
-    using LevelQtyArr = std::array<ll::ItemQty, ll::categoryQty>;
+    using LevelQtyArr = std::array<ll::ItemQty, ll::levelQty>;
 
     mutable std::uniform_real_distribution<double> dist;
     mutable std::mt19937_64 eng;

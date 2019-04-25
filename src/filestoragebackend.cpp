@@ -43,7 +43,7 @@ FileStorageBackend::FileStorageBackend(QObject *const argParent) :
             }
         }
         // then create the directories for the different learning levels
-        for (ll::Level i = 0; i < ll::categoryQty; ++i) {
+        for (ll::Level i = 0; i < ll::levelQty; ++i) {
             QDir catDir{dataDirPath + "/" + QString::number(i + 1)};
             if (QFile::exists(catDir.absolutePath()) == false) {
                 if (catDir.mkpath(catDir.absolutePath()) == false) {
@@ -69,7 +69,7 @@ bool FileStorageBackend::MoveData(AbstractDataTypeSharedPtr argData,
 
     // check in which level the item is contained
     std::optional<ll::Level> currentLvl;
-    for (ll::Level i = 0; i < ll::categoryQty; ++i) {
+    for (ll::Level i = 0; i < ll::levelQty; ++i) {
         if (QFile::exists(dataDirPath
                           + "/" + QString::number(i + 1)
                           + "/" + argData->GetIdentifier()) == true) {
@@ -88,7 +88,7 @@ bool FileStorageBackend::MoveData(AbstractDataTypeSharedPtr argData,
     }
 
     // don't move if the data item cannot be moved any further in its direction
-    if ((argMoveLevelUp == true) && (*currentLvl == ll::categoryQty - 1)) {
+    if ((argMoveLevelUp == true) && (*currentLvl == ll::levelQty - 1)) {
         return true;
     } else if ((argMoveLevelUp == false) && (*currentLvl == 0)) {
         return true;
@@ -185,7 +185,7 @@ void FileStorageBackend::SaveData(const AbstractDataTypeSharedPtr &argData)
 bool FileStorageBackend::UpdateCache()
 {
     for (const auto &modInfo : GetModuleNames()) {
-        for (ll::Level i = 0; i < ll::categoryQty; ++i) {
+        for (ll::Level i = 0; i < ll::levelQty; ++i) {
             const QString dirPath{QStandardPaths::writableLocation(
                             QStandardPaths::AppDataLocation)
                         + QString{"/%1/"}.arg(GetModuleNameById(modInfo.first))

@@ -104,7 +104,7 @@ void StorageCache::ItemGotAnsweredCorrectly(const EModIds argItemsMod,
     auto &currMod{itemsPerModPerLvl.at(argItemsMod)};
 
     // if the item is already in the highest category it cannot be moved further
-    if (argItemsCurrentLvl == ll::categoryQty - 1) {
+    if (argItemsCurrentLvl == ll::levelQty - 1) {
         return;
     }
 

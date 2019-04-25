@@ -25,7 +25,8 @@ namespace ll {
 using ItemQty = unsigned long;
 using Level = unsigned short;
 
-constexpr Level categoryQty = 7;
+//! The quantity of different learning levels (0=new, 6=thoroughly memorized)
+constexpr Level levelQty = 7;
 
 } // namespace ll
 
