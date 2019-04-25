@@ -11,6 +11,7 @@ set(CMAKE_CXX_STANDARD 17)
 find_package(Qt5 COMPONENTS Widgets REQUIRED)
 
 add_executable(leitner_learner
+    src/abstractcheckwdgt.cpp
     src/abstractdatachecker.cpp
     src/abstractdatachecker.ui
     src/abstractdataentry.cpp
