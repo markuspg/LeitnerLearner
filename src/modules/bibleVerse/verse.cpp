@@ -21,11 +21,11 @@
 
 Verse::Verse(const BookInfoPairPtr argBook, const unsigned short argChapterNo,
              const unsigned short argVerseNo, const QString &argText,
-             const unsigned short argCurrCat) :
+             const ll::Level argCurrLvl) :
     AbstractDataType{EModIds::BibleVerse},
     book{argBook},
     chapterNo{argChapterNo},
-    currCat{argCurrCat},
+    currLvl{argCurrLvl},
     verseNo{argVerseNo},
     text{argText}
 {

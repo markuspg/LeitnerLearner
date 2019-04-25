@@ -31,7 +31,7 @@ class StorageCache
 {
 public:
     struct DrawResult {
-        constexpr DrawResult(EModIds argMod, unsigned short argLvlIdx,
+        constexpr DrawResult(EModIds argMod, ll::Level argLvlIdx,
                              ll::ItemQty argItemIdx) :
             mod{argMod},
             lvlIdx{argLvlIdx},
@@ -40,20 +40,20 @@ public:
         }
 
         const EModIds mod;
-        const unsigned short lvlIdx;
+        const ll::Level lvlIdx;
         const ll::ItemQty itemIdx;
     };
 
     StorageCache();
 
     std::optional<DrawResult> DoMonteCarloDraw() const;
-    unsigned long GetTotalStoredItemsQty() const;
+    ll::ItemQty GetTotalStoredItemsQty() const;
     void ItemGotAnsweredCorrectly(EModIds argItemsMod,
-                                  unsigned short argItemsCurrentCat);
+                                  ll::Level argItemsCurrentLvl);
     void ItemGotAnsweredWrongly(EModIds argItemsMod,
-                                unsigned short argItemsCurrentCat);
-    bool SetCategoryQty(EModIds argMod, unsigned short argCatIdx,
-                        unsigned long argQty) noexcept;
+                                ll::Level argItemsCurrentLvl);
+    bool SetCategoryQty(EModIds argMod, ll::Level argLvlIdx,
+                        ll::ItemQty argQty) noexcept;
 
 private:
     using LevelQtyArr = std::array<ll::ItemQty, ll::categoryQty>;

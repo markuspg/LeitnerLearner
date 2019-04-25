@@ -43,7 +43,7 @@ FileStorageBackend::FileStorageBackend(QObject *const argParent) :
             }
         }
         // then create the directories for the different learning levels
-        for (unsigned short i = 0; i < ll::categoryQty; ++i) {
+        for (ll::Level i = 0; i < ll::categoryQty; ++i) {
             QDir catDir{dataDirPath + "/" + QString::number(i + 1)};
             if (QFile::exists(catDir.absolutePath()) == false) {
                 if (catDir.mkpath(catDir.absolutePath()) == false) {
@@ -68,8 +68,8 @@ bool FileStorageBackend::MoveData(AbstractDataTypeSharedPtr argData,
                               + "/" + GetModuleNameById(argData->GetType())};
 
     // check in which level the item is contained
-    std::optional<unsigned short> currentLvl;
-    for (unsigned short i = 0; i < ll::categoryQty; ++i) {
+    std::optional<ll::Level> currentLvl;
+    for (ll::Level i = 0; i < ll::categoryQty; ++i) {
         if (QFile::exists(dataDirPath
                           + "/" + QString::number(i + 1)
                           + "/" + argData->GetIdentifier()) == true) {
@@ -185,7 +185,7 @@ void FileStorageBackend::SaveData(const AbstractDataTypeSharedPtr &argData)
 bool FileStorageBackend::UpdateCache()
 {
     for (const auto &modInfo : GetModuleNames()) {
-        for (unsigned short i = 0; i < ll::categoryQty; ++i) {
+        for (ll::Level i = 0; i < ll::categoryQty; ++i) {
             const QString dirPath{QStandardPaths::writableLocation(
                             QStandardPaths::AppDataLocation)
                         + QString{"/%1/"}.arg(GetModuleNameById(modInfo.first))
@@ -195,9 +195,9 @@ bool FileStorageBackend::UpdateCache()
             }
             QDir dirInfo{dirPath};
             if (cache.SetCategoryQty(modInfo.first, i,
-                                     static_cast<unsigned long>(dirInfo.entryList(
-                                                                    QStringList{"*.txt"},
-                                                                    QDir::Files).size()))
+                                     static_cast<ll::ItemQty>(dirInfo.entryList(
+                                                                  QStringList{"*.txt"},
+                                                                  QDir::Files).size()))
                     == false) {
                 return false;
             }

@@ -29,7 +29,7 @@ AbstractDataType::AbstractDataType(const EModIds argType) noexcept :
 }
 
 AbstractDataTypeSharedPtr AbstractDataType::ParseFromData(
-        const EModIds argMod, const unsigned short argLevel,
+        const EModIds argMod, const ll::Level argLevel,
         const QString &argIdentifier, const QByteArray &argData)
 {
     if (argMod == EModIds::BibleVerse) {

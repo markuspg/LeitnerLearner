@@ -22,6 +22,7 @@
 
 #include "booktitles.h"
 #include "../../abstractdatatype.h"
+#include "../../global_definitions.h"
 
 #include <limits>
 
@@ -33,7 +34,7 @@ public:
     Verse() = default;
     Verse(const BookInfoPairPtr argBook, const unsigned short argChapterNo,
           const unsigned short argVerseNo, const QString &argText,
-          const unsigned short argCurrCat);
+          const ll::Level argCurrLvl);
 
     QByteArray GetData() const override;
     QString GetIdentifier() const override;
@@ -41,7 +42,7 @@ public:
 private:
     const BookInfoPairPtr book = nullptr;
     const unsigned short chapterNo = std::numeric_limits<unsigned short>::max();
-    const unsigned short currCat = std::numeric_limits<unsigned short>::max();
+    const ll::Level currLvl = std::numeric_limits<ll::Level>::max();
     const unsigned short verseNo = std::numeric_limits<unsigned short>::max();
     const QString text;
 

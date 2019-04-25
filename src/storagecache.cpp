@@ -54,7 +54,7 @@ std::optional<StorageCache::DrawResult> StorageCache::DoMonteCarloDraw() const
     // choose module
     auto accumulatedItems = 0ul;
     EModIds chosenModule = EModIds::ZZZ_MOD_QTY;
-    const auto partitionQty = static_cast<unsigned long>(modDraw * totalItemQty);
+    const auto partitionQty = static_cast<ll::ItemQty>(modDraw * totalItemQty);
     for (const auto &modLvls : itemsPerModPerLvl) {
         const auto itemsInMod = std::accumulate(modLvls.second.cbegin(),
                                                 modLvls.second.cend(), 0ul);
@@ -67,13 +67,12 @@ std::optional<StorageCache::DrawResult> StorageCache::DoMonteCarloDraw() const
 
     // choose level of module
     accumulatedItems = 0;
-    unsigned short chosenLevel = 0;
+    ll::Level chosenLevel = 0;
     const auto modQty = std::accumulate(itemsPerModPerLvl.at(chosenModule).cbegin(),
                                         itemsPerModPerLvl.at(chosenModule).cend(),
                                         0ul);
-    const auto lvlPartQty = static_cast<unsigned long>(lvlDraw
-                                                       * modQty);
-    unsigned short lvlIdx = 0;
+    const auto lvlPartQty = static_cast<ll::ItemQty>(lvlDraw * modQty);
+    ll::Level lvlIdx = 0;
     for (const auto &lvlQty : itemsPerModPerLvl.at(chosenModule)) {
         if ((accumulatedItems + lvlQty) >= lvlPartQty) {
             chosenLevel = lvlIdx;
@@ -87,9 +86,9 @@ std::optional<StorageCache::DrawResult> StorageCache::DoMonteCarloDraw() const
     return DrawResult{chosenModule, chosenLevel, itemDist(eng)};
 }
 
-unsigned long StorageCache::GetTotalStoredItemsQty() const
+ll::ItemQty StorageCache::GetTotalStoredItemsQty() const
 {
-    unsigned long totalQty = 0;
+    ll::ItemQty totalQty = 0;
 
     for (const auto &module : itemsPerModPerLvl) {
         totalQty += std::accumulate(module.second.cbegin(),
@@ -100,51 +99,51 @@ unsigned long StorageCache::GetTotalStoredItemsQty() const
 }
 
 void StorageCache::ItemGotAnsweredCorrectly(const EModIds argItemsMod,
-                                            const unsigned short argItemsCurrentCat)
+                                            const ll::Level argItemsCurrentLvl)
 {
     auto &currMod{itemsPerModPerLvl.at(argItemsMod)};
 
     // if the item is already in the highest category it cannot be moved further
-    if (argItemsCurrentCat == ll::categoryQty - 1) {
+    if (argItemsCurrentLvl == ll::categoryQty - 1) {
         return;
     }
 
-    const auto currLevelQty = currMod.at(argItemsCurrentCat);
+    const auto currLevelQty = currMod.at(argItemsCurrentLvl);
     // the quantity in any level should never be attempted to be decreased below 0
     if (currLevelQty == 0) {
         std::cerr << "A level's quantity cannot be decreased below '0'" << std::endl;
         throw std::exception{};
     }
-    currMod.at(argItemsCurrentCat) -= 1;
-    currMod.at(argItemsCurrentCat + 1) += 1;
+    currMod.at(argItemsCurrentLvl) -= 1;
+    currMod.at(argItemsCurrentLvl + 1) += 1;
 }
 
 void StorageCache::ItemGotAnsweredWrongly(const EModIds argItemsMod,
-                                          const unsigned short argItemsCurrentCat)
+                                          const ll::Level argItemsCurrentLvl)
 {
     auto &currMod{itemsPerModPerLvl.at(argItemsMod)};
 
     // if the item is already in the lowest category it cannot be moved further
-    if (argItemsCurrentCat == 0) {
+    if (argItemsCurrentLvl == 0) {
         return;
     }
 
-    const auto currLevelQty = currMod.at(argItemsCurrentCat);
+    const auto currLevelQty = currMod.at(argItemsCurrentLvl);
     // the quantity in any level should never be attempted to be decreased below 0
     if (currLevelQty == 0) {
         std::cerr << "A level's quantity cannot be decreased below '0'" << std::endl;
         throw std::exception{};
     }
-    currMod.at(argItemsCurrentCat) -= 1;
-    currMod.at(argItemsCurrentCat - 1) += 1;
+    currMod.at(argItemsCurrentLvl) -= 1;
+    currMod.at(argItemsCurrentLvl - 1) += 1;
 }
 
 bool StorageCache::SetCategoryQty(const EModIds argMod,
-                                  const unsigned short argCatIdx,
-                                  const unsigned long argQty) noexcept
+                                  const ll::Level argLvlIdx,
+                                  const ll::ItemQty argQty) noexcept
 {
     try {
-        itemsPerModPerLvl.at(argMod).at(argCatIdx) = argQty;
+        itemsPerModPerLvl.at(argMod).at(argLvlIdx) = argQty;
     } catch ([[maybe_unused]] const std::out_of_range &argExc) {
         std::cerr << "Invalid access of \"itemsPerModPerCat\"\n";
         return false;

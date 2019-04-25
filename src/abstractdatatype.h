@@ -20,6 +20,7 @@
 #ifndef ABSTRACTDATATYPE_H
 #define ABSTRACTDATATYPE_H
 
+#include "global_definitions.h"
 #include "modules/helpers.h"
 
 #include <QMetaType>
@@ -39,7 +40,7 @@ public:
     virtual QString GetIdentifier() const = 0;
     inline EModIds GetType() const noexcept;
     static AbstractDataTypeSharedPtr ParseFromData(EModIds argMod,
-                                                   unsigned short argLevel,
+                                                   ll::Level argLevel,
                                                    const QString &argIdentifier,
                                                    const QByteArray &argData);
 

@@ -23,8 +23,9 @@
 namespace ll {
 
 using ItemQty = unsigned long;
+using Level = unsigned short;
 
-constexpr unsigned short categoryQty = 7;
+constexpr Level categoryQty = 7;
 
 } // namespace ll
 
