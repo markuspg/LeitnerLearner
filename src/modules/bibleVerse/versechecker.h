@@ -28,8 +28,6 @@ class VerseChecker : public AbstractDataChecker
 
 public:
     explicit VerseChecker(QWidget *const argParent = nullptr);
-
-    void SetDataToCheck(const AbstractDataTypeSharedPtr &argData) override;
 };
 
 #endif // VERSECHECKER_H

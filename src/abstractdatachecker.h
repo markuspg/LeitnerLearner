@@ -24,6 +24,8 @@
 
 #include <QWidget>
 
+class AbstractCheckWdgt;
+
 namespace Ui {
 class AbstractDataChecker;
 } // namespace Ui
@@ -33,20 +35,20 @@ class AbstractDataChecker : public QWidget
     Q_OBJECT
 
 public:
-    explicit AbstractDataChecker(QWidget *const argDisplayWdgt,
+    explicit AbstractDataChecker(AbstractCheckWdgt *const argDisplayWdgt,
                                  QWidget *const argParent = nullptr);
     ~AbstractDataChecker() override;
 
 public slots:
     virtual void DataLevelUpdateFailed();
-    virtual void SetDataToCheck(const AbstractDataTypeSharedPtr &argData);
+    void SetDataToCheck(const AbstractDataTypeSharedPtr &argData);
 
 signals:
     void DataVerificationFailed(AbstractDataTypeSharedPtr argData);
     void DataVerificationSucceeded(AbstractDataTypeSharedPtr argData);
 
 protected:
-    QWidget *const displayWdgt = nullptr;
+    AbstractCheckWdgt *const displayWdgt = nullptr;
     Ui::AbstractDataChecker *const ui = nullptr;
 
 private:

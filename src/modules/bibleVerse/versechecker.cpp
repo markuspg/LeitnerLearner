@@ -19,15 +19,9 @@
 
 #include "verse.h"
 #include "versechecker.h"
-
-#include <QPlainTextEdit>
+#include "versecheckwdgt.h"
 
 VerseChecker::VerseChecker(QWidget *const argParent) :
-    AbstractDataChecker{new QPlainTextEdit, argParent}
+    AbstractDataChecker{new VerseCheckWdgt, argParent}
 {
-}
-
-void VerseChecker::SetDataToCheck(const AbstractDataTypeSharedPtr &argData)
-{
-    AbstractDataChecker::SetDataToCheck(argData);
 }

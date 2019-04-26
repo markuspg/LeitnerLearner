@@ -17,12 +17,13 @@
  *  along with LeitnerLearner.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+#include "abstractcheckwdgt.h"
 #include "abstractdatachecker.h"
 #include "ui_abstractdatachecker.h"
 
 #include <QtDebug>
 
-AbstractDataChecker::AbstractDataChecker(QWidget *const argDisplayWdgt,
+AbstractDataChecker::AbstractDataChecker(AbstractCheckWdgt *const argDisplayWdgt,
                                          QWidget *const argParent) :
     QWidget{argParent},
     displayWdgt{argDisplayWdgt},
@@ -69,7 +70,7 @@ void AbstractDataChecker::OnPBWrongClicked()
 
 void AbstractDataChecker::SetDataToCheck(const AbstractDataTypeSharedPtr &argData)
 {
-    Q_UNUSED(argData)
+    displayWdgt->SetDataToCheck(argData);
 
     ui->PBWrong->setEnabled(true);
 }
