@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>VerseCheckWdgt</class>
+ <widget class="QWidget" name="VerseCheckWdgt">
+  <property name="windowTitle">
+   <string>Verse Check</string>
+  </property>
+  <layout class="QVBoxLayout" name="VLVerseCheckWdgt">
+   <item>
+    <layout class="QGridLayout" name="GLVerseData" columnstretch="1,2,1,2">
+     <item row="0" column="0">
+      <widget class="QLabel" name="LBook">
+       <property name="text">
+        <string>Book</string>
+       </property>
+      </widget>
+     </item>
+     <item row="1" column="1">
+      <widget class="QLineEdit" name="LEChapterNo">
+       <property name="readOnly">
+        <bool>true</bool>
+       </property>
+      </widget>
+     </item>
+     <item row="0" column="1" colspan="3">
+      <widget class="QLineEdit" name="LEBook">
+       <property name="readOnly">
+        <bool>true</bool>
+       </property>
+      </widget>
+     </item>
+     <item row="1" column="0">
+      <widget class="QLabel" name="LChapterNo">
+       <property name="text">
+        <string>Chapter</string>
+       </property>
+      </widget>
+     </item>
+     <item row="1" column="3">
+      <widget class="QLineEdit" name="LEVerseNo">
+       <property name="readOnly">
+        <bool>true</bool>
+       </property>
+      </widget>
+     </item>
+     <item row="1" column="2">
+      <widget class="QLabel" name="LVerseNo">
+       <property name="text">
+        <string>Verse</string>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </item>
+   <item>
+    <widget class="QPlainTextEdit" name="PTEVerseText">
+     <property name="readOnly">
+      <bool>true</bool>
+     </property>
+    </widget>
+   </item>
+  </layout>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>

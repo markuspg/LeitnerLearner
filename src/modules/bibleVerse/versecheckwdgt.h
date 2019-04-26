@@ -17,21 +17,27 @@
  *  along with LeitnerLearner.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef ABSTRACTCHECKWDGT_H
-#define ABSTRACTCHECKWDGT_H
+#ifndef VERSECHECKWDGT_H
+#define VERSECHECKWDGT_H
 
-#include "abstractdatatype.h"
+#include "../../abstractcheckwdgt.h"
 
-#include <QWidget>
+namespace Ui {
+class VerseCheckWdgt;
+} // namespace Ui
 
-class AbstractCheckWdgt : public QWidget
+class VerseCheckWdgt : public AbstractCheckWdgt
 {
     Q_OBJECT
 
 public:
-    explicit AbstractCheckWdgt(QWidget *argParent = nullptr);
+    explicit VerseCheckWdgt(QWidget *argParent = nullptr);
+    ~VerseCheckWdgt() override;
 
-    virtual void SetDataToCheck(const AbstractDataTypeSharedPtr &argData) = 0;
+     void SetDataToCheck(const AbstractDataTypeSharedPtr &argData) override;
+
+private:
+    Ui::VerseCheckWdgt *const ui = nullptr;
 };
 
-#endif // ABSTRACTCHECKWDGT_H
+#endif // VERSECHECKWDGT_H

@@ -17,21 +17,29 @@
  *  along with LeitnerLearner.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef ABSTRACTCHECKWDGT_H
-#define ABSTRACTCHECKWDGT_H
+#include "ui_versecheckwdgt.h"
+#include "verse.h"
+#include "versecheckwdgt.h"
 
-#include "abstractdatatype.h"
+#include <QDebug>
 
-#include <QWidget>
-
-class AbstractCheckWdgt : public QWidget
+VerseCheckWdgt::VerseCheckWdgt(QWidget *const argParent) :
+    AbstractCheckWdgt{argParent},
+    ui{new Ui::VerseCheckWdgt}
 {
-    Q_OBJECT
+    ui->setupUi(this);
+}
 
-public:
-    explicit AbstractCheckWdgt(QWidget *argParent = nullptr);
+VerseCheckWdgt::~VerseCheckWdgt()
+{
+    delete ui;
+}
 
-    virtual void SetDataToCheck(const AbstractDataTypeSharedPtr &argData) = 0;
-};
-
-#endif // ABSTRACTCHECKWDGT_H
+void VerseCheckWdgt::SetDataToCheck(const AbstractDataTypeSharedPtr &argData)
+{
+    const auto verseData = std::dynamic_pointer_cast<Verse>(argData);
+    if (!verseData) {
+        qWarning() << "Data of wrong type passed to VerseCheckWdgt";
+        return;
+    }
+}

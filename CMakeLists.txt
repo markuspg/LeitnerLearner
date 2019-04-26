@@ -29,6 +29,8 @@ add_executable(leitner_learner
     src/modules/helpers.cpp
     src/modules/bibleVerse/verse.cpp
     src/modules/bibleVerse/versechecker.cpp
+    src/modules/bibleVerse/versecheckwdgt.cpp
+    src/modules/bibleVerse/versecheckwdgt.ui
     src/modules/bibleVerse/verseentry.cpp
     src/modules/bibleVerse/verseentrywdgt.cpp
     src/modules/bibleVerse/verseentrywdgt.ui)
