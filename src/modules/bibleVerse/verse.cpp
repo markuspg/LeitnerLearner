@@ -19,6 +19,9 @@
 
 #include "verse.h"
 
+#include <QDebug>
+#include <QObject>
+
 Verse::Verse(const BookInfoPairPtr argBook, const unsigned short argChapterNo,
              const unsigned short argVerseNo, const QString &argText,
              const ll::Level argCurrLvl) :
@@ -29,6 +32,15 @@ Verse::Verse(const BookInfoPairPtr argBook, const unsigned short argChapterNo,
     verseNo{argVerseNo},
     text{argText}
 {
+}
+
+QString Verse::GetBook() const
+{
+    if (book == nullptr) {
+        qWarning() << "Text of not initialized Verse instance got requested";
+        return QString{};
+    }
+    return QObject::tr(book->second);
 }
 
 QByteArray Verse::GetData() const

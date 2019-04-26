@@ -36,8 +36,12 @@ public:
           const unsigned short argVerseNo, const QString &argText,
           const ll::Level argCurrLvl);
 
+    QString GetBook() const;
+    unsigned short GetChapterNo() const noexcept { return chapterNo; }
     QByteArray GetData() const override;
     QString GetIdentifier() const override;
+    QString GetText() const { return text; }
+    unsigned short GetVerseNo() const noexcept { return verseNo; }
 
 private:
     const BookInfoPairPtr book = nullptr;
