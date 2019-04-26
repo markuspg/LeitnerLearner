@@ -42,4 +42,8 @@ void VerseCheckWdgt::SetDataToCheck(const AbstractDataTypeSharedPtr &argData)
         qWarning() << "Data of wrong type passed to VerseCheckWdgt";
         return;
     }
+    ui->LEBook->setText(verseData->GetBook());
+    ui->LEChapterNo->setText(QString::number(verseData->GetChapterNo()));
+    ui->LEVerseNo->setText(QString::number(verseData->GetVerseNo()));
+    ui->PTEVerseText->setPlainText(verseData->GetText());
 }
