@@ -53,3 +53,13 @@ void AbstractStorageBackend::MoveDataOneLevelUp(AbstractDataTypeSharedPtr argDat
 
     emit DataMovingFailed();
 }
+
+void AbstractStorageBackend::SaveData(const AbstractDataTypeSharedPtr &argData)
+{
+    if (SaveDataInternally(argData) == true) {
+        emit DataSavingSucceeded();
+        return;
+    }
+
+    emit DataSavingFailed();
+}

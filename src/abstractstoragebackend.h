@@ -43,7 +43,7 @@ public slots:
     void MoveDataOneLevelDown(AbstractDataTypeSharedPtr argData);
     void MoveDataOneLevelUp(AbstractDataTypeSharedPtr argData);
     virtual void RetrieveRandomData() = 0;
-    virtual void SaveData(const AbstractDataTypeSharedPtr &argData) = 0;
+    void SaveData(const AbstractDataTypeSharedPtr &argData);
 
 signals:
     void DataMovingFailed();
@@ -55,6 +55,7 @@ signals:
 protected:
     virtual bool MoveData(AbstractDataTypeSharedPtr argData,
                           bool argMoveLevelUp) = 0;
+    virtual bool SaveDataInternally(const AbstractDataTypeSharedPtr &argData) = 0;
     virtual bool UpdateCache() = 0;
 
     StorageCache cache;

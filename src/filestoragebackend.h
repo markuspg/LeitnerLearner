@@ -31,7 +31,7 @@ public:
 
 public slots:
     void RetrieveRandomData() override;
-    void SaveData(const AbstractDataTypeSharedPtr &argData) override;
+    bool SaveDataInternally(const AbstractDataTypeSharedPtr &argData) override;
 
 protected:
     bool MoveData(AbstractDataTypeSharedPtr argData,

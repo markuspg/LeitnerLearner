@@ -161,25 +161,24 @@ void FileStorageBackend::RetrieveRandomData()
     emit DataRetrievalFailed();
 }
 
-void FileStorageBackend::SaveData(const AbstractDataTypeSharedPtr &argData)
+bool FileStorageBackend::SaveDataInternally(
+        const AbstractDataTypeSharedPtr &argData)
 {
     if (!argData) {
         qWarning() << "Empty data got passed for saving";
-        emit DataSavingFailed();
+        return false;
     }
     QFile outFile{QStandardPaths::writableLocation(QStandardPaths::AppDataLocation)
                   + QString{"/%1/0/"}.arg(GetModuleNameById(argData->GetType()))
                             + argData->GetIdentifier() + ".txt"};
     if (outFile.open(QIODevice::Text | QIODevice::WriteOnly) == false) {
-        emit DataSavingFailed();;
-        return;
+        return false;
     }
     const auto outDataBuf{argData->GetData()};
     if (outFile.write(outDataBuf) == outDataBuf.size()) {
-        emit DataSavingSucceeded();
-        return;
+        return true;
     }
-    emit DataSavingFailed();
+    return false;
 }
 
 bool FileStorageBackend::UpdateCache()

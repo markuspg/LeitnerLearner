@@ -38,11 +38,12 @@ void SqliteStorageBackend::RetrieveRandomData()
     emit DataRetrievalFailed();
 }
 
-void SqliteStorageBackend::SaveData(const AbstractDataTypeSharedPtr &argData)
+bool SqliteStorageBackend::SaveDataInternally(
+        const AbstractDataTypeSharedPtr &argData)
 {
     Q_UNUSED(argData)
 
-    emit DataSavingFailed();
+    return false;
 }
 
 bool SqliteStorageBackend::UpdateCache()
