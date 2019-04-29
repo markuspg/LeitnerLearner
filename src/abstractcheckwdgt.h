@@ -32,6 +32,7 @@ public:
     explicit AbstractCheckWdgt(QWidget *argParent = nullptr);
 
     virtual void SetDataToCheck(const AbstractDataTypeSharedPtr &argData) = 0;
+    virtual void ShowData() = 0;
 };
 
 #endif // ABSTRACTCHECKWDGT_H

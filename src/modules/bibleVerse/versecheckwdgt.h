@@ -35,6 +35,7 @@ public:
     ~VerseCheckWdgt() override;
 
      void SetDataToCheck(const AbstractDataTypeSharedPtr &argData) override;
+     void ShowData() override;
 
 private:
     Ui::VerseCheckWdgt *const ui = nullptr;

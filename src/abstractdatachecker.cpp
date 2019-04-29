@@ -81,6 +81,7 @@ void AbstractDataChecker::SetPBWrongState(const EPBWrongState argNewState)
         ui->PBWrong->setText(tr("Wrong"));
         ui->PBCorrect->setEnabled(true);
         pbWrongState = argNewState;
+        displayWdgt->ShowData();
     } else {
         ui->PBWrong->setText(tr("Show"));
         ui->PBCorrect->setEnabled(false);

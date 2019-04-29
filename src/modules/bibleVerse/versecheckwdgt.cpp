@@ -28,6 +28,7 @@ VerseCheckWdgt::VerseCheckWdgt(QWidget *const argParent) :
     ui{new Ui::VerseCheckWdgt}
 {
     ui->setupUi(this);
+    ui->PTEVerseText->hide();
 }
 
 VerseCheckWdgt::~VerseCheckWdgt()
@@ -46,4 +47,9 @@ void VerseCheckWdgt::SetDataToCheck(const AbstractDataTypeSharedPtr &argData)
     ui->LEChapterNo->setText(QString::number(verseData->GetChapterNo()));
     ui->LEVerseNo->setText(QString::number(verseData->GetVerseNo()));
     ui->PTEVerseText->setPlainText(verseData->GetText());
+}
+
+void VerseCheckWdgt::ShowData()
+{
+    ui->PTEVerseText->show();
 }
