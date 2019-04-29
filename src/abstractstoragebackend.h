@@ -53,7 +53,7 @@ signals:
     void DataSavingSucceeded();
 
 protected:
-    virtual bool MoveData(AbstractDataTypeSharedPtr argData,
+    virtual bool MoveData(const AbstractDataTypeSharedPtr &argData,
                           bool argMoveLevelUp) = 0;
     virtual bool SaveDataInternally(const AbstractDataTypeSharedPtr &argData) = 0;
     virtual bool UpdateCache() = 0;

@@ -34,7 +34,7 @@ public slots:
     bool SaveDataInternally(const AbstractDataTypeSharedPtr &argData) override;
 
 protected:
-    bool MoveData(AbstractDataTypeSharedPtr argData,
+    bool MoveData(const AbstractDataTypeSharedPtr &argData,
                   bool argMoveLevelUp) override;
     bool UpdateCache() override;
 };

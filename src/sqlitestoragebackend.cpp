@@ -24,7 +24,7 @@ SqliteStorageBackend::SqliteStorageBackend(QObject *const argParent) :
 {
 }
 
-bool SqliteStorageBackend::MoveData(AbstractDataTypeSharedPtr argData,
+bool SqliteStorageBackend::MoveData(const AbstractDataTypeSharedPtr &argData,
                                     const bool argMoveLevelUp)
 {
     Q_UNUSED(argData)

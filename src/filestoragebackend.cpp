@@ -60,7 +60,7 @@ FileStorageBackend::FileStorageBackend(QObject *const argParent) :
     }
 }
 
-bool FileStorageBackend::MoveData(AbstractDataTypeSharedPtr argData,
+bool FileStorageBackend::MoveData(const AbstractDataTypeSharedPtr &argData,
                                   const bool argMoveLevelUp)
 {
     const QString dataDirPath{QStandardPaths::writableLocation(
