@@ -48,10 +48,8 @@ public:
 
     std::optional<DrawResult> DoMonteCarloDraw() const;
     ll::ItemQty GetTotalStoredItemsQty() const;
-    void ItemGotAnsweredCorrectly(EModIds argItemsMod,
-                                  ll::Level argItemsCurrentLvl);
-    void ItemGotAnsweredWrongly(EModIds argItemsMod,
-                                ll::Level argItemsCurrentLvl);
+    void ItemGotMovedLevelUp(EModIds argItemsMod, ll::Level argItemsCurrentLvl);
+    void ItemGotMovelLevelDown(EModIds argItemsMod, ll::Level argItemsCurrentLvl);
     void InsertNewItem(EModIds argMod);
     bool SetCategoryQty(EModIds argMod, ll::Level argLvlIdx,
                         ll::ItemQty argQty) noexcept;

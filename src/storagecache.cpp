@@ -103,8 +103,8 @@ void StorageCache::InsertNewItem(const EModIds argMod)
     itemsPerModPerLvl.at(argMod)[0] += 1;
 }
 
-void StorageCache::ItemGotAnsweredCorrectly(const EModIds argItemsMod,
-                                            const ll::Level argItemsCurrentLvl)
+void StorageCache::ItemGotMovedLevelUp(const EModIds argItemsMod,
+                                       const ll::Level argItemsCurrentLvl)
 {
     auto &currMod{itemsPerModPerLvl.at(argItemsMod)};
 
@@ -123,8 +123,8 @@ void StorageCache::ItemGotAnsweredCorrectly(const EModIds argItemsMod,
     currMod.at(argItemsCurrentLvl + 1) += 1;
 }
 
-void StorageCache::ItemGotAnsweredWrongly(const EModIds argItemsMod,
-                                          const ll::Level argItemsCurrentLvl)
+void StorageCache::ItemGotMovelLevelDown(const EModIds argItemsMod,
+                                         const ll::Level argItemsCurrentLvl)
 {
     auto &currMod{itemsPerModPerLvl.at(argItemsMod)};
 
