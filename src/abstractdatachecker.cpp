@@ -54,7 +54,7 @@ void AbstractDataChecker::OnPBCorrectClicked()
 {
     SetPBWrongState(EPBWrongState::SHOW);
 
-    emit DataVerificationSucceeded(AbstractDataTypeSharedPtr{});
+    emit DataVerificationSucceeded(currentlyCheckedData);
 }
 
 void AbstractDataChecker::OnPBWrongClicked()
@@ -64,12 +64,14 @@ void AbstractDataChecker::OnPBWrongClicked()
     } else {
         SetPBWrongState(EPBWrongState::SHOW);
 
-        emit DataVerificationFailed(AbstractDataTypeSharedPtr{});
+        emit DataVerificationFailed(currentlyCheckedData);
     }
 }
 
 void AbstractDataChecker::SetDataToCheck(const AbstractDataTypeSharedPtr &argData)
 {
+    currentlyCheckedData = argData;
+
     displayWdgt->SetDataToCheck(argData);
 
     ui->PBWrong->setEnabled(true);

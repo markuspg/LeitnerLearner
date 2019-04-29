@@ -48,6 +48,7 @@ signals:
     void DataVerificationSucceeded(AbstractDataTypeSharedPtr argData);
 
 protected:
+    AbstractDataTypeSharedPtr currentlyCheckedData;
     AbstractCheckWdgt *const displayWdgt = nullptr;
     Ui::AbstractDataChecker *const ui = nullptr;
 
