@@ -52,6 +52,7 @@ public:
                                   ll::Level argItemsCurrentLvl);
     void ItemGotAnsweredWrongly(EModIds argItemsMod,
                                 ll::Level argItemsCurrentLvl);
+    void InsertNewItem(EModIds argMod);
     bool SetCategoryQty(EModIds argMod, ll::Level argLvlIdx,
                         ll::ItemQty argQty) noexcept;
 

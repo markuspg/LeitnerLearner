@@ -98,6 +98,11 @@ ll::ItemQty StorageCache::GetTotalStoredItemsQty() const
     return totalQty;
 }
 
+void StorageCache::InsertNewItem(const EModIds argMod)
+{
+    itemsPerModPerLvl.at(argMod)[0] += 1;
+}
+
 void StorageCache::ItemGotAnsweredCorrectly(const EModIds argItemsMod,
                                             const ll::Level argItemsCurrentLvl)
 {

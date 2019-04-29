@@ -57,6 +57,7 @@ void AbstractStorageBackend::MoveDataOneLevelUp(AbstractDataTypeSharedPtr argDat
 void AbstractStorageBackend::SaveData(const AbstractDataTypeSharedPtr &argData)
 {
     if (SaveDataInternally(argData) == true) {
+        cache.InsertNewItem(argData->GetType());
         emit DataSavingSucceeded();
         return;
     }
