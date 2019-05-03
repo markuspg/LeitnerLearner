@@ -72,7 +72,7 @@ bool FileStorageBackend::MoveData(const AbstractDataTypeSharedPtr &argData,
     for (ll::Level i = 0; i < ll::levelQty; ++i) {
         if (QFile::exists(dataDirPath
                           + "/" + QString::number(i)
-                          + "/" + argData->GetIdentifier()) == true) {
+                          + "/" + argData->GetIdentifier() + ".txt") == true) {
             // throw, if the item exists in more than one category
             if (currentLvl) {
                 qWarning() << "No item may exist in more than one level";
