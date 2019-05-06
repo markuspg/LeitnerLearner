@@ -53,8 +53,14 @@ signals:
     void DataSavingSucceeded();
 
 protected:
-    virtual bool MoveData(const AbstractDataTypeSharedPtr &argData,
-                          bool argMoveLevelUp) = 0;
+    /*!
+     * \brief MoveData moves the data item a category up or down
+     * \param[in] argData The data item which shall be moved
+     * \param[in] argMoveLevelUp True, if the data item shall be moved up, false otherwise
+     * \return _True_, if a move happened, _false_, if no move happened, _empty_ if an error occurred
+     */
+    virtual std::optional<bool> MoveData(const AbstractDataTypeSharedPtr &argData,
+                                         bool argMoveLevelUp) = 0;
     virtual bool SaveDataInternally(const AbstractDataTypeSharedPtr &argData) = 0;
     virtual bool UpdateCache() = 0;
 
