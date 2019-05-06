@@ -97,11 +97,11 @@ bool FileStorageBackend::MoveData(const AbstractDataTypeSharedPtr &argData,
     // compute the old and new paths ...
     const QString currFilePath{dataDirPath
                                + "/" + QString::number(*currentLvl)
-                               + "/" + argData->GetIdentifier()};
+                               + "/" + argData->GetIdentifier() + ".txt"};
     const auto newLvl = argMoveLevelUp ? *currentLvl + 1 : *currentLvl - 1;
     const QString newFilePath{dataDirPath
                               + "/" + QString::number(newLvl)
-                              + "/" + argData->GetIdentifier()};
+                              + "/" + argData->GetIdentifier() + ".txt"};
 
     // ... and finally attempt to move the file
     return QFile::rename(currFilePath, newFilePath);
