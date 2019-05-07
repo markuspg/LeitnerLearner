@@ -90,9 +90,9 @@ std::optional<bool> FileStorageBackend::MoveData(
 
     // don't move if the data item cannot be moved any further in its direction
     if ((argMoveLevelUp == true) && (*currentLvl == ll::levelQty - 1)) {
-        return true;
+        return false;
     } else if ((argMoveLevelUp == false) && (*currentLvl == 0)) {
-        return true;
+        return false;
     }
 
     // compute the old and new paths ...
@@ -105,7 +105,12 @@ std::optional<bool> FileStorageBackend::MoveData(
                               + "/" + argData->GetIdentifier() + ".txt"};
 
     // ... and finally attempt to move the file
-    return QFile::rename(currFilePath, newFilePath);
+    if (QFile::rename(currFilePath, newFilePath) == true) {
+        return true;
+    }
+
+    qWarning() << "Failed to move" << currFilePath << "to" << newFilePath;
+    return std::optional<bool>{};
 }
 
 void FileStorageBackend::RetrieveRandomData()

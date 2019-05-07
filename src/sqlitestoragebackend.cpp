@@ -31,7 +31,7 @@ std::optional<bool> SqliteStorageBackend::MoveData(
     Q_UNUSED(argData)
     Q_UNUSED(argMoveLevelUp)
 
-    return false;
+    return std::optional<bool>{};
 }
 
 void SqliteStorageBackend::RetrieveRandomData()
