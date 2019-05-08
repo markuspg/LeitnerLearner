@@ -53,14 +53,28 @@ signals:
     void DataSavingSucceeded();
 
 protected:
+    struct MoveResult {
+        constexpr MoveResult(bool argErrorHappened,
+                             bool argMoveHappened,
+                             std::optional<ll::Level> &&argNewLevel) noexcept :
+            errorOccurred{argErrorHappened},
+            moveHappened{argMoveHappened},
+            newLevel{std::move(argNewLevel)}
+        {}
+
+        const bool errorOccurred = true;
+        const bool moveHappened = false;
+        const std::optional<ll::Level> newLevel;
+    };
+
     /*!
      * \brief MoveData moves the data item a category up or down
      * \param[in] argData The data item which shall be moved
      * \param[in] argMoveLevelUp True, if the data item shall be moved up, false otherwise
-     * \return _True_, if a move happened, _false_, if no move happened, _empty_ if an error occurred
+     * \return A MoveResult instance signalling the function's taken actions
      */
-    virtual std::optional<bool> MoveData(const AbstractDataTypeSharedPtr &argData,
-                                         bool argMoveLevelUp) = 0;
+    virtual MoveResult MoveData(const AbstractDataTypeSharedPtr &argData,
+                                bool argMoveLevelUp) = 0;
     virtual bool SaveDataInternally(const AbstractDataTypeSharedPtr &argData) = 0;
     virtual bool UpdateCache() = 0;
 

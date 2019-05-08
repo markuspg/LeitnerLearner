@@ -60,10 +60,14 @@ FileStorageBackend::FileStorageBackend(QObject *const argParent) :
     }
 }
 
-std::optional<bool> FileStorageBackend::MoveData(
+AbstractStorageBackend::MoveResult FileStorageBackend::MoveData(
         const AbstractDataTypeSharedPtr &argData,
         const bool argMoveLevelUp)
 {
+    bool errorOccurred = false;
+    bool moveHappened = false;
+    std::optional<ll::Level> newLevel;
+
     const QString dataDirPath{QStandardPaths::writableLocation(
                                   QStandardPaths::AppDataLocation)
                               + "/" + GetModuleNameById(argData->GetType())};
@@ -89,10 +93,9 @@ std::optional<bool> FileStorageBackend::MoveData(
     }
 
     // don't move if the data item cannot be moved any further in its direction
-    if ((argMoveLevelUp == true) && (*currentLvl == ll::levelQty - 1)) {
-        return false;
-    } else if ((argMoveLevelUp == false) && (*currentLvl == 0)) {
-        return false;
+    if (((argMoveLevelUp == true) && (*currentLvl == ll::levelQty - 1))
+            || ((argMoveLevelUp == false) && (*currentLvl == 0))) {
+        return MoveResult{errorOccurred, moveHappened, std::move(newLevel)};
     }
 
     // compute the old and new paths ...
@@ -106,11 +109,14 @@ std::optional<bool> FileStorageBackend::MoveData(
 
     // ... and finally attempt to move the file
     if (QFile::rename(currFilePath, newFilePath) == true) {
-        return true;
+        moveHappened = true;
+        newLevel = newLvl;
+    } else {
+        qWarning() << "Failed to move" << currFilePath << "to" << newFilePath;
+        errorOccurred = true;
     }
 
-    qWarning() << "Failed to move" << currFilePath << "to" << newFilePath;
-    return std::optional<bool>{};
+    return MoveResult{errorOccurred, moveHappened, std::move(newLevel)};
 }
 
 void FileStorageBackend::RetrieveRandomData()

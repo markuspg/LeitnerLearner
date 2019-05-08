@@ -24,14 +24,14 @@ SqliteStorageBackend::SqliteStorageBackend(QObject *const argParent) :
 {
 }
 
-std::optional<bool> SqliteStorageBackend::MoveData(
+AbstractStorageBackend::MoveResult SqliteStorageBackend::MoveData(
         const AbstractDataTypeSharedPtr &argData,
         const bool argMoveLevelUp)
 {
     Q_UNUSED(argData)
     Q_UNUSED(argMoveLevelUp)
 
-    return std::optional<bool>{};
+    return MoveResult{true, false, std::optional<ll::Level>{}};
 }
 
 void SqliteStorageBackend::RetrieveRandomData()
