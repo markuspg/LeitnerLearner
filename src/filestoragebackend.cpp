@@ -67,42 +67,43 @@ AbstractStorageBackend::MoveResult FileStorageBackend::MoveData(
     bool errorOccurred = false;
     bool moveHappened = false;
     std::optional<ll::Level> newLevel;
+    std::optional<ll::Level> prevLevel;
 
     const QString dataDirPath{QStandardPaths::writableLocation(
                                   QStandardPaths::AppDataLocation)
                               + "/" + GetModuleNameById(argData->GetType())};
 
     // check in which level the item is contained
-    std::optional<ll::Level> currentLvl;
     for (ll::Level i = 0; i < ll::levelQty; ++i) {
         if (QFile::exists(dataDirPath
                           + "/" + QString::number(i)
                           + "/" + argData->GetIdentifier() + ".txt") == true) {
             // throw, if the item exists in more than one category
-            if (currentLvl) {
+            if (prevLevel) {
                 qWarning() << "No item may exist in more than one level";
                 throw IOException{};
                 // don't break, the iteration shall include all levels
             }
-            currentLvl.emplace(i);
+            prevLevel.emplace(i);
         }
     }
-    if (!currentLvl) {
+    if (!prevLevel) {
         qWarning() << "Every item has to be contained in exactly one level";
         throw IOException{};
     }
 
     // don't move if the data item cannot be moved any further in its direction
-    if (((argMoveLevelUp == true) && (*currentLvl == ll::levelQty - 1))
-            || ((argMoveLevelUp == false) && (*currentLvl == 0))) {
-        return MoveResult{errorOccurred, moveHappened, std::move(newLevel)};
+    if (((argMoveLevelUp == true) && (*prevLevel == ll::levelQty - 1))
+            || ((argMoveLevelUp == false) && (*prevLevel == 0))) {
+        return MoveResult{errorOccurred, moveHappened,
+                    std::move(newLevel), std::move(prevLevel)};
     }
 
     // compute the old and new paths ...
     const QString currFilePath{dataDirPath
-                               + "/" + QString::number(*currentLvl)
+                               + "/" + QString::number(*prevLevel)
                                + "/" + argData->GetIdentifier() + ".txt"};
-    const auto newLvl = argMoveLevelUp ? *currentLvl + 1 : *currentLvl - 1;
+    const auto newLvl = argMoveLevelUp ? *prevLevel + 1 : *prevLevel - 1;
     const QString newFilePath{dataDirPath
                               + "/" + QString::number(newLvl)
                               + "/" + argData->GetIdentifier() + ".txt"};
@@ -116,7 +117,8 @@ AbstractStorageBackend::MoveResult FileStorageBackend::MoveData(
         errorOccurred = true;
     }
 
-    return MoveResult{errorOccurred, moveHappened, std::move(newLevel)};
+    return MoveResult{errorOccurred, moveHappened,
+                      std::move(newLevel), std::move(prevLevel)};
 }
 
 void FileStorageBackend::RetrieveRandomData()
