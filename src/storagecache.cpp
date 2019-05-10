@@ -103,44 +103,19 @@ void StorageCache::InsertNewItem(const EModIds argMod)
     itemsPerModPerLvl.at(argMod)[0] += 1;
 }
 
-void StorageCache::ItemGotMovedLevelUp(const EModIds argItemsMod,
-                                       const ll::Level argItemsCurrentLvl)
+void StorageCache::ItemGotMoved(const EModIds argItemsMod,
+                                const ll::Level argItemsPrevLvl,
+                                const ll::Level argItemsNewLvl)
 {
     auto &currMod{itemsPerModPerLvl.at(argItemsMod)};
 
-    // if the item is already in the highest category it cannot be moved further
-    if (argItemsCurrentLvl == ll::levelQty - 1) {
-        return;
-    }
-
-    const auto currLevelQty = currMod.at(argItemsCurrentLvl);
-    // the quantity in any level should never be attempted to be decreased below 0
-    if (currLevelQty == 0) {
+    if (currMod.at(argItemsPrevLvl) == 0) {
         std::cerr << "A level's quantity cannot be decreased below '0'" << std::endl;
         throw std::exception{};
     }
-    currMod.at(argItemsCurrentLvl) -= 1;
-    currMod.at(argItemsCurrentLvl + 1) += 1;
-}
 
-void StorageCache::ItemGotMovelLevelDown(const EModIds argItemsMod,
-                                         const ll::Level argItemsCurrentLvl)
-{
-    auto &currMod{itemsPerModPerLvl.at(argItemsMod)};
-
-    // if the item is already in the lowest category it cannot be moved further
-    if (argItemsCurrentLvl == 0) {
-        return;
-    }
-
-    const auto currLevelQty = currMod.at(argItemsCurrentLvl);
-    // the quantity in any level should never be attempted to be decreased below 0
-    if (currLevelQty == 0) {
-        std::cerr << "A level's quantity cannot be decreased below '0'" << std::endl;
-        throw std::exception{};
-    }
-    currMod.at(argItemsCurrentLvl) -= 1;
-    currMod.at(argItemsCurrentLvl - 1) += 1;
+    currMod.at(argItemsPrevLvl) -= 1;
+    currMod.at(argItemsNewLvl) += 1;
 }
 
 bool StorageCache::SetCategoryQty(const EModIds argMod,
