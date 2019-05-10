@@ -37,23 +37,33 @@ AbstractStorageBackend::AbstractStorageBackend(QObject *const argParent) :
 void AbstractStorageBackend::MoveDataOneLevelDown(AbstractDataTypeSharedPtr argData)
 {
     const auto res{MoveData(argData, false)};
-    if (res.errorOccurred == false) {
-        RetrieveRandomData();
+    if (res.errorOccurred == true) {
+        emit DataMovingFailed();
         return;
     }
 
-    emit DataMovingFailed();
+    if (res.moveHappened == true) {
+        cache.ItemGotMoved(argData->GetType(), res.prevLevel.value(),
+                           res.newLevel.value());
+    }
+
+    RetrieveRandomData();
 }
 
 void AbstractStorageBackend::MoveDataOneLevelUp(AbstractDataTypeSharedPtr argData)
 {
     const auto res{MoveData(argData, true)};
-    if (res.errorOccurred == false) {
-        RetrieveRandomData();
+    if (res.errorOccurred == true) {
+        emit DataMovingFailed();
         return;
     }
 
-    emit DataMovingFailed();
+    if (res.moveHappened == true) {
+        cache.ItemGotMoved(argData->GetType(), res.prevLevel.value(),
+                           res.newLevel.value());
+    }
+
+    RetrieveRandomData();
 }
 
 void AbstractStorageBackend::SaveData(const AbstractDataTypeSharedPtr &argData)
