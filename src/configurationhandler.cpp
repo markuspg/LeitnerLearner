@@ -21,9 +21,24 @@
 
 #include <experimental/array>
 
-constexpr auto confsAndDefaults = std::experimental::make_array(
-    std::make_pair(ConfigurationHandler::ECV::STORAGE_BACKEND,
-                   "file"));
+struct ConfOpt {
+    constexpr ConfOpt(ConfigurationHandler::EConfigValues argEnumVal,
+                      const char *argName, const char *argDefaultVal) noexcept :
+        defaultVal{argDefaultVal},
+        enumVal{argEnumVal},
+        name{argName}
+    {
+    }
+
+    const char *const defaultVal = nullptr;
+    const ConfigurationHandler::EConfigValues enumVal
+        = ConfigurationHandler::EConfigValues::AAA_INVALID;
+    const char * const name = nullptr;
+};
+
+constexpr auto configOpts = std::experimental::make_array(
+            ConfOpt{ConfigurationHandler::EConfigValues::STORAGE_BACKEND,
+                    "storage_backend", "file"});
 
 ConfigurationHandler::ConfigurationHandler(QObject *const argParent) :
     QObject{argParent}
@@ -34,8 +49,6 @@ QString ConfigurationHandler::GetConfigValue(
         const EConfigValues argConfVal) const
 {
     Q_UNUSED(argConfVal)
-
-    Q_UNUSED(confsAndDefaults)
 
     return QString{};
 }

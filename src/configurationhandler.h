@@ -28,6 +28,8 @@ class ConfigurationHandler : public QObject
 
 public:
     enum class EConfigValues {
+        AAA_INVALID,
+
         STORAGE_BACKEND,
     };
     using ECV = EConfigValues;
