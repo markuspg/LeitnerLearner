@@ -20,6 +20,7 @@
 #ifndef CONFIGURATIONHANDLER_H
 #define CONFIGURATIONHANDLER_H
 
+#include <QException>
 #include <QObject>
 
 class ConfigurationHandler : public QObject
@@ -39,6 +40,17 @@ public:
     QString GetConfigValue(const EConfigValues argConfVal) const;
     void SetConfigValue(const EConfigValues argConfVal, const QString &argVal);
     bool SyncConfiguration();
+
+private:
+    class ConfigException : public QException
+    {
+        ConfigException* clone() const override;
+        void raise() const override;
+    };
+
+    static bool UpdateConfigFile();
+
+    static constexpr auto configFileName = "config.txt";
 };
 
 #endif // CONFIGURATIONHANDLER_H

@@ -19,7 +19,13 @@
 
 #include "configurationhandler.h"
 
+#include <QDebug>
+#include <QFile>
+#include <QStandardPaths>
+
 #include <experimental/array>
+
+// ConfOpt ---------------------------------------------------------------------
 
 struct ConfOpt {
     constexpr ConfOpt(ConfigurationHandler::EConfigValues argEnumVal,
@@ -40,9 +46,14 @@ constexpr auto configOpts = std::experimental::make_array(
             ConfOpt{ConfigurationHandler::EConfigValues::STORAGE_BACKEND,
                     "storage_backend", "file"});
 
+// ConfigurationHandler --------------------------------------------------------
+
 ConfigurationHandler::ConfigurationHandler(QObject *const argParent) :
     QObject{argParent}
 {
+    if (UpdateConfigFile() == false) {
+        throw ConfigException{};
+    }
 }
 
 QString ConfigurationHandler::GetConfigValue(
@@ -63,4 +74,35 @@ void ConfigurationHandler::SetConfigValue(const EConfigValues argConfVal,
 bool ConfigurationHandler::SyncConfiguration()
 {
     return false;
+}
+
+bool ConfigurationHandler::UpdateConfigFile() {
+    const QString configFilePath{QStandardPaths::writableLocation(
+                    QStandardPaths::AppDataLocation) + "/" + configFileName};
+
+    QFile confFile{configFilePath};
+    // create the configuration file if it does not exist yet
+    if (confFile.exists() == false) {
+        if (confFile.open(QIODevice::Text | QIODevice::WriteOnly) == false) {
+            qWarning() << "Failed to create and open new configuration file";
+            return false;
+        }
+        confFile.close();
+    }
+
+
+    return true;
+}
+
+// ConfigurationHandler::ConfigException ---------------------------------------
+
+ConfigurationHandler::ConfigException*
+ConfigurationHandler::ConfigException::clone() const
+{
+    return new ConfigException{*this};
+}
+
+void ConfigurationHandler::ConfigException::raise() const
+{
+    throw *this;
 }
