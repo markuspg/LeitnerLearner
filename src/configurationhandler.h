@@ -49,7 +49,7 @@ private:
         void raise() const override;
     };
 
-    bool UpdateConfigFile();
+    bool ReadConfigFile();
 
     static constexpr auto configFileName = "config.txt";
     std::map<QString, QString> optsAndVals;

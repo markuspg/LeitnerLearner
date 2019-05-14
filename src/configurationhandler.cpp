@@ -53,7 +53,7 @@ constexpr auto configOpts = std::experimental::make_array(
 ConfigurationHandler::ConfigurationHandler(QObject *const argParent) :
     QObject{argParent}
 {
-    if (UpdateConfigFile() == false) {
+    if (ReadConfigFile() == false) {
         throw ConfigException{};
     }
 }
@@ -78,7 +78,7 @@ bool ConfigurationHandler::SyncConfiguration()
     return false;
 }
 
-bool ConfigurationHandler::UpdateConfigFile() {
+bool ConfigurationHandler::ReadConfigFile() {
     const QString configFilePath{QStandardPaths::writableLocation(
                     QStandardPaths::AppDataLocation) + "/" + configFileName};
 
