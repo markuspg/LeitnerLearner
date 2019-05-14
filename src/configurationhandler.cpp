@@ -135,6 +135,12 @@ bool ConfigurationHandler::ReadConfigFile() {
                             confFileLine.right(confFileLine.indexOf('=')));
     }
 
+    // add default values to the map for missing options
+    for (const auto &optData : configOpts) {
+        if (optsAndVals.find(optData.name) == optsAndVals.end()) {
+            optsAndVals.emplace(optData.name, optData.defaultVal);
+        }
+    }
 
     return true;
 }
