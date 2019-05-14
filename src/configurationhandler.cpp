@@ -43,6 +43,8 @@ struct ConfOpt {
 };
 
 constexpr auto configOpts = std::experimental::make_array(
+            ConfOpt{ConfigurationHandler::EConfigValues::ACTIVE_MODULES,
+                    "active_modules", "BibleVerse"},
             ConfOpt{ConfigurationHandler::EConfigValues::STORAGE_BACKEND,
                     "storage_backend", "file"});
 

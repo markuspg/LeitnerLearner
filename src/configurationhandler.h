@@ -31,6 +31,7 @@ public:
     enum class EConfigValues {
         AAA_INVALID,
 
+        ACTIVE_MODULES,
         STORAGE_BACKEND,
     };
     using ECV = EConfigValues;
