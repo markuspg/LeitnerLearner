@@ -49,9 +49,10 @@ private:
         void raise() const override;
     };
 
-    static bool UpdateConfigFile();
+    bool UpdateConfigFile();
 
     static constexpr auto configFileName = "config.txt";
+    std::map<QString, QString> optsAndVals;
 };
 
 #endif // CONFIGURATIONHANDLER_H

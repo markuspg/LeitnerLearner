@@ -92,6 +92,49 @@ bool ConfigurationHandler::UpdateConfigFile() {
         confFile.close();
     }
 
+    // attempt to open the configuration file
+    if (confFile.open(QIODevice::ReadOnly | QIODevice::Text) == false) {
+        qWarning() << "Failed to open configuration file for reading";
+        return false;
+    }
+
+    qint64 readBytes = 0;
+    // iterate over all lines of the file until it's read in its entirety
+    while (readBytes < confFile.size()) {
+        QByteArray buf(65536, '\0');
+
+        // read the next line
+        const auto nowReadBytes = confFile.readLine(buf.data(), buf.size());
+        if (nowReadBytes == -1) {
+            qWarning() << "Failed to read line from configuration file";
+            return false;
+        }
+        readBytes += nowReadBytes;
+
+        // interprete the line
+        const QString confFileLine{QString{buf}.trimmed()};
+
+        // skip empty lines
+        if (confFileLine.isEmpty() == true) {
+            continue;
+        }
+
+        // error if the line does not contain a '=' and is not a comment
+        if ((confFileLine.contains('=') == false)
+                && (confFileLine[0] != '#')) {
+            qWarning() << "Malformed line";
+            return false;
+        }
+
+        // skip empty lines
+        if (confFileLine[0] == '#') {
+            continue;
+        }
+
+        optsAndVals.emplace(confFileLine.left(confFileLine.indexOf('=')),
+                            confFileLine.right(confFileLine.indexOf('=')));
+    }
+
 
     return true;
 }
