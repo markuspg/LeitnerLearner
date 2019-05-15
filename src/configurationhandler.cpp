@@ -86,8 +86,11 @@ void ConfigurationHandler::SetConfigValue(const EConfigValues argConfVal,
         throw ConfigException{};
     }
 
-    // update the configuration option
-    optsAndVals.at(res->name) = argVal;
+    if (optsAndVals.at(res->name) != argVal) {
+        // update the configuration option's value if it got changed
+        optsAndVals.at(res->name) = argVal;
+        configMustBeSynced = true;
+    }
 }
 
 bool ConfigurationHandler::SyncConfiguration()

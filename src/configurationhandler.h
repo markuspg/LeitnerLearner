@@ -52,6 +52,7 @@ private:
     bool ReadConfigFile();
 
     static constexpr auto configFileName = "config.txt";
+    bool configMustBeSynced = false;
     std::map<QString, QString> optsAndVals;
 };
 
