@@ -58,7 +58,7 @@ std::optional<StorageCache::DrawResult> StorageCache::DoMonteCarloDraw() const
     for (const auto &modLvls : itemsPerModPerLvl) {
         const auto itemsInMod = std::accumulate(modLvls.second.cbegin(),
                                                 modLvls.second.cend(), 0ul);
-        if ((accumulatedItems + itemsInMod) >= partitionQty) {
+        if ((accumulatedItems + itemsInMod) > partitionQty) {
             chosenModule = modLvls.first;
             break;
         }
@@ -74,7 +74,7 @@ std::optional<StorageCache::DrawResult> StorageCache::DoMonteCarloDraw() const
     const auto lvlPartQty = static_cast<ll::ItemQty>(lvlDraw * modQty);
     ll::Level lvlIdx = 0;
     for (const auto &lvlQty : itemsPerModPerLvl.at(chosenModule)) {
-        if ((accumulatedItems + lvlQty) >= lvlPartQty) {
+        if ((accumulatedItems + lvlQty) > lvlPartQty) {
             chosenLevel = lvlIdx;
             break;
         }
