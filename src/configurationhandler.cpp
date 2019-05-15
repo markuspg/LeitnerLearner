@@ -69,35 +69,6 @@ QString ConfigurationHandler::GetConfigValue(
     return QString{};
 }
 
-void ConfigurationHandler::SetConfigValue(const EConfigValues argConfVal,
-                                          const QString &argVal)
-{
-    // find the configuration option belonging to the enum value
-    const auto res = std::find_if(configOpts.cbegin(), configOpts.cend(),
-                                  [argConfVal](const ConfOpt &argOptData){
-                                      return argOptData.enumVal == argConfVal;
-                                  });
-
-    // throw an exception if the enum value could not be found
-    if (res == configOpts.cend()) {
-        qWarning() << "Config option"
-                   << static_cast<std::underlying_type_t<EConfigValues>>(argConfVal)
-                   << "seems not to exist";
-        throw ConfigException{};
-    }
-
-    if (optsAndVals.at(res->name) != argVal) {
-        // update the configuration option's value if it got changed
-        optsAndVals.at(res->name) = argVal;
-        configMustBeSynced = true;
-    }
-}
-
-bool ConfigurationHandler::SyncConfiguration()
-{
-    return false;
-}
-
 bool ConfigurationHandler::ReadConfigFile() {
     const QString configFilePath{QStandardPaths::writableLocation(
                     QStandardPaths::AppDataLocation) + "/" + configFileName};
@@ -163,6 +134,35 @@ bool ConfigurationHandler::ReadConfigFile() {
     }
 
     return true;
+}
+
+void ConfigurationHandler::SetConfigValue(const EConfigValues argConfVal,
+                                          const QString &argVal)
+{
+    // find the configuration option belonging to the enum value
+    const auto res = std::find_if(configOpts.cbegin(), configOpts.cend(),
+                                  [argConfVal](const ConfOpt &argOptData){
+                                      return argOptData.enumVal == argConfVal;
+                                  });
+
+    // throw an exception if the enum value could not be found
+    if (res == configOpts.cend()) {
+        qWarning() << "Config option"
+                   << static_cast<std::underlying_type_t<EConfigValues>>(argConfVal)
+                   << "seems not to exist";
+        throw ConfigException{};
+    }
+
+    if (optsAndVals.at(res->name) != argVal) {
+        // update the configuration option's value if it got changed
+        optsAndVals.at(res->name) = argVal;
+        configMustBeSynced = true;
+    }
+}
+
+bool ConfigurationHandler::SyncConfiguration()
+{
+    return false;
 }
 
 // ConfigurationHandler::ConfigException ---------------------------------------
