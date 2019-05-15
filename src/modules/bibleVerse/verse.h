@@ -31,7 +31,6 @@
 class Verse : public AbstractDataType
 {
 public:
-    Verse() = default;
     Verse(const BookInfoPairPtr argBook, const unsigned short argChapterNo,
           const unsigned short argVerseNo, const QString &argText,
           const ll::Level argCurrLvl);
