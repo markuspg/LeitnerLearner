@@ -64,9 +64,21 @@ ConfigurationHandler::ConfigurationHandler(QObject *const argParent) :
 QString ConfigurationHandler::GetConfigValue(
         const EConfigValues argConfVal) const
 {
-    Q_UNUSED(argConfVal)
+    // find the configuration option belonging to the enum value
+    const auto res = std::find_if(configOpts.cbegin(), configOpts.cend(),
+                                  [argConfVal](const ConfOpt &argOptData){
+                                      return argOptData.enumVal == argConfVal;
+                                  });
 
-    return QString{};
+    // throw an exception if the enum value could not be found
+    if (res == configOpts.cend()) {
+        qWarning() << "Queried config option"
+                   << static_cast<std::underlying_type_t<EConfigValues>>(argConfVal)
+                   << "seems not to exist";
+        throw ConfigException{};
+    }
+
+    return optsAndVals.at(res->name);
 }
 
 bool ConfigurationHandler::ReadConfigFile() {
