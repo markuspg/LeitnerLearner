@@ -25,6 +25,9 @@
 
 #include <experimental/array>
 
+#include <algorithm>
+#include <type_traits>
+
 // ConfOpt ---------------------------------------------------------------------
 
 struct ConfOpt {
@@ -69,8 +72,22 @@ QString ConfigurationHandler::GetConfigValue(
 void ConfigurationHandler::SetConfigValue(const EConfigValues argConfVal,
                                           const QString &argVal)
 {
-    Q_UNUSED(argConfVal)
-    Q_UNUSED(argVal)
+    // find the configuration option belonging to the enum value
+    const auto res = std::find_if(configOpts.cbegin(), configOpts.cend(),
+                                  [argConfVal](const ConfOpt &argOptData){
+                                      return argOptData.enumVal == argConfVal;
+                                  });
+
+    // throw an exception if the enum value could not be found
+    if (res == configOpts.cend()) {
+        qWarning() << "Config option"
+                   << static_cast<std::underlying_type_t<EConfigValues>>(argConfVal)
+                   << "seems not to exist";
+        throw ConfigException{};
+    }
+
+    // update the configuration option
+    optsAndVals.at(res->name) = argVal;
 }
 
 bool ConfigurationHandler::SyncConfiguration()
