@@ -20,14 +20,16 @@
 #ifndef VERSEENTRYWDGT_H
 #define VERSEENTRYWDGT_H
 
-#include "../../abstractentrywdgt.h"
 #include "verse.h"
+#include "../../abstractentrywdgt.h"
+#include "../../singleton.h"
 
 namespace Ui {
 class VerseEntryWdgt;
 } // namespace Ui
 
-class VerseEntryWdgt : public AbstractEntryWdgt
+class VerseEntryWdgt : public AbstractEntryWdgt,
+                       public Singleton<VerseEntryWdgt>
 {
     Q_OBJECT
 

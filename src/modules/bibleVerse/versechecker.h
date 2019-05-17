@@ -21,8 +21,10 @@
 #define VERSECHECKER_H
 
 #include "../../abstractdatachecker.h"
+#include "../../singleton.h"
 
-class VerseChecker : public AbstractDataChecker
+class VerseChecker : public AbstractDataChecker,
+                     public Singleton<VerseChecker>
 {
     Q_OBJECT
 

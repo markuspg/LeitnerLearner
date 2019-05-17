@@ -20,14 +20,16 @@
 #ifndef SONGVERSEENTRYWDGT_H
 #define SONGVERSEENTRYWDGT_H
 
-#include "../../abstractentrywdgt.h"
 #include "songverse.h"
+#include "../../abstractentrywdgt.h"
+#include "../../singleton.h"
 
 namespace Ui {
 class SongVerseEntryWdgt;
 } // namespace Ui
 
-class SongVerseEntryWdgt : public AbstractEntryWdgt
+class SongVerseEntryWdgt : public AbstractEntryWdgt,
+                           public Singleton<SongVerseEntryWdgt>
 {
     Q_OBJECT
 

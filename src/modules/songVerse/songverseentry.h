@@ -21,8 +21,10 @@
 #define SONGVERSEENTRY_H
 
 #include "../../abstractdataentry.h"
+#include "../../singleton.h"
 
-class SongVerseEntry : public AbstractDataEntry
+class SongVerseEntry : public AbstractDataEntry,
+                       public Singleton<SongVerseEntry>
 {
     Q_OBJECT
 

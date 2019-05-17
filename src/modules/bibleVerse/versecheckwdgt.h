@@ -21,12 +21,14 @@
 #define VERSECHECKWDGT_H
 
 #include "../../abstractcheckwdgt.h"
+#include "../../singleton.h"
 
 namespace Ui {
 class VerseCheckWdgt;
 } // namespace Ui
 
-class VerseCheckWdgt : public AbstractCheckWdgt
+class VerseCheckWdgt : public AbstractCheckWdgt,
+                       public Singleton<VerseCheckWdgt>
 {
     Q_OBJECT
 

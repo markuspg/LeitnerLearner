@@ -20,10 +20,12 @@
 #ifndef CONFIGURATIONHANDLER_H
 #define CONFIGURATIONHANDLER_H
 
-#include <QException>
+#include "singleton.h"
+
 #include <QObject>
 
-class ConfigurationHandler : public QObject
+class ConfigurationHandler : public QObject,
+                             public Singleton<ConfigurationHandler>
 {
     Q_OBJECT
 

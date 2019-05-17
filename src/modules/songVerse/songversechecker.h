@@ -21,8 +21,10 @@
 #define SONGVERSECHECKER_H
 
 #include "../../abstractdatachecker.h"
+#include "../../singleton.h"
 
-class SongVerseChecker : public AbstractDataChecker
+class SongVerseChecker : public AbstractDataChecker,
+                         public Singleton<SongVerseChecker>
 {
     Q_OBJECT
 

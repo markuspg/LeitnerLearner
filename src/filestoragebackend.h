@@ -21,8 +21,10 @@
 #define FILESTORAGEBACKEND_H
 
 #include "abstractstoragebackend.h"
+#include "singleton.h"
 
-class FileStorageBackend : public AbstractStorageBackend
+class FileStorageBackend : public AbstractStorageBackend,
+                           public Singleton<FileStorageBackend>
 {
     Q_OBJECT
 

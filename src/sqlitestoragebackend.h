@@ -21,8 +21,10 @@
 #define SQLITESTORAGEBACKEND_H
 
 #include "abstractstoragebackend.h"
+#include "singleton.h"
 
-class SqliteStorageBackend : public AbstractStorageBackend
+class SqliteStorageBackend : public AbstractStorageBackend,
+                             public Singleton<SqliteStorageBackend>
 {
     Q_OBJECT
 
