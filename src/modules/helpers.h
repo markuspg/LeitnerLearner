@@ -22,6 +22,13 @@
 
 #include <array>
 
+/*!
+ * \brief The EModIds enum's values are used as unique ids for the modules
+ *
+ * The numerical id values should be available for use in other parts of the
+ * program. Therefore their order should NEVER change. New module ids should be
+ * added below the existing ones.
+ */
 enum class EModIds {
     BibleVerse,
     SongVerse,
