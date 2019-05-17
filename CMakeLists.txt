@@ -24,6 +24,7 @@ add_executable(leitner_learner
     src/main.cpp
     src/mainwindow.cpp
     src/mainwindow.ui
+    src/singleton.cpp
     src/sqlitestoragebackend.cpp
     src/storagecache.cpp
     src/modules/helpers.cpp
