@@ -17,20 +17,19 @@
  *  along with LeitnerLearner.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "helpers.h"
+#include "songverse.h"
 
-#include <experimental/array>
-
-constexpr ModNamesArr moduleNames = std::experimental::make_array(
-            std::make_pair(EModIds::BibleVerse, "BibleVerse"),
-            std::make_pair(EModIds::SongVerse, "SongVerse"));
-
-const char * GetModuleNameById(const EModIds argId)
+SongVerse::SongVerse(const QString &argSongName,
+                     const unsigned short argSongVerseNo,
+                     const QString &argSongVerseText) :
+    AbstractDataType{EModIds::SongVerse},
+    songName{argSongName},
+    songVerseNo{argSongVerseNo},
+    songVerseText{argSongVerseText}
 {
-    return moduleNames.at(static_cast<ModNamesArr::size_type>(argId)).second;
 }
 
-const ModNamesArr& GetModuleNames()
+QString SongVerse::GetIdentifier() const
 {
-    return moduleNames;
+    return songName + "_" + QString::number(songVerseNo);
 }

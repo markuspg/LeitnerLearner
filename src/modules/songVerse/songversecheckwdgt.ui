@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>SongVerseCheckWdgt</class>
+ <widget class="QWidget" name="SongVerseCheckWdgt">
+  <property name="windowTitle">
+   <string>Song Verse Check</string>
+  </property>
+  <layout class="QVBoxLayout" name="VLSongVerseCheckWdgt">
+   <item>
+    <layout class="QHBoxLayout" name="HLAttributes" stretch="1,2,1,1">
+     <item>
+      <widget class="QLabel" name="LSongName">
+       <property name="text">
+        <string>Song Name</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QLineEdit" name="LESongName">
+       <property name="readOnly">
+        <bool>true</bool>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QLabel" name="LSongVerseNo">
+       <property name="text">
+        <string>Verse No.</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QLineEdit" name="LESongVerseNo"/>
+     </item>
+    </layout>
+   </item>
+   <item>
+    <widget class="QPlainTextEdit" name="PTESongVerseText">
+     <property name="readOnly">
+      <bool>true</bool>
+     </property>
+    </widget>
+   </item>
+  </layout>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>

@@ -17,20 +17,11 @@
  *  along with LeitnerLearner.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "helpers.h"
+#include "songverse.h"
+#include "songversechecker.h"
+#include "songversecheckwdgt.h"
 
-#include <experimental/array>
-
-constexpr ModNamesArr moduleNames = std::experimental::make_array(
-            std::make_pair(EModIds::BibleVerse, "BibleVerse"),
-            std::make_pair(EModIds::SongVerse, "SongVerse"));
-
-const char * GetModuleNameById(const EModIds argId)
+SongVerseChecker::SongVerseChecker(QWidget *const argParent) :
+    AbstractDataChecker{new SongVerseCheckWdgt, argParent}
 {
-    return moduleNames.at(static_cast<ModNamesArr::size_type>(argId)).second;
-}
-
-const ModNamesArr& GetModuleNames()
-{
-    return moduleNames;
 }

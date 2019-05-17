@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>SongVerseEntryWdgt</class>
+ <widget class="QWidget" name="SongVerseEntryWdgt">
+  <property name="windowTitle">
+   <string>Song Verse Entry Widget</string>
+  </property>
+  <layout class="QVBoxLayout" name="VLVerseEntryWdgt">
+   <item>
+    <layout class="QHBoxLayout" name="HLAttributes">
+     <item>
+      <widget class="QLabel" name="LSongName">
+       <property name="text">
+        <string>Song Name</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QComboBox" name="CBSongName">
+       <property name="editable">
+        <bool>true</bool>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QLabel" name="LSongVerseNo">
+       <property name="text">
+        <string>Verse No.</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QSpinBox" name="SBSongVerseNo">
+       <property name="minimum">
+        <number>1</number>
+       </property>
+       <property name="maximum">
+        <number>32768</number>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </item>
+   <item>
+    <widget class="QPlainTextEdit" name="PTEVerseText"/>
+   </item>
+  </layout>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>

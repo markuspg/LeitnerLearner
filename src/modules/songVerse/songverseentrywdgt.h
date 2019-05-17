@@ -17,20 +17,32 @@
  *  along with LeitnerLearner.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "helpers.h"
+#ifndef SONGVERSEENTRYWDGT_H
+#define SONGVERSEENTRYWDGT_H
 
-#include <experimental/array>
+#include "../../abstractentrywdgt.h"
+#include "songverse.h"
 
-constexpr ModNamesArr moduleNames = std::experimental::make_array(
-            std::make_pair(EModIds::BibleVerse, "BibleVerse"),
-            std::make_pair(EModIds::SongVerse, "SongVerse"));
+namespace Ui {
+class SongVerseEntryWdgt;
+} // namespace Ui
 
-const char * GetModuleNameById(const EModIds argId)
+class SongVerseEntryWdgt : public AbstractEntryWdgt
 {
-    return moduleNames.at(static_cast<ModNamesArr::size_type>(argId)).second;
-}
+    Q_OBJECT
 
-const ModNamesArr& GetModuleNames()
-{
-    return moduleNames;
-}
+public:
+    explicit SongVerseEntryWdgt(QWidget *argParent = nullptr);
+    ~SongVerseEntryWdgt() override;
+
+    void ClearAndPrepare() override;
+    AbstractDataTypeSharedPtr GetDataPr() override;
+
+private:
+    Ui::SongVerseEntryWdgt *const ui = nullptr;
+
+private slots:
+    void OnDataChanged();
+};
+
+#endif // SONGVERSEENTRYWDGT_H

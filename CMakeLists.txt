@@ -33,5 +33,12 @@ add_executable(leitner_learner
     src/modules/bibleVerse/versecheckwdgt.ui
     src/modules/bibleVerse/verseentry.cpp
     src/modules/bibleVerse/verseentrywdgt.cpp
-    src/modules/bibleVerse/verseentrywdgt.ui)
+    src/modules/bibleVerse/verseentrywdgt.ui
+    src/modules/songVerse/songverse.cpp
+    src/modules/songVerse/songversechecker.cpp
+    src/modules/songVerse/songversecheckwdgt.cpp
+    src/modules/songVerse/songversecheckwdgt.ui
+    src/modules/songVerse/songverseentry.cpp
+    src/modules/songVerse/songverseentrywdgt.cpp
+    src/modules/songVerse/songverseentrywdgt.ui)
 target_link_libraries(leitner_learner PRIVATE Qt5::Widgets)
