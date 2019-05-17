@@ -24,6 +24,7 @@
 #include "ui_mainwindow.h"
 #include "modules/bibleVerse/versechecker.h"
 #include "modules/bibleVerse/verseentry.h"
+#include "modules/songVerse/songverseentry.h"
 
 #include <QDebug>
 
@@ -61,22 +62,41 @@ MainWindow::MainWindow(QWidget *const argParent) :
     }
     tmpChecker->show();
 
-    const auto tmpEntry = new VerseEntry{this};
-    connect(tmpEntry, &AbstractDataEntry::Req_DataSaving,
+    const auto tmpVerseEntry = new VerseEntry{this};
+    connect(tmpVerseEntry, &AbstractDataEntry::Req_DataSaving,
             storageBackend, &AbstractStorageBackend::SaveData);
     connect(storageBackend, &AbstractStorageBackend::DataSavingFailed,
-            tmpEntry, &AbstractDataEntry::OnDataSavingFailed);
+            tmpVerseEntry, &AbstractDataEntry::OnDataSavingFailed);
     connect(storageBackend, &AbstractStorageBackend::DataSavingSucceeded,
-            tmpEntry, &AbstractDataEntry::OnDataSavingSucceeded);
-    tmpLayoutItem = ui->VLEntry->replaceWidget(ui->WEntry, tmpEntry);
+            tmpVerseEntry, &AbstractDataEntry::OnDataSavingSucceeded);
+    tmpLayoutItem = ui->VLBibleVerseEntryTab->replaceWidget(ui->WBibleVerseEntry,
+                                                            tmpVerseEntry);
     if (tmpLayoutItem != nullptr) {
         tmpLayoutItem->widget()->deleteLater();
         delete tmpLayoutItem;
         tmpLayoutItem = nullptr;
     } else {
-        qWarning() << "Could not replace WEntry";
+        qWarning() << "Could not replace WBibleVerseEntry";
     }
-    tmpEntry->show();
+    tmpVerseEntry->show();
+
+    const auto tmpSongVerseEntry = new SongVerseEntry{this};
+    connect(tmpSongVerseEntry, &AbstractDataEntry::Req_DataSaving,
+            storageBackend, &AbstractStorageBackend::SaveData);
+    connect(storageBackend, &AbstractStorageBackend::DataSavingFailed,
+            tmpSongVerseEntry, &AbstractDataEntry::OnDataSavingFailed);
+    connect(storageBackend, &AbstractStorageBackend::DataSavingSucceeded,
+            tmpSongVerseEntry, &AbstractDataEntry::OnDataSavingSucceeded);
+    tmpLayoutItem = ui->VLSongVerseEntryTab->replaceWidget(ui->WSongVerseEntry,
+                                                           tmpSongVerseEntry);
+    if (tmpLayoutItem != nullptr) {
+        tmpLayoutItem->widget()->deleteLater();
+        delete tmpLayoutItem;
+        tmpLayoutItem = nullptr;
+    } else {
+        qWarning() << "Could not replace WBibleVerseEntry";
+    }
+    tmpSongVerseEntry->show();
 }
 
 MainWindow::~MainWindow()

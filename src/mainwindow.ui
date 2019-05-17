@@ -26,9 +26,33 @@
        <attribute name="title">
         <string>Enter</string>
        </attribute>
-       <layout class="QVBoxLayout" name="VLEntry">
+       <layout class="QVBoxLayout" name="VLEntries">
         <item>
-         <widget class="QWidget" name="WEntry" native="true"/>
+         <widget class="QTabWidget" name="TWEntries">
+          <property name="currentIndex">
+           <number>0</number>
+          </property>
+          <widget class="QWidget" name="TBibleVerse">
+           <attribute name="title">
+            <string>Bible Verse</string>
+           </attribute>
+           <layout class="QVBoxLayout" name="VLBibleVerseEntryTab">
+            <item>
+             <widget class="QWidget" name="WBibleVerseEntry" native="true"/>
+            </item>
+           </layout>
+          </widget>
+          <widget class="QWidget" name="TSongVerse">
+           <attribute name="title">
+            <string>Song Verse</string>
+           </attribute>
+           <layout class="QVBoxLayout" name="VLSongVerseEntryTab">
+            <item>
+             <widget class="QWidget" name="WSongVerseEntry" native="true"/>
+            </item>
+           </layout>
+          </widget>
+         </widget>
         </item>
        </layout>
       </widget>
