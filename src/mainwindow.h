@@ -44,6 +44,9 @@ private:
     ConfigurationHandler *const configHndlr = nullptr;
     AbstractStorageBackend *const storageBackend = nullptr;
     Ui::MainWindow *const ui = nullptr;
+
+private slots:
+    void OnModChanged(int argCurrentIdx);
 };
 
 #endif // MAINWINDOW_H

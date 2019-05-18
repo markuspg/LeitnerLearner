@@ -62,41 +62,13 @@ MainWindow::MainWindow(QWidget *const argParent) :
     }
     tmpChecker->show();
 
-    const auto tmpVerseEntry = new VerseEntry{this};
-    connect(tmpVerseEntry, &AbstractDataEntry::Req_DataSaving,
-            storageBackend, &AbstractStorageBackend::SaveData);
-    connect(storageBackend, &AbstractStorageBackend::DataSavingFailed,
-            tmpVerseEntry, &AbstractDataEntry::OnDataSavingFailed);
-    connect(storageBackend, &AbstractStorageBackend::DataSavingSucceeded,
-            tmpVerseEntry, &AbstractDataEntry::OnDataSavingSucceeded);
-    tmpLayoutItem = ui->VLBibleVerseEntryTab->replaceWidget(ui->WBibleVerseEntry,
-                                                            tmpVerseEntry);
-    if (tmpLayoutItem != nullptr) {
-        tmpLayoutItem->widget()->deleteLater();
-        delete tmpLayoutItem;
-        tmpLayoutItem = nullptr;
-    } else {
-        qWarning() << "Could not replace WBibleVerseEntry";
+    const auto &modNames{GetModuleNames()};
+    for (const auto &modName : modNames) {
+        ui->CBModuleChooser->addItem(modName.second,
+                                     QVariant::fromValue(modName.first));
     }
-    tmpVerseEntry->show();
-
-    const auto tmpSongVerseEntry = new SongVerseEntry{this};
-    connect(tmpSongVerseEntry, &AbstractDataEntry::Req_DataSaving,
-            storageBackend, &AbstractStorageBackend::SaveData);
-    connect(storageBackend, &AbstractStorageBackend::DataSavingFailed,
-            tmpSongVerseEntry, &AbstractDataEntry::OnDataSavingFailed);
-    connect(storageBackend, &AbstractStorageBackend::DataSavingSucceeded,
-            tmpSongVerseEntry, &AbstractDataEntry::OnDataSavingSucceeded);
-    tmpLayoutItem = ui->VLSongVerseEntryTab->replaceWidget(ui->WSongVerseEntry,
-                                                           tmpSongVerseEntry);
-    if (tmpLayoutItem != nullptr) {
-        tmpLayoutItem->widget()->deleteLater();
-        delete tmpLayoutItem;
-        tmpLayoutItem = nullptr;
-    } else {
-        qWarning() << "Could not replace WBibleVerseEntry";
-    }
-    tmpSongVerseEntry->show();
+    connect(ui->CBModuleChooser, static_cast<void (QComboBox::*)(int)>(&QComboBox::currentIndexChanged),
+            this, &MainWindow::OnModChanged);
 }
 
 MainWindow::~MainWindow()
@@ -106,5 +78,46 @@ MainWindow::~MainWindow()
 
 void MainWindow::Initialize()
 {
+    ui->CBModuleChooser->currentIndexChanged(0);
     storageBackend->RetrieveRandomData();
+}
+
+void MainWindow::OnModChanged(const int argCurrentIdx)
+{
+    Q_UNUSED(argCurrentIdx)
+
+    const auto newModVar{ui->CBModuleChooser->currentData()};
+    if (newModVar.canConvert<EModIds>() == false) {
+        qWarning() << "Invalid data in CBModuleChooser";
+        return;
+    }
+
+    const auto newMod{newModVar.value<EModIds>()};
+    AbstractDataEntry *tmpEntry = nullptr;
+    if (newMod == EModIds::BibleVerse) {
+        tmpEntry = new VerseEntry{this};
+    } else if (newMod == EModIds::SongVerse) {
+        tmpEntry = new SongVerseEntry{this};
+    } else {
+        qWarning() << "Invalid new module for entry chosen"
+                   << static_cast<std::underlying_type_t<EModIds>>(newMod);
+    return;
+    }
+
+    connect(tmpEntry, &AbstractDataEntry::Req_DataSaving,
+            storageBackend, &AbstractStorageBackend::SaveData);
+    connect(storageBackend, &AbstractStorageBackend::DataSavingFailed,
+            tmpEntry, &AbstractDataEntry::OnDataSavingFailed);
+    connect(storageBackend, &AbstractStorageBackend::DataSavingSucceeded,
+            tmpEntry, &AbstractDataEntry::OnDataSavingSucceeded);
+    auto tmpLayoutItem = ui->VLEntries->replaceWidget(ui->WEntry,
+                                                            tmpEntry);
+    if (tmpLayoutItem != nullptr) {
+        ui->WEntry = tmpEntry;
+        tmpLayoutItem->widget()->deleteLater();
+        delete tmpLayoutItem;
+        tmpLayoutItem = nullptr;
+    } else {
+        qWarning() << "Could not replace WBibleVerseEntry";
+    }
 }
