@@ -9,7 +9,21 @@
    <item>
     <layout class="QHBoxLayout" name="HLLocation">
      <item>
+      <widget class="QLabel" name="LBibleBook">
+       <property name="text">
+        <string>Book</string>
+       </property>
+      </widget>
+     </item>
+     <item>
       <widget class="QComboBox" name="CBBibleBook"/>
+     </item>
+     <item>
+      <widget class="QLabel" name="LChapterNo">
+       <property name="text">
+        <string>Chapter</string>
+       </property>
+      </widget>
      </item>
      <item>
       <widget class="QSpinBox" name="SBChapterNo">
@@ -18,6 +32,13 @@
        </property>
        <property name="maximum">
         <number>150</number>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QLabel" name="LVerseNo">
+       <property name="text">
+        <string>Verse</string>
        </property>
       </widget>
      </item>
