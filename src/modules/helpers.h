@@ -20,6 +20,8 @@
 #ifndef HELPERS_H
 #define HELPERS_H
 
+#include <QMetaType>
+
 #include <array>
 
 /*!
@@ -36,6 +38,7 @@ enum class EModIds {
     // this element should always be last to represent the quantity of modules
     ZZZ_MOD_QTY
 };
+Q_DECLARE_METATYPE(EModIds)
 
 using ModNamesArr = std::array<std::pair<EModIds, const char *>, 2>;
 
