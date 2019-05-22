@@ -78,6 +78,7 @@ std::optional<StorageCache::DrawResult> StorageCache::DoMonteCarloDraw() const
             chosenLevel = lvlIdx;
             break;
         }
+        accumulatedItems += lvlQty;
         ++lvlIdx;
     }
 
