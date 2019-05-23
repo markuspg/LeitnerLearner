@@ -44,6 +44,8 @@ public:
         const ll::ItemQty itemIdx;
     };
 
+    using LevelQtyArr = std::array<ll::ItemQty, ll::levelQty>;
+
     StorageCache();
 
     std::optional<DrawResult> DoMonteCarloDraw() const;
@@ -55,8 +57,6 @@ public:
                         ll::ItemQty argQty) noexcept;
 
 private:
-    using LevelQtyArr = std::array<ll::ItemQty, ll::levelQty>;
-
     mutable std::uniform_real_distribution<double> dist;
     mutable std::mt19937_64 eng;
     std::map<EModIds, LevelQtyArr> itemsPerModPerLvl;

@@ -22,6 +22,25 @@
 #include <iostream>
 #include <numeric>
 
+using FreqArr = std::array<ll::ItemQty, ll::levelQty>;
+// this array's purpose is to weigh the frequencies of variable repetitions
+// level '0' shall be repeated daily, the highest level only every 384 days
+// the levels shall be repeated every 1/2/3/8/32/64/96/384 days
+constexpr static FreqArr frequencies{
+    384, 192, 128, 48, 12, 6, 4, 1
+};
+
+ll::ItemQty WeightedItemsPerMod(const StorageCache::LevelQtyArr &argArr)
+{
+    FreqArr::size_type freqArrIdx = 0;
+    ll::ItemQty weightedItemQty = 0;
+    for (const auto lvlQty : argArr) {
+        weightedItemQty += lvlQty * frequencies.at(freqArrIdx);
+        ++freqArrIdx;
+    }
+    return weightedItemQty;
+}
+
 StorageCache::StorageCache() :
     eng{std::random_device{}()}
 {
@@ -41,44 +60,43 @@ std::optional<StorageCache::DrawResult> StorageCache::DoMonteCarloDraw() const
     const auto modDraw = dist(eng);
     const auto lvlDraw = dist(eng);
 
-    // iterate modules one after the other and sum up their item quantites
-    auto totalItemQty = 0ul;
-    for (const auto &modLvls : itemsPerModPerLvl) {
-        totalItemQty += std::accumulate(modLvls.second.cbegin(),
-                                        modLvls.second.cend(), 0ul);
-    }
-    if  (totalItemQty == 0) {
+    // compute the entire weighted item quantity
+    const auto totalWeightedItemQty
+        = std::accumulate(itemsPerModPerLvl.cbegin(), itemsPerModPerLvl.cend(), 0ul,
+              [](const ll::ItemQty argCurrQty, const decltype(itemsPerModPerLvl)::value_type &argCurrMod)
+                  { return argCurrQty + WeightedItemsPerMod(argCurrMod.second); });
+    if (totalWeightedItemQty == 0) {
         return std::optional<DrawResult>{};
     }
 
     // choose module
-    auto accumulatedItems = 0ul;
+    auto weightedAccumulatedItems = 0ul;
     EModIds chosenModule = EModIds::ZZZ_MOD_QTY;
-    const auto partitionQty = static_cast<ll::ItemQty>(modDraw * totalItemQty);
+    const auto partitionQty = static_cast<ll::ItemQty>(modDraw * totalWeightedItemQty);
     for (const auto &modLvls : itemsPerModPerLvl) {
-        const auto itemsInMod = std::accumulate(modLvls.second.cbegin(),
-                                                modLvls.second.cend(), 0ul);
-        if ((accumulatedItems + itemsInMod) > partitionQty) {
+        const auto weightedItemsInMod = WeightedItemsPerMod(modLvls.second);
+        if ((weightedAccumulatedItems + weightedItemsInMod) > partitionQty) {
             chosenModule = modLvls.first;
             break;
         }
-        accumulatedItems += itemsInMod;
+        weightedAccumulatedItems += weightedItemsInMod;
     }
 
     // choose level of module
-    accumulatedItems = 0;
+    weightedAccumulatedItems = 0;
     ll::Level chosenLevel = 0;
-    const auto modQty = std::accumulate(itemsPerModPerLvl.at(chosenModule).cbegin(),
-                                        itemsPerModPerLvl.at(chosenModule).cend(),
-                                        0ul);
+    const auto modQty = WeightedItemsPerMod(itemsPerModPerLvl.at(chosenModule));
     const auto lvlPartQty = static_cast<ll::ItemQty>(lvlDraw * modQty);
     ll::Level lvlIdx = 0;
-    for (const auto &lvlQty : itemsPerModPerLvl.at(chosenModule)) {
-        if ((accumulatedItems + lvlQty) > lvlPartQty) {
+    FreqArr::size_type freqArrIdx = 0;
+    for (const auto lvlQty : itemsPerModPerLvl.at(chosenModule)) {
+        const auto weightedItemsInLvl = lvlQty * frequencies.at(freqArrIdx);
+        if ((weightedAccumulatedItems + weightedItemsInLvl) > lvlPartQty) {
             chosenLevel = lvlIdx;
             break;
         }
-        accumulatedItems += lvlQty;
+        weightedAccumulatedItems += weightedItemsInLvl;
+        ++freqArrIdx;
         ++lvlIdx;
     }
 
