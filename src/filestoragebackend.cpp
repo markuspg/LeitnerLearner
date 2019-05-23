@@ -207,13 +207,10 @@ bool FileStorageBackend::UpdateCache()
                 return false;
             }
             QDir dirInfo{dirPath};
-            if (cache.SetCategoryQty(modInfo.first, i,
-                                     static_cast<ll::ItemQty>(dirInfo.entryList(
-                                                                  QStringList{"*.txt"},
-                                                                  QDir::Files).size()))
-                    == false) {
-                return false;
-            }
+            cache.SetCategoryQty(modInfo.first, i,
+                                 static_cast<ll::ItemQty>(dirInfo.entryList(
+                                                              QStringList{"*.txt"},
+                                                              QDir::Files).size()));
         }
     }
 

@@ -53,8 +53,8 @@ public:
     void ItemGotMoved(EModIds argItemsMod, ll::Level argItemsPrevLvl,
                       ll::Level argItemsNewLvl);
     void InsertNewItem(EModIds argMod);
-    bool SetCategoryQty(EModIds argMod, ll::Level argLvlIdx,
-                        ll::ItemQty argQty) noexcept;
+    void SetCategoryQty(EModIds argMod, ll::Level argLvlIdx,
+                        ll::ItemQty argQty);
 
 private:
     mutable std::uniform_real_distribution<double> dist;

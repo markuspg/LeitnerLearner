@@ -137,15 +137,9 @@ void StorageCache::ItemGotMoved(const EModIds argItemsMod,
     currMod.at(argItemsNewLvl) += 1;
 }
 
-bool StorageCache::SetCategoryQty(const EModIds argMod,
+void StorageCache::SetCategoryQty(const EModIds argMod,
                                   const ll::Level argLvlIdx,
-                                  const ll::ItemQty argQty) noexcept
+                                  const ll::ItemQty argQty)
 {
-    try {
-        itemsPerModPerLvl.at(argMod).at(argLvlIdx) = argQty;
-    } catch ([[maybe_unused]] const std::out_of_range &argExc) {
-        std::cerr << "Invalid access of \"itemsPerModPerCat\"\n";
-        return false;
-    }
-    return true;
+    itemsPerModPerLvl.at(argMod).at(argLvlIdx) = argQty;
 }
