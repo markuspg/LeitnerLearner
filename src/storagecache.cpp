@@ -133,8 +133,12 @@ void StorageCache::ItemGotMoved(const EModIds argItemsMod,
         throw std::exception{};
     }
 
-    currMod.at(argItemsPrevLvl) -= 1;
-    currMod.at(argItemsNewLvl) += 1;
+    // get the references first so that data remains unchanged in case of an out-of-bounds
+    auto &prevLvl = currMod.at(argItemsPrevLvl);
+    auto &newLvl = currMod.at(argItemsNewLvl);
+
+    prevLvl -= 1;
+    newLvl += 1;
 }
 
 void StorageCache::SetCategoryQty(const EModIds argMod,
