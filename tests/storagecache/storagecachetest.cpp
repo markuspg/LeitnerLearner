@@ -12,6 +12,7 @@ private slots:
     void InitAndTotalTest();
     void ItemInsertion();
     void ItemMoveTest();
+    void RandomDrawTest();
 
 };
 
@@ -173,6 +174,43 @@ void StorageCacheTest::ItemMoveTest()
     cache.ItemGotMoved(EModIds::BibleVerse, 2, 3);
     QCOMPARE(cache.GetItemQty(EModIds::BibleVerse, 2), 32422);
     QCOMPARE(cache.GetItemQty(EModIds::BibleVerse, 3), 993);
+    }
+}
+
+void StorageCacheTest::RandomDrawTest()
+{
+    {
+    // create and insert certain random values into cache
+    constexpr ll::ItemQty bibleVerseItemFactor = 5;
+    StorageCache cache;
+    constexpr StorageCache::LevelQtyArr lvlIniVals{
+            19242, 11923, 4192, 2129, 507, 402, 299, 100
+    };
+    for (ll::Level i = 0; i < ll::levelQty; ++i) {
+        cache.SetCategoryQty(EModIds::BibleVerse, i, lvlIniVals.at(i)
+                                                     * bibleVerseItemFactor);
+        cache.SetCategoryQty(EModIds::SongVerse, i, lvlIniVals.at(i));
+    }
+    QCOMPARE(cache.GetTotalStoredItemsQty(), 232764);
+
+    // draw random items and record frequencies
+    using ResultsVec = std::vector<StorageCache::DrawResult>;
+    ResultsVec results;
+    constexpr ResultsVec::size_type iterationsQty = 1'000'000;
+    results.reserve(iterationsQty);
+    for (ResultsVec::size_type i = 0; i < iterationsQty; ++i) {
+        results.emplace_back(std::move(cache.DoMonteCarloDraw().value()));
+    }
+
+    // verify probabilites while allowing 10% deviation
+    const auto bibleVerseQty = std::count_if(results.cbegin(), results.cend(),
+            [](const auto &argRes) { return argRes.mod == EModIds::BibleVerse; } );
+    const auto songVerseQty = std::count_if(results.cbegin(), results.cend(),
+            [](const auto &argRes) { return argRes.mod == EModIds::SongVerse; } );
+    QVERIFY(((static_cast<ll::ItemQty>(songVerseQty) * bibleVerseItemFactor * 0.9)
+             < bibleVerseQty)
+            && ((static_cast<ll::ItemQty>(songVerseQty) * bibleVerseItemFactor * 1.1)
+                > bibleVerseQty));
     }
 }
 
