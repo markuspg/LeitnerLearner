@@ -50,9 +50,9 @@ public:
 
     std::optional<DrawResult> DoMonteCarloDraw() const;
     ll::ItemQty GetTotalStoredItemsQty() const;
+    void InsertNewItem(EModIds argMod);
     void ItemGotMoved(EModIds argItemsMod, ll::Level argItemsPrevLvl,
                       ll::Level argItemsNewLvl);
-    void InsertNewItem(EModIds argMod);
     void SetCategoryQty(EModIds argMod, ll::Level argLvlIdx,
                         ll::ItemQty argQty);
 

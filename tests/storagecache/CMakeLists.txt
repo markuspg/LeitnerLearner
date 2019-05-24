@@ -1,0 +1,15 @@
+cmake_minimum_required(VERSION 3.14.4 FATAL_ERROR)
+
+project(StorageCacheTest
+        LANGUAGES CXX)
+
+find_package(Qt5Test REQUIRED)
+
+add_executable(${PROJECT_NAME}
+    storagecachetest.cpp
+    ../../src/storagecache.cpp
+    ../../src/modules/helpers.cpp)
+target_include_directories(${PROJECT_NAME} SYSTEM PRIVATE ../../src)
+target_link_libraries(${PROJECT_NAME} PRIVATE Qt5::Core Qt5::Test)
+
+add_test(NAME StorageCacheTester COMMAND ${PROJECT_NAME})

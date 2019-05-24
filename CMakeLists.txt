@@ -1,12 +1,16 @@
-cmake_minimum_required(VERSION 3.13.4 FATAL_ERROR)
+cmake_minimum_required(VERSION 3.14.4 FATAL_ERROR)
 
 project(LeitnerLearner
     VERSION 0.1
     LANGUAGES CXX)
 
+enable_testing()
+
 set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTOUIC ON)
 set(CMAKE_CXX_STANDARD 17)
+SET(CMAKE_CXX_STANDARD_REQUIRED ON)
+set(CMAKE_INCLUDE_CURRENT_DIR ON)
 
 find_package(Qt5 COMPONENTS Widgets REQUIRED)
 
@@ -43,3 +47,5 @@ add_executable(leitner_learner
     src/modules/songVerse/songverseentrywdgt.cpp
     src/modules/songVerse/songverseentrywdgt.ui)
 target_link_libraries(leitner_learner PRIVATE Qt5::Widgets)
+
+add_subdirectory(tests)
