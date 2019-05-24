@@ -56,6 +56,11 @@ public:
     void SetCategoryQty(EModIds argMod, ll::Level argLvlIdx,
                         ll::ItemQty argQty);
 
+#ifdef CACHE_TEST
+    ll::ItemQty GetItemQty(EModIds argItemsMod, ll::Level argItemsLvl) const
+            { return itemsPerModPerLvl.at(argItemsMod).at(argItemsLvl); }
+#endif
+
 private:
     mutable std::uniform_real_distribution<double> dist;
     mutable std::mt19937_64 eng;

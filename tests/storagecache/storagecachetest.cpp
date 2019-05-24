@@ -83,6 +83,58 @@ void StorageCacheTest::ItemMoveTest()
     QVERIFY_EXCEPTION_THROWN(cache.ItemGotMoved(EModIds::BibleVerse, 5, 3),
                              std::exception);
     }
+
+    // check the item quantities after a few moves
+    {
+    StorageCache cache;
+    // initialize with a few random values
+    cache.SetCategoryQty(EModIds::BibleVerse, 5, 231);
+    cache.SetCategoryQty(EModIds::SongVerse, 2, 42);
+    cache.SetCategoryQty(EModIds::BibleVerse, 3, 993);
+    cache.SetCategoryQty(EModIds::BibleVerse, 2, 32423);
+    cache.SetCategoryQty(EModIds::BibleVerse, 7, 192);
+
+    // conduct a few moves
+    cache.ItemGotMoved(EModIds::SongVerse, 2, 1);
+    cache.ItemGotMoved(EModIds::BibleVerse, 5, 0);
+    cache.ItemGotMoved(EModIds::BibleVerse, 7, 0);
+    cache.ItemGotMoved(EModIds::BibleVerse, 3, 4);
+
+    // check if the values got moved properly
+    QCOMPARE(cache.GetItemQty(EModIds::SongVerse, 0), 0);
+    QCOMPARE(cache.GetItemQty(EModIds::SongVerse, 1), 1);
+    QCOMPARE(cache.GetItemQty(EModIds::SongVerse, 2), 41);
+    QCOMPARE(cache.GetItemQty(EModIds::SongVerse, 3), 0);
+    QCOMPARE(cache.GetItemQty(EModIds::SongVerse, 4), 0);
+    QCOMPARE(cache.GetItemQty(EModIds::SongVerse, 5), 0);
+    QCOMPARE(cache.GetItemQty(EModIds::SongVerse, 6), 0);
+    QCOMPARE(cache.GetItemQty(EModIds::SongVerse, 7), 0);
+    QCOMPARE(cache.GetItemQty(EModIds::BibleVerse, 0), 2);
+    QCOMPARE(cache.GetItemQty(EModIds::BibleVerse, 1), 0);
+    QCOMPARE(cache.GetItemQty(EModIds::BibleVerse, 2), 32423);
+    QCOMPARE(cache.GetItemQty(EModIds::BibleVerse, 3), 992);
+    QCOMPARE(cache.GetItemQty(EModIds::BibleVerse, 4), 1);
+    QCOMPARE(cache.GetItemQty(EModIds::BibleVerse, 5), 230);
+    QCOMPARE(cache.GetItemQty(EModIds::BibleVerse, 6), 0);
+    QCOMPARE(cache.GetItemQty(EModIds::BibleVerse, 7), 191);
+
+    // check if the data is still valid and unchanged after a thrown exception
+    QVERIFY_EXCEPTION_THROWN(cache.ItemGotMoved(EModIds::ZZZ_MOD_QTY, 7, 1),
+                             std::out_of_range);
+    QCOMPARE(cache.GetItemQty(EModIds::BibleVerse, 1), 0);
+    QCOMPARE(cache.GetItemQty(EModIds::BibleVerse, 7), 191);
+    QCOMPARE(cache.GetItemQty(EModIds::SongVerse, 1), 1);
+    QCOMPARE(cache.GetItemQty(EModIds::SongVerse, 7), 0);
+    QVERIFY_EXCEPTION_THROWN(cache.ItemGotMoved(EModIds::BibleVerse, 8, 3),
+                             std::out_of_range);
+    QCOMPARE(cache.GetItemQty(EModIds::BibleVerse, 3), 992);
+    QVERIFY_EXCEPTION_THROWN(cache.ItemGotMoved(EModIds::BibleVerse, 2, 8),
+                             std::out_of_range);
+    QCOMPARE(cache.GetItemQty(EModIds::BibleVerse, 3), 992);
+    cache.ItemGotMoved(EModIds::BibleVerse, 2, 3);
+    QCOMPARE(cache.GetItemQty(EModIds::BibleVerse, 2), 32422);
+    QCOMPARE(cache.GetItemQty(EModIds::BibleVerse, 3), 993);
+    }
 }
 
 QTEST_APPLESS_MAIN(StorageCacheTest)
