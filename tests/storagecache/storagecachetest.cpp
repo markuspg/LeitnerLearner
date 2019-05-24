@@ -10,6 +10,7 @@ class StorageCacheTest : public QObject
 
 private slots:
     void InitAndTotalTest();
+    void ItemInsertion();
     void ItemMoveTest();
 
 };
@@ -61,6 +62,44 @@ void StorageCacheTest::InitAndTotalTest()
         totalItemQty += newSongVerseQty;
     }
     QCOMPARE(cache.GetTotalStoredItemsQty(), totalItemQty);
+    }
+}
+
+void StorageCacheTest::ItemInsertion()
+{
+    // check if inserted items are correctly reflected by the item counts
+    {
+    StorageCache cache;
+    // a few plain insertions
+    cache.InsertNewItem(EModIds::BibleVerse);
+    cache.InsertNewItem(EModIds::BibleVerse);
+    cache.InsertNewItem(EModIds::SongVerse);
+    cache.InsertNewItem(EModIds::BibleVerse);
+    cache.InsertNewItem(EModIds::SongVerse);
+    cache.InsertNewItem(EModIds::SongVerse);
+    cache.InsertNewItem(EModIds::SongVerse);
+    cache.InsertNewItem(EModIds::BibleVerse);
+    cache.InsertNewItem(EModIds::SongVerse);
+    cache.InsertNewItem(EModIds::BibleVerse);
+    cache.InsertNewItem(EModIds::SongVerse);
+    cache.InsertNewItem(EModIds::SongVerse);
+    QCOMPARE(cache.GetItemQty(EModIds::BibleVerse, 0), 5);
+    QCOMPARE(cache.GetItemQty(EModIds::SongVerse, 0), 7);
+
+    // a few insertions after previous moves
+    cache.ItemGotMoved(EModIds::BibleVerse, 0, 1);
+    cache.ItemGotMoved(EModIds::BibleVerse, 0, 2);
+    cache.ItemGotMoved(EModIds::SongVerse, 0, 4);
+    cache.ItemGotMoved(EModIds::BibleVerse, 0, 5);
+    cache.ItemGotMoved(EModIds::SongVerse, 0, 2);
+    cache.InsertNewItem(EModIds::BibleVerse);
+    cache.InsertNewItem(EModIds::BibleVerse);
+    cache.InsertNewItem(EModIds::SongVerse);
+    cache.InsertNewItem(EModIds::BibleVerse);
+    cache.InsertNewItem(EModIds::SongVerse);
+    cache.InsertNewItem(EModIds::SongVerse);
+    QCOMPARE(cache.GetItemQty(EModIds::BibleVerse, 0), 5);
+    QCOMPARE(cache.GetItemQty(EModIds::SongVerse, 0), 8);
     }
 }
 
