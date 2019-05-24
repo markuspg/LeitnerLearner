@@ -10,6 +10,7 @@ class StorageCacheTest : public QObject
 
 private slots:
     void InitAndTotalTest();
+    void ItemMoveTest();
 
 };
 
@@ -60,6 +61,27 @@ void StorageCacheTest::InitAndTotalTest()
         totalItemQty += newSongVerseQty;
     }
     QCOMPARE(cache.GetTotalStoredItemsQty(), totalItemQty);
+    }
+}
+
+void StorageCacheTest::ItemMoveTest()
+{
+    // check if exception is thrown if an item should be moved from an empty level
+    {
+    StorageCache cache;
+    // initialize with a few random values
+    cache.SetCategoryQty(EModIds::BibleVerse, 0, 17);
+    cache.SetCategoryQty(EModIds::SongVerse, 3, 17);
+    cache.SetCategoryQty(EModIds::BibleVerse, 5, 2);
+    cache.SetCategoryQty(EModIds::BibleVerse, 6, 28);
+
+    // move items out of level 5, one item moves a level down ...
+    cache.ItemGotMoved(EModIds::BibleVerse, 5, 4);
+    // ... another item moves a level up ...
+    cache.ItemGotMoved(EModIds::BibleVerse, 5, 6);
+    // ... and then an exception is thrown since all items are gone
+    QVERIFY_EXCEPTION_THROWN(cache.ItemGotMoved(EModIds::BibleVerse, 5, 3),
+                             std::exception);
     }
 }
 
