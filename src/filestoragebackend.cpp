@@ -66,8 +66,8 @@ AbstractStorageBackend::MoveResult FileStorageBackend::MoveData(
 {
     bool errorOccurred = false;
     bool moveHappened = false;
-    std::optional<ll::Level> newLevel;
-    std::optional<ll::Level> prevLevel;
+    boost::optional<ll::Level> newLevel;
+    boost::optional<ll::Level> prevLevel;
 
     const QString dataDirPath{QStandardPaths::writableLocation(
                                   QStandardPaths::AppDataLocation)

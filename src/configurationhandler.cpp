@@ -23,8 +23,6 @@
 #include <QFile>
 #include <QStandardPaths>
 
-#include <experimental/array>
-
 #include <algorithm>
 #include <type_traits>
 
@@ -45,11 +43,11 @@ struct ConfOpt {
     const char * const name = nullptr;
 };
 
-constexpr auto configOpts = std::experimental::make_array(
+constexpr std::array<ConfOpt, 2> configOpts{
             ConfOpt{ConfigurationHandler::EConfigValues::ACTIVE_MODULES,
                     "active_modules", "BibleVerse"},
             ConfOpt{ConfigurationHandler::EConfigValues::STORAGE_BACKEND,
-                    "storage_backend", "file"});
+                    "storage_backend", "file"}};
 
 // ConfigurationHandler --------------------------------------------------------
 
@@ -73,7 +71,7 @@ QString ConfigurationHandler::GetConfigValue(
     // throw an exception if the enum value could not be found
     if (res == configOpts.cend()) {
         qWarning() << "Queried config option"
-                   << static_cast<std::underlying_type_t<EConfigValues>>(argConfVal)
+                   << static_cast<std::underlying_type<EConfigValues>::type>(argConfVal)
                    << "seems not to exist";
         throw ConfigException{};
     }
@@ -160,7 +158,7 @@ void ConfigurationHandler::SetConfigValue(const EConfigValues argConfVal,
     // throw an exception if the enum value could not be found
     if (res == configOpts.cend()) {
         qWarning() << "Config option"
-                   << static_cast<std::underlying_type_t<EConfigValues>>(argConfVal)
+                   << static_cast<std::underlying_type<EConfigValues>::type>(argConfVal)
                    << "seems not to exist";
         throw ConfigException{};
     }

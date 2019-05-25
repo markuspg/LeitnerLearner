@@ -31,8 +31,8 @@ AbstractStorageBackend::MoveResult SqliteStorageBackend::MoveData(
     Q_UNUSED(argData)
     Q_UNUSED(argMoveLevelUp)
 
-    return MoveResult{true, false, std::optional<ll::Level>{},
-                      std::optional<ll::Level>{}};
+    return MoveResult{true, false, boost::optional<ll::Level>{},
+                      boost::optional<ll::Level>{}};
 }
 
 void SqliteStorageBackend::RetrieveRandomData()

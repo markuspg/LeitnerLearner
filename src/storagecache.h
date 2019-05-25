@@ -23,8 +23,9 @@
 #include "global_definitions.h"
 #include "modules/helpers.h"
 
+#include <boost/optional.hpp>
+
 #include <map>
-#include <optional>
 #include <random>
 
 class StorageCache
@@ -48,7 +49,7 @@ public:
 
     StorageCache();
 
-    std::optional<DrawResult> DoMonteCarloDraw() const;
+    boost::optional<DrawResult> DoMonteCarloDraw() const;
     ll::ItemQty GetTotalStoredItemsQty() const;
     void InsertNewItem(EModIds argMod);
     void ItemGotMoved(EModIds argItemsMod, ll::Level argItemsPrevLvl,

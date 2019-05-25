@@ -56,8 +56,8 @@ protected:
     struct MoveResult {
         constexpr MoveResult(bool argErrorHappened,
                              bool argMoveHappened,
-                             std::optional<ll::Level> &&argNewLevel,
-                             std::optional<ll::Level> &&argPrevLevel) noexcept :
+                             boost::optional<ll::Level> &&argNewLevel,
+                             boost::optional<ll::Level> &&argPrevLevel) noexcept :
             errorOccurred{argErrorHappened},
             moveHappened{argMoveHappened},
             newLevel{std::move(argNewLevel)},
@@ -66,8 +66,8 @@ protected:
 
         const bool errorOccurred = true;
         const bool moveHappened = false;
-        const std::optional<ll::Level> newLevel;
-        const std::optional<ll::Level> prevLevel;
+        const boost::optional<ll::Level> newLevel;
+        const boost::optional<ll::Level> prevLevel;
     };
 
     /*!

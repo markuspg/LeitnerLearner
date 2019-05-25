@@ -54,7 +54,7 @@ StorageCache::StorageCache() :
  * \brief Draw module and level of a random item
  * \return A DrawResult struct with the required info or empty, if no data available
  */
-std::optional<StorageCache::DrawResult> StorageCache::DoMonteCarloDraw() const
+boost::optional<StorageCache::DrawResult> StorageCache::DoMonteCarloDraw() const
 {
     // draw a random category and level indicator
     const auto modDraw = dist(eng);
@@ -66,7 +66,7 @@ std::optional<StorageCache::DrawResult> StorageCache::DoMonteCarloDraw() const
               [](const ll::ItemQty argCurrQty, const decltype(itemsPerModPerLvl)::value_type &argCurrMod)
                   { return argCurrQty + WeightedItemsPerMod(argCurrMod.second); });
     if (totalWeightedItemQty == 0) {
-        return std::optional<DrawResult>{};
+        return boost::optional<DrawResult>{};
     }
 
     // choose module

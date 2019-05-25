@@ -196,7 +196,7 @@ void StorageCacheTest::RandomDrawTest()
     // draw random items and record frequencies
     using ResultsVec = std::vector<StorageCache::DrawResult>;
     ResultsVec results;
-    constexpr ResultsVec::size_type iterationsQty = 1'000'000;
+    constexpr ResultsVec::size_type iterationsQty = 1000000;
     results.reserve(iterationsQty);
     for (ResultsVec::size_type i = 0; i < iterationsQty; ++i) {
         results.emplace_back(std::move(cache.DoMonteCarloDraw().value()));
@@ -204,9 +204,11 @@ void StorageCacheTest::RandomDrawTest()
 
     // verify probabilites while allowing 10% deviation
     const auto bibleVerseQty = std::count_if(results.cbegin(), results.cend(),
-            [](const auto &argRes) { return argRes.mod == EModIds::BibleVerse; } );
+            [](const StorageCache::DrawResult &argRes)
+                    { return argRes.mod == EModIds::BibleVerse; } );
     const auto songVerseQty = std::count_if(results.cbegin(), results.cend(),
-            [](const auto &argRes) { return argRes.mod == EModIds::SongVerse; } );
+            [](const StorageCache::DrawResult &argRes)
+                    { return argRes.mod == EModIds::SongVerse; } );
     QVERIFY(((static_cast<ll::ItemQty>(songVerseQty) * bibleVerseItemFactor * 0.9)
              < bibleVerseQty)
             && ((static_cast<ll::ItemQty>(songVerseQty) * bibleVerseItemFactor * 1.1)

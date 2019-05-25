@@ -100,7 +100,7 @@ void MainWindow::OnModChanged(const int argCurrentIdx)
         tmpEntry = new SongVerseEntry{this};
     } else {
         qWarning() << "Invalid new module for entry chosen"
-                   << static_cast<std::underlying_type_t<EModIds>>(newMod);
+                   << static_cast<std::underlying_type<EModIds>::type>(newMod);
     return;
     }
 

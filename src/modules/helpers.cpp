@@ -19,10 +19,8 @@
 
 #include "helpers.h"
 
-#include <experimental/array>
-
-constexpr ModNamesArr moduleNames = std::experimental::make_array(
-            std::make_pair(EModIds::BibleVerse, "BibleVerse"));
+constexpr ModNamesArr moduleNames{
+            std::make_pair(EModIds::BibleVerse, "BibleVerse")};
             // TODO(markuspg) re-enable this in a later version
             // std::make_pair(EModIds::SongVerse, "SongVerse"));
 

@@ -24,9 +24,9 @@
 
 #include <QtGlobal>
 
-#include <experimental/array>
+#include <array>
 
-constexpr auto bookTitles = std::experimental::make_array(
+constexpr std::array<std::pair<EBibleBook, const char * const>, 66> bookTitles{
     std::make_pair(EBibleBook::Gen, QT_TR_NOOP("Genesis")),
     std::make_pair(EBibleBook::Ex, QT_TR_NOOP("Exodus")),
     std::make_pair(EBibleBook::Lev, QT_TR_NOOP("Leviticus")),
@@ -92,7 +92,7 @@ constexpr auto bookTitles = std::experimental::make_array(
     std::make_pair(EBibleBook::Scnd_John, QT_TR_NOOP("2 John")),
     std::make_pair(EBibleBook::Thrd_John, QT_TR_NOOP("3 John")),
     std::make_pair(EBibleBook::Jude, QT_TR_NOOP("Jude")),
-    std::make_pair(EBibleBook::Rev, QT_TR_NOOP("Revelation")));
+    std::make_pair(EBibleBook::Rev, QT_TR_NOOP("Revelation"))};
 using BookInfoPairPtr = const decltype(bookTitles)::value_type*;
 Q_DECLARE_METATYPE(BookInfoPairPtr)
 
