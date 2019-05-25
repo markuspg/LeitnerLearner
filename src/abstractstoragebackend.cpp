@@ -70,6 +70,14 @@ void AbstractStorageBackend::SaveData(const AbstractDataTypeSharedPtr &argData)
 {
     if (SaveDataInternally(argData) == true) {
         cache.InsertNewItem(argData->GetType());
+        // emit a new item if this is the first ever saved data item
+        if (Q_UNLIKELY(noItemSavedYet == true)) {
+            // if this was the first saved item, the cache should be '1' now
+            if (cache.GetTotalStoredItemsQty() == 1) {
+                RetrieveRandomData();
+            }
+            noItemSavedYet = false;
+        }
         emit DataSavingSucceeded();
         return;
     }

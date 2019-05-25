@@ -82,6 +82,11 @@ protected:
     virtual bool UpdateCache() = 0;
 
     StorageCache cache;
+
+private:
+    //! this shall ensure that the first inserted item is immediately send to
+    //! the check widget (otherwise it will first be filled on next app restart)
+    bool noItemSavedYet = true;
 };
 
 #endif // ABSTRACTSTORAGEBACKEND_H
