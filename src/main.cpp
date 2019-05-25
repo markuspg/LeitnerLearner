@@ -25,7 +25,9 @@
 #include <QTimer>
 
 #include "abstractdatatype.h"
+#ifdef WIDGETS_APP
 #include "mainwindow.h"
+#endif // WIDGETS_APP
 #include "modules/bibleVerse/booktitles.h"
 
 int main(int argc, char *argv[]) {
@@ -43,10 +45,12 @@ int main(int argc, char *argv[]) {
         }
     }
 
+#ifdef WIDGETS_APP
     MainWindow mainWin;
     mainWin.show();
 
     QTimer::singleShot(0, &mainWin, &MainWindow::Initialize);
+#endif // WIDGETS_APP
 
     return app.exec();
 }
