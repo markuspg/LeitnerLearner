@@ -48,7 +48,16 @@ void SongVerseCheckWdgt::SetDataToCheck(const AbstractDataTypeSharedPtr &argData
     ui->PTESongVerseText->setPlainText(verseData->GetVerseText());
 }
 
+void SongVerseCheckWdgt::ShowCheckedDataWdgt(const bool argDisplayData)
+{
+    if (argDisplayData == true) {
+        ui->PTESongVerseText->show();
+    } else {
+        ui->PTESongVerseText->hide();
+    }
+}
+
 void SongVerseCheckWdgt::ShowData()
 {
-    ui->PTESongVerseText->show();
+    ShowCheckedDataWdgt(true);
 }

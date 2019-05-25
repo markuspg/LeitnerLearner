@@ -40,6 +40,8 @@ public:
      void ShowData() override;
 
 private:
+     void ShowCheckedDataWdgt(bool argDisplayData) override;
+
     Ui::SongVerseCheckWdgt *const ui = nullptr;
 };
 

@@ -49,7 +49,16 @@ void VerseCheckWdgt::SetDataToCheck(const AbstractDataTypeSharedPtr &argData)
     ui->PTEVerseText->setPlainText(verseData->GetText());
 }
 
+void VerseCheckWdgt::ShowCheckedDataWdgt(const bool argDisplayData)
+{
+    if (argDisplayData == true) {
+        ui->PTEVerseText->show();
+    } else {
+        ui->PTEVerseText->hide();
+    }
+}
+
 void VerseCheckWdgt::ShowData()
 {
-    ui->PTEVerseText->show();
+    ShowCheckedDataWdgt(true);
 }

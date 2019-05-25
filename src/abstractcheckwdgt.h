@@ -33,6 +33,13 @@ public:
 
     virtual void SetDataToCheck(const AbstractDataTypeSharedPtr &argData) = 0;
     virtual void ShowData() = 0;
+
+protected:
+    /*!
+     * \brief ShowCheckedDataWdgt shows or hides the widget containing the data in question
+     * \param argDisplayData True, if the widget shall be visible, false otherwise
+     */
+    virtual void ShowCheckedDataWdgt(bool argDisplayData) = 0;
 };
 
 #endif // ABSTRACTCHECKWDGT_H
