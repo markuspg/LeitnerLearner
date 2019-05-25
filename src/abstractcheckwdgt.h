@@ -31,10 +31,11 @@ class AbstractCheckWdgt : public QWidget
 public:
     explicit AbstractCheckWdgt(QWidget *argParent = nullptr);
 
-    virtual void SetDataToCheck(const AbstractDataTypeSharedPtr &argData) = 0;
+    void SetDataToCheck(const AbstractDataTypeSharedPtr &argData);
     virtual void ShowData() = 0;
 
 protected:
+    virtual void SetDataToCheckInternal(const AbstractDataTypeSharedPtr &argData) = 0;
     /*!
      * \brief ShowCheckedDataWdgt shows or hides the widget containing the data in question
      * \param argDisplayData True, if the widget shall be visible, false otherwise

@@ -23,3 +23,9 @@ AbstractCheckWdgt::AbstractCheckWdgt(QWidget *const argParent) :
     QWidget{argParent}
 {
 }
+
+void AbstractCheckWdgt::SetDataToCheck(const AbstractDataTypeSharedPtr &argData)
+{
+    ShowCheckedDataWdgt(false);
+    SetDataToCheckInternal(argData);
+}

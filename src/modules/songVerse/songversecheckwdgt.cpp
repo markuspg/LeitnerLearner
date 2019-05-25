@@ -36,7 +36,8 @@ SongVerseCheckWdgt::~SongVerseCheckWdgt()
     delete ui;
 }
 
-void SongVerseCheckWdgt::SetDataToCheck(const AbstractDataTypeSharedPtr &argData)
+void SongVerseCheckWdgt::SetDataToCheckInternal(
+        const AbstractDataTypeSharedPtr &argData)
 {
     const auto verseData = std::dynamic_pointer_cast<SongVerse>(argData);
     if (!verseData) {

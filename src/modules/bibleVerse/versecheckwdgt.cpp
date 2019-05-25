@@ -36,7 +36,8 @@ VerseCheckWdgt::~VerseCheckWdgt()
     delete ui;
 }
 
-void VerseCheckWdgt::SetDataToCheck(const AbstractDataTypeSharedPtr &argData)
+void VerseCheckWdgt::SetDataToCheckInternal(
+        const AbstractDataTypeSharedPtr &argData)
 {
     const auto verseData = std::dynamic_pointer_cast<Verse>(argData);
     if (!verseData) {

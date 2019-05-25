@@ -36,10 +36,10 @@ public:
     explicit SongVerseCheckWdgt(QWidget *argParent = nullptr);
     ~SongVerseCheckWdgt() override;
 
-     void SetDataToCheck(const AbstractDataTypeSharedPtr &argData) override;
      void ShowData() override;
 
 private:
+     void SetDataToCheckInternal(const AbstractDataTypeSharedPtr &argData) override;
      void ShowCheckedDataWdgt(bool argDisplayData) override;
 
     Ui::SongVerseCheckWdgt *const ui = nullptr;

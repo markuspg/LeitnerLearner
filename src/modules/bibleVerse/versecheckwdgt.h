@@ -36,10 +36,10 @@ public:
     explicit VerseCheckWdgt(QWidget *argParent = nullptr);
     ~VerseCheckWdgt() override;
 
-     void SetDataToCheck(const AbstractDataTypeSharedPtr &argData) override;
      void ShowData() override;
 
 private:
+     void SetDataToCheckInternal(const AbstractDataTypeSharedPtr &argData) override;
      void ShowCheckedDataWdgt(bool argDisplayData) override;
 
     Ui::VerseCheckWdgt *const ui = nullptr;
