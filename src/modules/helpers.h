@@ -40,7 +40,7 @@ enum class EModIds {
 };
 Q_DECLARE_METATYPE(EModIds)
 
-using ModNamesArr = std::array<std::pair<EModIds, const char *>, 2>;
+using ModNamesArr = std::array<std::pair<EModIds, const char *>, 1>;
 
 const char * GetModuleNameById(EModIds argModId);
 const ModNamesArr& GetModuleNames();
