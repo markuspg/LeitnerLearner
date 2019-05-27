@@ -17,12 +17,19 @@
  *  along with LeitnerLearner.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+#ifdef QML_APP
+#include <sailfishapp.h>
+#endif
+#ifdef WIDGETS_APP
 #include <QApplication>
+#endif // WIDGETS_APP
 #include <QDebug>
 #include <QDir>
 #include <QFile>
 #include <QStandardPaths>
+#ifdef WIDGETS_APP
 #include <QTimer>
+#endif // WIDGETS_APP
 
 #include "abstractdatatype.h"
 #ifdef WIDGETS_APP
@@ -31,8 +38,10 @@
 #include "modules/bibleVerse/booktitles.h"
 
 int main(int argc, char *argv[]) {
+#ifdef WIDGETS_APP
     QApplication app{argc, argv};
     app.setApplicationName("LeitnerLearner");
+#endif // WIDGETS_APP
 
     qRegisterMetaType<AbstractDataTypeSharedPtr>();
     qRegisterMetaType<BookInfoPairPtr>();
@@ -45,12 +54,15 @@ int main(int argc, char *argv[]) {
         }
     }
 
+#ifdef QML_APP
+    return SailfishApp::main(argc, argv);
+#endif // QML_APP
 #ifdef WIDGETS_APP
     MainWindow mainWin;
     mainWin.show();
 
     QTimer::singleShot(0, &mainWin, &MainWindow::Initialize);
-#endif // WIDGETS_APP
 
     return app.exec();
+#endif // WIDGETS_APP
 }
