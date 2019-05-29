@@ -2,7 +2,7 @@ import QtQuick 2.0
 import Sailfish.Silica 1.0
 
 Page {
-    id: modeChooser
+    id: modeChooserPage
 
     // The effective value will be restricted by ApplicationWindow.allowedOrientations
     allowedOrientations: Orientation.All
@@ -15,11 +15,14 @@ Page {
         PullDownMenu {
             MenuItem {
                 text: qsTr("Check Verses")
-                onClicked: pageStack.push(Qt.resolvedUrl("ItemCheck.qml"))
+                onClicked: pageStack.push(Qt.resolvedUrl("VerseCheck.qml"))
             }
+        }
+
+        PushUpMenu {
             MenuItem {
                 text: qsTr("Enter Verses")
-                onClicked: pageStack.push(Qt.resolvedUrl("ItemEntry.qml"))
+                onClicked: pageStack.push(Qt.resolvedUrl("VerseEntry.qml"))
             }
         }
     }

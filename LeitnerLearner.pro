@@ -11,9 +11,9 @@ DISTFILES += \
     LeitnerLearner.desktop \
     qml/LeitnerLearner.qml \
     qml/cover/CoverPage.qml \
-    qml/pages/ItemCheck.qml \
-    qml/pages/ItemEntry.qml \
     qml/pages/ModeChooser.qml \
+    qml/pages/VerseCheck.qml \
+    qml/pages/VerseEntry.qml \
     rpm/LeitnerLearner.changes.in \
     rpm/LeitnerLearner.changes.run.in \
     rpm/LeitnerLearner.spec \
