@@ -31,8 +31,11 @@ Page {
         TextField {
             id: chapterNoTextField
 
+            EnterKey.iconSource: "image://theme/icon-m-enter-next"
+            EnterKey.onClicked: verseNoTextField.focus = true
             inputMethodHints: Qt.ImhFormattedNumbersOnly
-            label: qsTr("Chapter No.")
+            labelVisible: false
+            placeholderText: qsTr("Chapter No.")
             validator: IntValidator { bottom: 1; top: 150 }
             width: parent.width
         }
@@ -40,15 +43,21 @@ Page {
         TextField {
             id: verseNoTextField
 
+            EnterKey.iconSource: "image://theme/icon-m-enter-next"
+            EnterKey.onClicked: verseText.focus = true
             inputMethodHints: Qt.ImhFormattedNumbersOnly
-            label: qsTr("Verse No.")
+            labelVisible: false
+            placeholderText: qsTr("Verse No.")
             validator: IntValidator { bottom: 1; top: 176 }
             width: parent.width
         }
 
 
-        TextEdit {
+        TextArea {
             id: verseText
+
+            placeholderText: qsTr("Verse Text")
+            width: parent.width
         }
 
         Button {
