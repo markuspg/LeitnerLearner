@@ -16,11 +16,16 @@ Page {
 
         PageHeader { title: qsTr("Enter a Verse") }
 
-        TextField {
-            id: bookNameTextField
+        ComboBox {
+            id: bookNameComboBox
 
-            label: qsTr("Bible Book Name")
-            width: parent.width
+            menu: ContextMenu {
+                MenuItem { text: qsTr("Genesis") }
+                MenuItem { text: qsTr("Exodus") }
+                MenuItem { text: qsTr("Leviticus") }
+                MenuItem { text: qsTr("Numbers") }
+                MenuItem { text: qsTr("Deuteronomy") }
+            }
         }
 
         TextField {
