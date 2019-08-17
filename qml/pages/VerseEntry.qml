@@ -1,8 +1,23 @@
 import QtQuick 2.0
 import Sailfish.Silica 1.0
 
+import "verseentry.js" as VerseEntry
+
 Page {
     id: verseEntryPage
+
+    Component.onCompleted: addButtonUpdateTimer.start()
+
+    function updateAddButton() {
+        if ((chapterNoTextField.acceptableInput === true)
+            && (verseNoTextField.acceptableInput === true)
+            && (verseText.text.length > 0)) {
+            addButton.enabled = true;
+        } else {
+            addButton.enabled = false
+        }
+    }
+
 
     signal itemEntered(string argBook, int argChapterNo, int argVerseNo, string argText)
 
@@ -32,7 +47,9 @@ Page {
             id: chapterNoTextField
 
             EnterKey.iconSource: "image://theme/icon-m-enter-next"
-            EnterKey.onClicked: verseNoTextField.focus = true
+            EnterKey.onClicked: {
+                verseNoTextField.focus = true
+            }
             inputMethodHints: Qt.ImhFormattedNumbersOnly
             labelVisible: false
             placeholderText: qsTr("Chapter No.")
@@ -44,7 +61,9 @@ Page {
             id: verseNoTextField
 
             EnterKey.iconSource: "image://theme/icon-m-enter-next"
-            EnterKey.onClicked: verseText.focus = true
+            EnterKey.onClicked: {
+                verseText.focus = true
+            }
             inputMethodHints: Qt.ImhFormattedNumbersOnly
             labelVisible: false
             placeholderText: qsTr("Verse No.")
@@ -64,9 +83,18 @@ Page {
             id: addButton
 
             anchors.horizontalCenter: parent.horizontalCenter
+            enabled: false
             text: qsTr("Add")
-            // onClicked:
         }
+    }
+
+    Timer {
+        id: addButtonUpdateTimer
+
+        interval: 100 // ms
+        repeat: true
+
+        onTriggered: updateAddButton()
     }
     }
 }
