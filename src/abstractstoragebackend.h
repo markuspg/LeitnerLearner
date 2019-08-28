@@ -26,6 +26,8 @@
 #include <QException>
 #include <QObject>
 
+#include <boost/optional.hpp>
+
 class IOException : public QException
 {
     IOException* clone() const override;

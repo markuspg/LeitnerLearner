@@ -125,7 +125,7 @@ void FileStorageBackend::RetrieveRandomData()
 {
     // chose and locate a file
     const auto drawRes{cache.DoMonteCarloDraw()};
-    if (drawRes.has_value() == false) {
+    if (!drawRes) {
         return;
     }
     const auto modName{GetModuleNameById(drawRes->mod)};
