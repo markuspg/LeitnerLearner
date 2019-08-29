@@ -43,8 +43,8 @@ void AbstractStorageBackend::MoveDataOneLevelDown(AbstractDataTypeSharedPtr argD
     }
 
     if (res.moveHappened == true) {
-        cache.ItemGotMoved(argData->GetType(), res.prevLevel.value(),
-                           res.newLevel.value());
+        cache.ItemGotMoved(argData->GetType(), res.prevLevel,
+                           res.newLevel);
     }
 
     RetrieveRandomData();
@@ -59,8 +59,8 @@ void AbstractStorageBackend::MoveDataOneLevelUp(AbstractDataTypeSharedPtr argDat
     }
 
     if (res.moveHappened == true) {
-        cache.ItemGotMoved(argData->GetType(), res.prevLevel.value(),
-                           res.newLevel.value());
+        cache.ItemGotMoved(argData->GetType(), res.prevLevel,
+                           res.newLevel);
     }
 
     RetrieveRandomData();
