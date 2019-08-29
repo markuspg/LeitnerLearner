@@ -23,9 +23,8 @@
 #include "global_definitions.h"
 #include "modules/helpers.h"
 
-#include <boost/optional.hpp>
-
 #include <map>
+#include <memory>
 #include <random>
 
 class StorageCache
@@ -39,6 +38,8 @@ public:
             itemIdx{argItemIdx}
         {
         }
+        DrawResult(const DrawResult &argDrawRes) = default;
+        DrawResult(DrawResult &&argDrawRes) = default;
 
         const EModIds mod;
         const ll::Level lvlIdx;
@@ -49,7 +50,8 @@ public:
 
     StorageCache();
 
-    boost::optional<DrawResult> DoMonteCarloDraw() const;
+    // TODO(markuspg) Replace by std::optional as soon as C++17 is permitted
+    std::unique_ptr<DrawResult> DoMonteCarloDraw() const;
     ll::ItemQty GetTotalStoredItemsQty() const;
     void InsertNewItem(EModIds argMod);
     void ItemGotMoved(EModIds argItemsMod, ll::Level argItemsPrevLvl,

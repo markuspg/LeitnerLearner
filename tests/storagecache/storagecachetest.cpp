@@ -199,7 +199,7 @@ void StorageCacheTest::RandomDrawTest()
     constexpr ResultsVec::size_type iterationsQty = 1000000;
     results.reserve(iterationsQty);
     for (ResultsVec::size_type i = 0; i < iterationsQty; ++i) {
-        results.emplace_back(std::move(cache.DoMonteCarloDraw().value()));
+        results.emplace_back(std::move(*(cache.DoMonteCarloDraw().get())));
     }
 
     // verify probabilites while allowing 10% deviation
