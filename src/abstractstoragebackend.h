@@ -26,7 +26,7 @@
 #include <QException>
 #include <QObject>
 
-#include <boost/optional.hpp>
+#include <limits>
 
 class IOException : public QException
 {
@@ -58,18 +58,22 @@ protected:
     struct MoveResult {
         constexpr MoveResult(bool argErrorHappened,
                              bool argMoveHappened,
-                             boost::optional<ll::Level> &&argNewLevel,
-                             boost::optional<ll::Level> &&argPrevLevel) noexcept :
+                             ll::Level argNewLevel,
+                             ll::Level argPrevLevel) noexcept :
             errorOccurred{argErrorHappened},
             moveHappened{argMoveHappened},
-            newLevel{std::move(argNewLevel)},
-            prevLevel{std::move(argPrevLevel)}
+            newLevel{argNewLevel},
+            prevLevel{argPrevLevel}
         {}
 
         const bool errorOccurred = true;
         const bool moveHappened = false;
-        const boost::optional<ll::Level> newLevel;
-        const boost::optional<ll::Level> prevLevel;
+        // TODO(markuspg) Replace by std::optional as soon as C++17 is permitted
+        const ll::Level newLevel
+            = std::numeric_limits<ll::Level>::max();
+        // TODO(markuspg) Replace by std::optional as soon as C++17 is permitted
+        const ll::Level prevLevel
+            = std::numeric_limits<ll::Level>::max();
     };
 
     /*!

@@ -66,8 +66,8 @@ AbstractStorageBackend::MoveResult FileStorageBackend::MoveData(
 {
     bool errorOccurred = false;
     bool moveHappened = false;
-    boost::optional<ll::Level> newLevel;
-    boost::optional<ll::Level> prevLevel;
+    ll::Level newLevel = std::numeric_limits<ll::Level>::max();
+    ll::Level prevLevel = std::numeric_limits<ll::Level>::max();
 
     const QString dataDirPath{QStandardPaths::writableLocation(
                                   QStandardPaths::AppDataLocation)
@@ -79,31 +79,31 @@ AbstractStorageBackend::MoveResult FileStorageBackend::MoveData(
                           + "/" + QString::number(i)
                           + "/" + argData->GetIdentifier() + ".txt") == true) {
             // throw, if the item exists in more than one category
-            if (prevLevel) {
+            if (prevLevel != std::numeric_limits<ll::Level>::max()) {
                 qWarning() << "No item may exist in more than one level";
                 throw IOException{};
                 // don't break, the iteration shall include all levels
             }
-            prevLevel.emplace(i);
+            prevLevel = i;
         }
     }
-    if (!prevLevel) {
+    if (std::numeric_limits<ll::Level>::max() == prevLevel) {
         qWarning() << "Every item has to be contained in exactly one level";
         throw IOException{};
     }
 
     // don't move if the data item cannot be moved any further in its direction
-    if (((argMoveLevelUp == true) && (*prevLevel == ll::levelQty - 1))
-            || ((argMoveLevelUp == false) && (*prevLevel == 0))) {
+    if (((argMoveLevelUp == true) && (prevLevel == ll::levelQty - 1))
+            || ((argMoveLevelUp == false) && (prevLevel == 0))) {
         return MoveResult{errorOccurred, moveHappened,
-                    std::move(newLevel), std::move(prevLevel)};
+                    newLevel, prevLevel};
     }
 
     // compute the old and new paths ...
     const QString currFilePath{dataDirPath
-                               + "/" + QString::number(*prevLevel)
+                               + "/" + QString::number(prevLevel)
                                + "/" + argData->GetIdentifier() + ".txt"};
-    const auto newLvl = argMoveLevelUp ? *prevLevel + 1 : *prevLevel - 1;
+    const auto newLvl = argMoveLevelUp ? prevLevel + 1u : prevLevel - 1u;
     const QString newFilePath{dataDirPath
                               + "/" + QString::number(newLvl)
                               + "/" + argData->GetIdentifier() + ".txt"};
@@ -111,14 +111,14 @@ AbstractStorageBackend::MoveResult FileStorageBackend::MoveData(
     // ... and finally attempt to move the file
     if (QFile::rename(currFilePath, newFilePath) == true) {
         moveHappened = true;
-        newLevel = newLvl;
+        newLevel = static_cast<ll::Level>(newLvl);
     } else {
         qWarning() << "Failed to move" << currFilePath << "to" << newFilePath;
         errorOccurred = true;
     }
 
     return MoveResult{errorOccurred, moveHappened,
-                      std::move(newLevel), std::move(prevLevel)};
+                      newLevel, prevLevel};
 }
 
 void FileStorageBackend::RetrieveRandomData()
