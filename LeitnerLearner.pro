@@ -1,6 +1,6 @@
 TARGET = LeitnerLearner
 
-CONFIG += sailfishapp
+CONFIG += sailfishapp c++11
 
 DEFINES += QML_APP
 
