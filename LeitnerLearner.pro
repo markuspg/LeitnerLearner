@@ -4,8 +4,21 @@ CONFIG += sailfishapp c++11
 
 DEFINES += QML_APP
 
+HEADERS += \
+    src/abstractdatatype.h \
+    src/global_definitions.h \
+    src/modules/helpers.h \
+    src/modules/bibleVerse/bookenum.h \
+    src/modules/bibleVerse/booktitles.h \
+    src/modules/bibleVerse/verse.h \
+    src/modules/songVerse/songverse.h \
+
 SOURCES += \
+    src/abstractdatatype.cpp \
     src/main.cpp \
+    src/modules/helpers.cpp \
+    src/modules/bibleVerse/verse.cpp \
+    src/modules/songVerse/songverse.cpp \
 
 DISTFILES += \
     LeitnerLearner.desktop \
