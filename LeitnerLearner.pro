@@ -6,7 +6,12 @@ DEFINES += QML_APP
 
 HEADERS += \
     src/abstractdatatype.h \
+    src/abstractstoragebackend.h \
+    src/filestoragebackend.h \
     src/global_definitions.h \
+    src/singleton.h \
+    src/sqlitestoragebackend.h \
+    src/storagecache.h \
     src/modules/helpers.h \
     src/modules/bibleVerse/bookenum.h \
     src/modules/bibleVerse/booktitles.h \
@@ -15,7 +20,12 @@ HEADERS += \
 
 SOURCES += \
     src/abstractdatatype.cpp \
+    src/abstractstoragebackend.cpp \
+    src/filestoragebackend.cpp \
     src/main.cpp \
+    src/singleton.cpp \
+    src/sqlitestoragebackend.cpp \
+    src/storagecache.cpp \
     src/modules/helpers.cpp \
     src/modules/bibleVerse/verse.cpp \
     src/modules/songVerse/songverse.cpp \

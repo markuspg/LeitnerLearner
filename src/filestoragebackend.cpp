@@ -24,13 +24,11 @@
 #include <QFileInfo>
 #include <QStandardPaths>
 
-#include <optional>
-
 FileStorageBackend::FileStorageBackend(QObject *const argParent) :
     AbstractStorageBackend{argParent}
 {
     // prepare storage directories for all modules' data
-    for (const auto &moduleData : GetModuleNames()) {
+    for (const std::pair<EModIds, const char *> &moduleData : GetModuleNames()) {
         // first create the modules' directories themselves
         const QString dataDirPath{QStandardPaths::writableLocation(
                                       QStandardPaths::AppDataLocation)
@@ -103,7 +101,7 @@ AbstractStorageBackend::MoveResult FileStorageBackend::MoveData(
     const QString currFilePath{dataDirPath
                                + "/" + QString::number(prevLevel)
                                + "/" + argData->GetIdentifier() + ".txt"};
-    const auto newLvl = argMoveLevelUp ? prevLevel + 1u : prevLevel - 1u;
+    const ll::Level newLvl = argMoveLevelUp ? prevLevel + 1u : prevLevel - 1u;
     const QString newFilePath{dataDirPath
                               + "/" + QString::number(newLvl)
                               + "/" + argData->GetIdentifier() + ".txt"};
@@ -124,11 +122,11 @@ AbstractStorageBackend::MoveResult FileStorageBackend::MoveData(
 void FileStorageBackend::RetrieveRandomData()
 {
     // chose and locate a file
-    const auto drawRes{cache.DoMonteCarloDraw()};
+    const std::unique_ptr<StorageCache::DrawResult> drawRes{cache.DoMonteCarloDraw()};
     if (!drawRes) {
         return;
     }
-    const auto modName{GetModuleNameById(drawRes->mod)};
+    const QString modName{GetModuleNameById(drawRes->mod)};
     QDir dataDir{QStandardPaths::writableLocation(QStandardPaths::AppDataLocation)
                  + QString{"/%1/%2"}.arg(modName).arg(QString::number(drawRes->lvlIdx))};
     QFileInfo dataDirInfo(dataDir.absolutePath());
@@ -138,11 +136,11 @@ void FileStorageBackend::RetrieveRandomData()
         emit DataRetrievalFailed();
         return;
     }
-    const auto files{dataDir.entryList(QStringList{"*.txt"},
+    const QStringList files{dataDir.entryList(QStringList{"*.txt"},
                                        QDir::Files, QDir::Name)};
 
     // open and read the file
-    const auto dataFileName{files.at(static_cast<int>(drawRes->itemIdx))};
+    const QString dataFileName{files.at(static_cast<int>(drawRes->itemIdx))};
     QFile dataFile{dataDir.absolutePath() + "/" + dataFileName};
     if (dataFile.exists() == false) {
         qWarning() << "Data file" << dataFile.fileName() << "does not exist";
@@ -154,7 +152,7 @@ void FileStorageBackend::RetrieveRandomData()
         emit DataRetrievalFailed();
         return;
     }
-    const auto dataSize{dataFile.size()};
+    const qint64 dataSize{dataFile.size()};
     QByteArray dataBuf(static_cast<int>(dataSize), '\0');
     if (dataFile.read(dataBuf.data(), dataSize) != dataSize) {
         qWarning() << "Failed to read data from" << dataFile.fileName();
@@ -164,8 +162,10 @@ void FileStorageBackend::RetrieveRandomData()
     dataFile.close();
 
     // parse the file and emit the result
-    const auto res{AbstractDataType::ParseFromData(drawRes->mod, drawRes->lvlIdx,
-                       QString{dataFileName}.replace(".txt", ""), dataBuf)};
+    const AbstractDataTypeSharedPtr res{
+        AbstractDataType::ParseFromData(drawRes->mod, drawRes->lvlIdx,
+                                        QString{dataFileName}.replace(".txt", ""),
+                                        dataBuf)};
 
     if (res) {
         emit DataRetrievalSucceeded(res);
@@ -188,7 +188,7 @@ bool FileStorageBackend::SaveDataInternally(
     if (outFile.open(QIODevice::Text | QIODevice::WriteOnly) == false) {
         return false;
     }
-    const auto outDataBuf{argData->GetData()};
+    const QByteArray outDataBuf{argData->GetData()};
     if (outFile.write(outDataBuf) == outDataBuf.size()) {
         return true;
     }
@@ -197,7 +197,7 @@ bool FileStorageBackend::SaveDataInternally(
 
 bool FileStorageBackend::UpdateCache()
 {
-    for (const auto &modInfo : GetModuleNames()) {
+    for (const std::pair<EModIds, const char *> &modInfo : GetModuleNames()) {
         for (ll::Level i = 0; i < ll::levelQty; ++i) {
             const QString dirPath{QStandardPaths::writableLocation(
                             QStandardPaths::AppDataLocation)
