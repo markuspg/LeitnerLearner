@@ -34,6 +34,8 @@
 #include "abstractdatatype.h"
 #ifdef WIDGETS_APP
 #include "mainwindow.h"
+#else
+#include "appbackend.h"
 #endif // WIDGETS_APP
 #include "modules/bibleVerse/booktitles.h"
 
@@ -55,6 +57,8 @@ int main(int argc, char *argv[]) {
     }
 
 #ifdef QML_APP
+    AppBackend appBackend;
+
     return SailfishApp::main(argc, argv);
 #endif // QML_APP
 #ifdef WIDGETS_APP
