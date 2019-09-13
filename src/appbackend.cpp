@@ -14,3 +14,12 @@ AppBackend::AppBackend(QObject *const argParent) :
     configHndlr->setParent(this);
     storageBackend->setParent(this);
 }
+
+void AppBackend::saveVerse(const QString &argBook, const int argChapterNo,
+                           const int argVerseNo, const QString &argVerseText)
+{
+    Q_UNUSED(argBook)
+    Q_UNUSED(argChapterNo)
+    Q_UNUSED(argVerseNo)
+    Q_UNUSED(argVerseText)
+}
