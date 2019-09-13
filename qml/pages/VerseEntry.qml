@@ -85,6 +85,8 @@ Page {
             anchors.horizontalCenter: parent.horizontalCenter
             enabled: false
             text: qsTr("Add")
+
+            onClicked: appBackend.saveVerse("", 1, 1, "")
         }
     }
 
