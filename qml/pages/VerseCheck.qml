@@ -55,12 +55,22 @@ Page {
     }
 
     Button {
-        id: nextItemButton
-        text: qsTr("Next")
+        id: correctButton
+        text: qsTr("Correct")
 
         onClicked: {
             verseTextArea.text = ""
-            appBackend.requestNextVerse()
+            appBackend.verseAnsweredRightly()
+        }
+    }
+
+    Button {
+        id: wrongButton
+        text: qsTr("Wrong")
+
+        onClicked: {
+            verseTextArea.text = ""
+            appBackend.verseAnsweredWrongly()
         }
     }
 

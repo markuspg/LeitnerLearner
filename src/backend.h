@@ -52,6 +52,8 @@ public:
 
 public slots:
     void requestNextVerse();
+    void verseAnsweredRightly();
+    void verseAnsweredWrongly();
 
 signals:
     void CheckedBookChanged();
@@ -66,6 +68,7 @@ private:
     int currCheckedChapterNo = 0;
     int currCheckedVerseNo = 0;
     QString currCheckedVerseText;
+    AbstractDataTypeSharedPtr currDataItem;
     unsigned int savedVersesQty = 0u;
     AbstractStorageBackend *const storageBackend = nullptr;
 

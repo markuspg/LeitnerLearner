@@ -54,7 +54,8 @@ void Backend::requestNextVerse()
 
 void Backend::RetrieveNewVerse(const AbstractDataTypeSharedPtr &argDataPtr)
 {
-    const auto ptr = std::dynamic_pointer_cast<Verse>(argDataPtr);
+    currDataItem = argDataPtr;
+    const auto ptr = std::dynamic_pointer_cast<Verse>(currDataItem);
     if (ptr) {
         const auto tmpBook = ptr->GetBook();
         if (tmpBook != currCheckedBook) {
@@ -112,4 +113,14 @@ void Backend::VerseGotSuccessfullySaved()
 {
     ++savedVersesQty;
     emit SavedVersesChanged();
+}
+
+void Backend::verseAnsweredRightly()
+{
+    storageBackend->MoveDataOneLevelUp(currDataItem);
+}
+
+void Backend::verseAnsweredWrongly()
+{
+    storageBackend->MoveDataOneLevelDown(currDataItem);
 }
