@@ -38,7 +38,11 @@ Page {
         id: verseDataColumn
         width: parent.width
 
-        PageHeader { title: qsTr("Enter a Verse") }
+        PageHeader {
+            id: verseEntryHeader
+
+            title: qsTr("Verse Entry")
+        }
 
         ComboBox {
             id: bookNameComboBox

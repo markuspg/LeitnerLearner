@@ -16,11 +16,17 @@ Page {
 
     SilicaFlickable {
         anchors.fill: parent
-        contentHeight: checkedVerseDataColumn.height + Theme.paddingLarge
+
+    PageHeader {
+        id: verseCheckHeader
+
+        title: qsTr("Verse Check")
+    }
 
     Label {
         id: bookLabel
 
+        anchors.top: verseCheckHeader.bottom
         text: appBackend.checkedBook
         width: parent.width
     }
@@ -46,6 +52,7 @@ Page {
 
         anchors.top: verseNoLabel.bottom
         readOnly: true
+        width: parent.width
     }
 
     Button {
@@ -53,6 +60,7 @@ Page {
 
         anchors.top: verseTextArea.bottom
         text: qsTr("Show")
+        width: parent.width
 
         onClicked: {
             verseTextArea.text = appBackend.checkedVerseText
@@ -61,25 +69,31 @@ Page {
 
     Row {
         anchors.top: showButton.bottom
-    Button {
-        id: correctButton
-        text: qsTr("Correct")
+        width: parent.width
 
-        onClicked: {
-            verseTextArea.text = ""
-            appBackend.verseAnsweredRightly()
+        Button {
+            id: correctButton
+
+            text: qsTr("Correct")
+            width: parent.width / 2
+
+            onClicked: {
+                verseTextArea.text = ""
+                appBackend.verseAnsweredRightly()
+            }
         }
-    }
 
-    Button {
-        id: wrongButton
-        text: qsTr("Wrong")
+        Button {
+            id: wrongButton
 
-        onClicked: {
-            verseTextArea.text = ""
-            appBackend.verseAnsweredWrongly()
+            text: qsTr("Wrong")
+            width: parent.width / 2
+
+            onClicked: {
+                verseTextArea.text = ""
+                appBackend.verseAnsweredWrongly()
+            }
         }
-    }
     }
 
     }
