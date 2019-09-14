@@ -42,7 +42,7 @@
 #ifdef WIDGETS_APP
 #include "mainwindow.h"
 #else
-#include "appbackend.h"
+#include "backend.h"
 #endif // WIDGETS_APP
 #include "modules/bibleVerse/booktitles.h"
 
@@ -68,7 +68,7 @@ int main(int argc, char *argv[]) {
     }
 
 #ifdef QML_APP
-    qmlRegisterType<AppBackend>("com.github.leitnerlearner.appbackend", 1, 0, "AppBackend");
+    qmlRegisterType<Backend>("com.github.leitnerlearner.backend", 1, 0, "Backend");
 
     view->setSource(SailfishApp::pathTo("qml/LeitnerLearner.qml"));
     view->show();

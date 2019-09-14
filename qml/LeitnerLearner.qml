@@ -1,6 +1,6 @@
 import QtQuick 2.0
 import Sailfish.Silica 1.0
-import com.github.leitnerlearner.appbackend 1.0
+import com.github.leitnerlearner.backend 1.0
 import "pages"
 
 ApplicationWindow
@@ -9,7 +9,7 @@ ApplicationWindow
     cover: Qt.resolvedUrl("cover/CoverPage.qml")
     allowedOrientations: defaultAllowedOrientations
 
-    AppBackend {
+    Backend {
         id: appBackend
     }
 }

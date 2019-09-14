@@ -7,7 +7,7 @@ DEFINES += QML_APP
 HEADERS += \
     src/abstractdatatype.h \
     src/abstractstoragebackend.h \
-    src/appbackend.h \
+    src/backend.h \
     src/configurationhandler.h \
     src/filestoragebackend.h \
     src/global_definitions.h \
@@ -23,7 +23,7 @@ HEADERS += \
 SOURCES += \
     src/abstractdatatype.cpp \
     src/abstractstoragebackend.cpp \
-    src/appbackend.cpp \
+    src/backend.cpp \
     src/configurationhandler.cpp \
     src/filestoragebackend.cpp \
     src/main.cpp \
