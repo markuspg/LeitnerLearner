@@ -22,8 +22,7 @@
 
 #include <QMainWindow>
 
-class AbstractStorageBackend;
-class ConfigurationHandler;
+class Backend;
 
 namespace Ui {
 class MainWindow;
@@ -41,8 +40,7 @@ public slots:
     void Initialize();
 
 private:
-    ConfigurationHandler *const configHndlr = nullptr;
-    AbstractStorageBackend *const storageBackend = nullptr;
+    Backend *const backend = nullptr;
     Ui::MainWindow *const ui = nullptr;
 
 private slots:
