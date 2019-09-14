@@ -13,6 +13,8 @@ class Backend : public QObject
 public:
     Backend(QObject *argParent = nullptr);
 
+    void Initialize();
+
 private:
     ConfigurationHandler *const configHndlr = nullptr;
     AbstractStorageBackend *const storageBackend = nullptr;

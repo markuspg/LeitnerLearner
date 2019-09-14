@@ -14,3 +14,8 @@ Backend::Backend(QObject *const argParent) :
     configHndlr->setParent(this);
     storageBackend->setParent(this);
 }
+
+void Backend::Initialize()
+{
+    storageBackend->RetrieveRandomData();
+}
