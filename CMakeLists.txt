@@ -23,6 +23,7 @@ add_executable(leitner_learner
     src/abstractdatatype.cpp
     src/abstractentrywdgt.cpp
     src/abstractstoragebackend.cpp
+    src/backend.cpp
     src/configurationhandler.cpp
     src/filestoragebackend.cpp
     src/main.cpp

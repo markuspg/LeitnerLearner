@@ -17,6 +17,7 @@
  *  along with LeitnerLearner.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+#include "backend.h"
 #include "configurationhandler.h"
 #include "filestoragebackend.h"
 #include "mainwindow.h"
@@ -32,26 +33,29 @@
 
 MainWindow::MainWindow(QWidget *const argParent) :
     QMainWindow{argParent},
-    configHndlr{new ConfigurationHandler},
-    storageBackend{configHndlr->GetConfigValue(
-                       ConfigurationHandler::ECV::STORAGE_BACKEND) == "file"
-        ? reinterpret_cast<AbstractStorageBackend*>(new FileStorageBackend)
-        : reinterpret_cast<AbstractStorageBackend*>(new SqliteStorageBackend)},
+    backend{new Backend},
     ui{new Ui::MainWindow}
 {
-    configHndlr->setParent(this);
-    storageBackend->setParent(this);
+    backend->setParent(this);
 
     ui->setupUi(this);
     const auto tmpChecker = new VerseChecker{this};
-    connect(tmpChecker, &AbstractDataChecker::DataVerificationFailed,
-            storageBackend, &AbstractStorageBackend::MoveDataOneLevelDown);
-    connect(tmpChecker, &AbstractDataChecker::DataVerificationSucceeded,
-            storageBackend, &AbstractStorageBackend::MoveDataOneLevelUp);
-    connect(storageBackend, &AbstractStorageBackend::DataMovingFailed,
-            tmpChecker, &AbstractDataChecker::DataLevelUpdateFailed);
-    connect(storageBackend, &AbstractStorageBackend::DataRetrievalSucceeded,
-            tmpChecker, &AbstractDataChecker::SetDataToCheck);
+    connect(tmpChecker,
+            &AbstractDataChecker::DataVerificationFailed,
+            backend->GetStorageBcknd(),
+            &AbstractStorageBackend::MoveDataOneLevelDown);
+    connect(tmpChecker,
+            &AbstractDataChecker::DataVerificationSucceeded,
+            backend->GetStorageBcknd(),
+            &AbstractStorageBackend::MoveDataOneLevelUp);
+    connect(backend->GetStorageBcknd(),
+            &AbstractStorageBackend::DataMovingFailed,
+            tmpChecker,
+            &AbstractDataChecker::DataLevelUpdateFailed);
+    connect(backend->GetStorageBcknd(),
+            &AbstractStorageBackend::DataRetrievalSucceeded,
+            tmpChecker,
+            &AbstractDataChecker::SetDataToCheck);
     auto tmpLayoutItem = ui->VLCheck->replaceWidget(ui->WCheck, tmpChecker);
     if (tmpLayoutItem != nullptr) {
         tmpLayoutItem->widget()->deleteLater();
@@ -79,7 +83,8 @@ MainWindow::~MainWindow()
 void MainWindow::Initialize()
 {
     ui->CBModuleChooser->currentIndexChanged(0);
-    storageBackend->RetrieveRandomData();
+
+    backend->Initialize();
 }
 
 void MainWindow::OnModChanged(const int argCurrentIdx)
@@ -104,12 +109,18 @@ void MainWindow::OnModChanged(const int argCurrentIdx)
     return;
     }
 
-    connect(tmpEntry, &AbstractDataEntry::Req_DataSaving,
-            storageBackend, &AbstractStorageBackend::SaveData);
-    connect(storageBackend, &AbstractStorageBackend::DataSavingFailed,
-            tmpEntry, &AbstractDataEntry::OnDataSavingFailed);
-    connect(storageBackend, &AbstractStorageBackend::DataSavingSucceeded,
-            tmpEntry, &AbstractDataEntry::OnDataSavingSucceeded);
+    connect(tmpEntry,
+            &AbstractDataEntry::Req_DataSaving,
+            backend->GetStorageBcknd(),
+            &AbstractStorageBackend::SaveData);
+    connect(backend->GetStorageBcknd(),
+            &AbstractStorageBackend::DataSavingFailed,
+            tmpEntry,
+            &AbstractDataEntry::OnDataSavingFailed);
+    connect(backend->GetStorageBcknd(),
+            &AbstractStorageBackend::DataSavingSucceeded,
+            tmpEntry,
+            &AbstractDataEntry::OnDataSavingSucceeded);
     auto tmpLayoutItem = ui->VLEntries->replaceWidget(ui->WEntry,
                                                             tmpEntry);
     if (tmpLayoutItem != nullptr) {
