@@ -38,11 +38,45 @@ Backend::Backend(QObject *const argParent) :
 
     connect(storageBackend, &AbstractStorageBackend::DataSavingSucceeded,
             this, &Backend::VerseGotSuccessfullySaved);
+    connect(storageBackend, &AbstractStorageBackend::DataRetrievalSucceeded,
+            this, &Backend::RetrieveNewVerse);
 }
 
 void Backend::Initialize()
 {
     storageBackend->RetrieveRandomData();
+}
+
+void Backend::requestNextVerse()
+{
+    storageBackend->RetrieveRandomData();
+}
+
+void Backend::RetrieveNewVerse(const AbstractDataTypeSharedPtr &argDataPtr)
+{
+    const auto ptr = std::dynamic_pointer_cast<Verse>(argDataPtr);
+    if (ptr) {
+        const auto tmpBook = ptr->GetBook();
+        if (tmpBook != currCheckedBook) {
+            currCheckedBook = tmpBook;
+            emit CheckedBookChanged();
+        }
+        const auto tmpChapterNo = ptr->GetChapterNo();
+        if (tmpChapterNo != currCheckedChapterNo) {
+            currCheckedChapterNo = tmpChapterNo;
+            emit CheckedChapterNoChanged();
+        }
+        const auto tmpVerseNo = ptr->GetVerseNo();
+        if (tmpVerseNo != currCheckedVerseNo) {
+            currCheckedVerseNo = tmpVerseNo;
+            emit CheckedVerseNoChanged();
+        }
+        const auto tmpVerseText = ptr->GetText();
+        if (tmpVerseText != currCheckedVerseText) {
+            currCheckedVerseText = tmpVerseText;
+            emit CheckedVerseTextChanged();
+        }
+    }
 }
 
 void Backend::saveVerse(const QString &argBook, int argChapterNo,

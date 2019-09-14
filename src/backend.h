@@ -20,6 +20,8 @@
 #ifndef BACKEND_H
 #define BACKEND_H
 
+#include "abstractdatatype.h"
+
 #include <QObject>
 
 class AbstractStorageBackend;
@@ -29,10 +31,18 @@ class Backend : public QObject
 {
     Q_OBJECT
     Q_PROPERTY(int savedVerses READ GetSavedVerses() NOTIFY SavedVersesChanged)
+    Q_PROPERTY(QString checkedBook READ GetCheckedBook() NOTIFY CheckedBookChanged)
+    Q_PROPERTY(int checkedChapterNo READ GetCheckedChapterNo() NOTIFY CheckedChapterNoChanged)
+    Q_PROPERTY(int checkedVerseNo READ GetCheckedVerseNo() NOTIFY CheckedVerseNoChanged)
+    Q_PROPERTY(QString checkedVerseText READ GetCheckedVerseText() NOTIFY CheckedVerseTextChanged)
 
 public:
     Backend(QObject *argParent = nullptr);
 
+    QString GetCheckedBook() const { return currCheckedBook; }
+    int GetCheckedChapterNo() const noexcept { return currCheckedChapterNo; }
+    int GetCheckedVerseNo() const noexcept { return currCheckedVerseNo; }
+    QString GetCheckedVerseText() const { return currCheckedVerseText; }
     ConfigurationHandler* GetConfigHndlr() const noexcept { return configHndlr; }
     int GetSavedVerses() const noexcept { return savedVersesQty; }
     AbstractStorageBackend* GetStorageBcknd() const noexcept { return storageBackend; }
@@ -40,15 +50,27 @@ public:
     Q_INVOKABLE void saveVerse(const QString &argBook, int argChapterNo,
                                int argVerseNo, const QString &argVerseText);
 
+public slots:
+    void requestNextVerse();
+
 signals:
+    void CheckedBookChanged();
+    void CheckedChapterNoChanged();
+    void CheckedVerseNoChanged();
+    void CheckedVerseTextChanged();
     void SavedVersesChanged();
 
 private:
     ConfigurationHandler *const configHndlr = nullptr;
+    QString currCheckedBook;
+    int currCheckedChapterNo = 0;
+    int currCheckedVerseNo = 0;
+    QString currCheckedVerseText;
     unsigned int savedVersesQty = 0u;
     AbstractStorageBackend *const storageBackend = nullptr;
 
 private slots:
+    void RetrieveNewVerse(const AbstractDataTypeSharedPtr &argDataPtr);
     void VerseGotSuccessfullySaved();
 };
 
