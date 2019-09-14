@@ -16,6 +16,8 @@ public:
     ConfigurationHandler* GetConfigHndlr() const noexcept { return configHndlr; }
     AbstractStorageBackend* GetStorageBcknd() const noexcept { return storageBackend; }
     void Initialize();
+    Q_INVOKABLE void saveVerse(const QString &argBook, int argChapterNo,
+                               int argVerseNo, const QString &argVerseText);
 
 private:
     ConfigurationHandler *const configHndlr = nullptr;

@@ -86,7 +86,10 @@ Page {
             enabled: false
             text: qsTr("Add")
 
-            onClicked: appBackend.saveVerse("", 1, 1, "")
+            onClicked: appBackend.saveVerse(bookNameComboBox.value,
+                                            chapterNoTextField.text,
+                                            verseNoTextField.text,
+                                            verseText.text)
         }
     }
 
