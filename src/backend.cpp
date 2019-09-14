@@ -16,6 +16,9 @@ Backend::Backend(QObject *const argParent) :
 {
     configHndlr->setParent(this);
     storageBackend->setParent(this);
+
+    connect(storageBackend, &AbstractStorageBackend::DataSavingSucceeded,
+            this, &Backend::VerseGotSuccessfullySaved);
 }
 
 void Backend::Initialize()
@@ -50,4 +53,10 @@ void Backend::saveVerse(const QString &argBook, int argChapterNo,
                 AbstractDataTypeSharedPtr{
                     new Verse(&(*foundCit), argChapterNo,
                               argVerseNo, argVerseText, 0)});
+}
+
+void Backend::VerseGotSuccessfullySaved()
+{
+    ++savedVersesQty;
+    emit SavedVersesChanged();
 }

@@ -28,6 +28,9 @@ private:
     ConfigurationHandler *const configHndlr = nullptr;
     unsigned int savedVersesQty = 0u;
     AbstractStorageBackend *const storageBackend = nullptr;
+
+private slots:
+    void VerseGotSuccessfullySaved();
 };
 
 #endif // BACKEND_H

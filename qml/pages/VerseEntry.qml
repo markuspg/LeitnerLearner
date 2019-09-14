@@ -1,5 +1,6 @@
 import QtQuick 2.0
 import Sailfish.Silica 1.0
+import com.github.leitnerlearner.backend 1.0
 
 Page {
     id: verseEntryPage
@@ -18,6 +19,16 @@ Page {
 
 
     signal itemEntered(string argBook, int argChapterNo, int argVerseNo, string argText)
+
+    Backend {
+        id: appBackend
+
+        onSavedVersesChanged: {
+            var prevVerseNo = verseNoTextField.text
+            verseNoTextField.text = Number(prevVerseNo) + 1
+            verseText.text = ""
+        }
+    }
 
     SilicaFlickable {
         anchors.fill: parent
