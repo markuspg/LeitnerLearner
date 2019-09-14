@@ -18,35 +18,40 @@ Page {
         anchors.fill: parent
         contentHeight: checkedVerseDataColumn.height + Theme.paddingLarge
 
-    Column {
-        id: checkedVerseDataColumn
-        width: parent.width
-
     Label {
         id: bookLabel
+
         text: appBackend.checkedBook
         width: parent.width
     }
 
     Label {
         id: chapterNoLabel
+
+        anchors.top: bookLabel.bottom
         text: appBackend.checkedChapterNo
         width: parent.width
     }
 
     Label {
         id: verseNoLabel
+
+        anchors.top: chapterNoLabel.bottom
         text: appBackend.checkedVerseNo
         width: parent.width
     }
 
     TextArea {
         id: verseTextArea
+
+        anchors.top: verseNoLabel.bottom
         readOnly: true
     }
 
     Button {
         id: showButton
+
+        anchors.top: verseTextArea.bottom
         text: qsTr("Show")
 
         onClicked: {
@@ -54,6 +59,8 @@ Page {
         }
     }
 
+    Row {
+        anchors.top: showButton.bottom
     Button {
         id: correctButton
         text: qsTr("Correct")
@@ -73,7 +80,7 @@ Page {
             appBackend.verseAnsweredWrongly()
         }
     }
-
     }
+
     }
 }
