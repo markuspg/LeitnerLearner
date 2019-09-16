@@ -51,6 +51,7 @@ void Backend::Initialize()
     storageBackend->RetrieveRandomData();
 }
 
+#ifdef QML_APP
 void Backend::requestNextVerse()
 {
     storageBackend->RetrieveRandomData();
@@ -121,3 +122,4 @@ void Backend::verseAnsweredWrongly()
 {
     storageBackend->MoveDataOneLevelDown(currDataItem);
 }
+#endif // QML_APP
