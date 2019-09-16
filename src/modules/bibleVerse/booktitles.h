@@ -27,7 +27,7 @@
 #include <array>
 
 using BookTitles = std::array<std::pair<EBibleBook, const char * const>, 66>;
-constexpr BookTitles bookTitles{
+static constexpr BookTitles bookTitles{
     std::make_pair(EBibleBook::Gen, QT_TR_NOOP("Genesis")),
     std::make_pair(EBibleBook::Ex, QT_TR_NOOP("Exodus")),
     std::make_pair(EBibleBook::Lev, QT_TR_NOOP("Leviticus")),
