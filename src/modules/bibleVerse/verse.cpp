@@ -22,6 +22,18 @@
 #include <QDebug>
 #include <QObject>
 
+Verse::Verse(const int argBookIdx, const unsigned short argChapterNo,
+             const unsigned short argVerseNo, const QString &argText,
+             const ll::Level argCurrLvl) :
+    AbstractDataType{EModIds::BibleVerse},
+    book{&(bookTitles.at(argBookIdx))},
+    chapterNo{argChapterNo},
+    currLvl{argCurrLvl},
+    verseNo{argVerseNo},
+    text{argText}
+{
+}
+
 Verse::Verse(const BookTitleInfoPtr argBook, const unsigned short argChapterNo,
              const unsigned short argVerseNo, const QString &argText,
              const ll::Level argCurrLvl) :
