@@ -99,7 +99,7 @@ Page {
             enabled: false
             text: qsTr("Add")
 
-            onClicked: appBackend.saveVerse(bookNameComboBox.value,
+            onClicked: appBackend.saveVerse(bookNameComboBox.currentIndex,
                                             chapterNoTextField.text,
                                             verseNoTextField.text,
                                             verseText.text)
