@@ -43,14 +43,14 @@ AbstractDataTypeSharedPtr AbstractDataType::ParseFromData(
             qWarning() << "Invalid book title encountered in Verse parsing";
             return AbstractDataTypeSharedPtr{};
         }
-        BookInfoPairPtr bookInfoPairPtr = nullptr;
-        for (const BookTitles::value_type &bookInfoPair : bookTitles) {
-            if (bookInfoPair.second == bookTitle) {
-                bookInfoPairPtr = &bookInfoPair;
+        BookTitleInfoPtr bookTitleInfoPtr = nullptr;
+        for (const BookTitleInfos::value_type &bookTitleInfo : bookTitles) {
+            if (bookTitleInfo.prettyTitle == bookTitle) {
+                bookTitleInfoPtr = &bookTitleInfo;
                 break;
             }
         }
-        if (bookInfoPairPtr == nullptr) {
+        if (bookTitleInfoPtr == nullptr) {
             qWarning() << "No fitting book title was found";
             return AbstractDataTypeSharedPtr{};
         }
@@ -68,7 +68,7 @@ AbstractDataTypeSharedPtr AbstractDataType::ParseFromData(
         }
         const QString verseText{QString{argData}};
 
-        return std::make_shared<Verse>(bookInfoPairPtr, chapterNo, verseNo,
+        return std::make_shared<Verse>(bookTitleInfoPtr, chapterNo, verseNo,
                                           argData, argLevel);
     } else {
         qWarning() << "Invalid module passed for data type parsing";

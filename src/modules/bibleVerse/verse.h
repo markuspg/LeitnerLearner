@@ -31,7 +31,7 @@
 class Verse : public AbstractDataType
 {
 public:
-    Verse(const BookInfoPairPtr argBook, const unsigned short argChapterNo,
+    Verse(const BookTitleInfoPtr argBook, const unsigned short argChapterNo,
           const unsigned short argVerseNo, const QString &argText,
           const ll::Level argCurrLvl);
 
@@ -43,7 +43,7 @@ public:
     unsigned short GetVerseNo() const noexcept { return verseNo; }
 
 private:
-    const BookInfoPairPtr book = nullptr;
+    const BookTitleInfoPtr book = nullptr;
     const unsigned short chapterNo = std::numeric_limits<unsigned short>::max();
     const ll::Level currLvl = std::numeric_limits<ll::Level>::max();
     const unsigned short verseNo = std::numeric_limits<unsigned short>::max();
