@@ -34,7 +34,7 @@ ll::ItemQty WeightedItemsPerMod(const StorageCache::LevelQtyArr &argArr)
 {
     FreqArr::size_type freqArrIdx = 0;
     ll::ItemQty weightedItemQty = 0;
-    for (const auto lvlQty : argArr) {
+    for (const StorageCache::LevelQtyArr::value_type lvlQty : argArr) {
         weightedItemQty += lvlQty * frequencies.at(freqArrIdx);
         ++freqArrIdx;
     }
@@ -44,7 +44,7 @@ ll::ItemQty WeightedItemsPerMod(const StorageCache::LevelQtyArr &argArr)
 StorageCache::StorageCache() :
     eng{std::random_device{}()}
 {
-    for (const auto &modInfo : GetModuleNames()) {
+    for (const std::pair<EModIds, const char *> &modInfo : GetModuleNames()) {
         itemsPerModPerLvl.emplace(modInfo.first,
                                   LevelQtyArr{});
     }
@@ -57,24 +57,24 @@ StorageCache::StorageCache() :
 std::unique_ptr<StorageCache::DrawResult> StorageCache::DoMonteCarloDraw() const
 {
     // draw a random category and level indicator
-    const auto modDraw = dist(eng);
-    const auto lvlDraw = dist(eng);
+    const double modDraw = dist(eng);
+    const double lvlDraw = dist(eng);
 
     // compute the entire weighted item quantity
-    const auto totalWeightedItemQty
+    const unsigned long totalWeightedItemQty
         = std::accumulate(itemsPerModPerLvl.cbegin(), itemsPerModPerLvl.cend(), 0ul,
-              [](const ll::ItemQty argCurrQty, const decltype(itemsPerModPerLvl)::value_type &argCurrMod)
+              [](const ll::ItemQty argCurrQty, const std::map<EModIds, LevelQtyArr>::value_type &argCurrMod)
                   { return argCurrQty + WeightedItemsPerMod(argCurrMod.second); });
     if (totalWeightedItemQty == 0) {
         return std::unique_ptr<DrawResult>{};
     }
 
     // choose module
-    auto weightedAccumulatedItems = 0ul;
+    unsigned long weightedAccumulatedItems = 0ul;
     EModIds chosenModule = EModIds::ZZZ_MOD_QTY;
-    const auto partitionQty = static_cast<ll::ItemQty>(modDraw * totalWeightedItemQty);
-    for (const auto &modLvls : itemsPerModPerLvl) {
-        const auto weightedItemsInMod = WeightedItemsPerMod(modLvls.second);
+    const ll::ItemQty partitionQty = static_cast<ll::ItemQty>(modDraw * totalWeightedItemQty);
+    for (const std::pair<EModIds, LevelQtyArr> &modLvls : itemsPerModPerLvl) {
+        const ll::ItemQty weightedItemsInMod = WeightedItemsPerMod(modLvls.second);
         if ((weightedAccumulatedItems + weightedItemsInMod) > partitionQty) {
             chosenModule = modLvls.first;
             break;
@@ -85,12 +85,12 @@ std::unique_ptr<StorageCache::DrawResult> StorageCache::DoMonteCarloDraw() const
     // choose level of module
     weightedAccumulatedItems = 0;
     ll::Level chosenLevel = 0;
-    const auto modQty = WeightedItemsPerMod(itemsPerModPerLvl.at(chosenModule));
-    const auto lvlPartQty = static_cast<ll::ItemQty>(lvlDraw * modQty);
+    const ll::ItemQty modQty = WeightedItemsPerMod(itemsPerModPerLvl.at(chosenModule));
+    const ll::ItemQty lvlPartQty = static_cast<ll::ItemQty>(lvlDraw * modQty);
     ll::Level lvlIdx = 0;
     FreqArr::size_type freqArrIdx = 0;
-    for (const auto lvlQty : itemsPerModPerLvl.at(chosenModule)) {
-        const auto weightedItemsInLvl = lvlQty * frequencies.at(freqArrIdx);
+    for (const ll::ItemQty lvlQty : itemsPerModPerLvl.at(chosenModule)) {
+        const ll::ItemQty weightedItemsInLvl = lvlQty * frequencies.at(freqArrIdx);
         if ((weightedAccumulatedItems + weightedItemsInLvl) > lvlPartQty) {
             chosenLevel = lvlIdx;
             break;
@@ -110,7 +110,7 @@ ll::ItemQty StorageCache::GetTotalStoredItemsQty() const
 {
     ll::ItemQty totalQty = 0;
 
-    for (const auto &module : itemsPerModPerLvl) {
+    for (const std::pair<EModIds, LevelQtyArr> &module : itemsPerModPerLvl) {
         totalQty += std::accumulate(module.second.cbegin(),
                                     module.second.cend(), 0ul);
     }
@@ -127,7 +127,7 @@ void StorageCache::ItemGotMoved(const EModIds argItemsMod,
                                 const ll::Level argItemsPrevLvl,
                                 const ll::Level argItemsNewLvl)
 {
-    auto &currMod{itemsPerModPerLvl.at(argItemsMod)};
+    LevelQtyArr &currMod{itemsPerModPerLvl.at(argItemsMod)};
 
     if (currMod.at(argItemsPrevLvl) == 0) {
         std::cerr << "A level's quantity cannot be decreased below '0'" << std::endl;
@@ -135,8 +135,8 @@ void StorageCache::ItemGotMoved(const EModIds argItemsMod,
     }
 
     // get the references first so that data remains unchanged in case of an out-of-bounds
-    auto &prevLvl = currMod.at(argItemsPrevLvl);
-    auto &newLvl = currMod.at(argItemsNewLvl);
+    ll::ItemQty &prevLvl = currMod.at(argItemsPrevLvl);
+    ll::ItemQty &newLvl = currMod.at(argItemsNewLvl);
 
     prevLvl -= 1;
     newLvl += 1;

@@ -25,7 +25,7 @@ namespace ll {
 using ItemQty = unsigned long;
 using Level = unsigned short;
 
-//! The quantity of different learning levels (0=new, 6=thoroughly memorized)
+//! The quantity of different learning levels (0=new, 7=thoroughly memorized)
 constexpr Level levelQty = 8;
 
 } // namespace ll

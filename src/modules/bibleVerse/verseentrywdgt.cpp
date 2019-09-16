@@ -29,7 +29,7 @@ VerseEntryWdgt::VerseEntryWdgt(QWidget *const argParent) :
     for (const auto &bookData : bookTitles) {
         QVariant tmpData;
         tmpData.setValue(&bookData);
-        ui->CBBibleBook->addItem(tr(bookData.second), tmpData);
+        ui->CBBibleBook->addItem(tr(bookData.prettyTitle), tmpData);
     }
 
     connect(ui->PTEVerseText, &QPlainTextEdit::textChanged,
@@ -53,7 +53,7 @@ AbstractDataTypeSharedPtr VerseEntryWdgt::GetDataPr()
         return AbstractDataTypeSharedPtr{};
     }
     return AbstractDataTypeSharedPtr{
-        new Verse{ui->CBBibleBook->currentData().value<BookInfoPairPtr>(),
+        new Verse{ui->CBBibleBook->currentData().value<BookTitleInfoPtr>(),
                   static_cast<unsigned short>(ui->SBChapterNo->value()),
                   static_cast<unsigned short>(ui->SBVerseNo->value()),
                   ui->PTEVerseText->toPlainText(), 0}};

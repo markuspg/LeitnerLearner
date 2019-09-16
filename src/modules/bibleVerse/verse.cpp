@@ -22,7 +22,19 @@
 #include <QDebug>
 #include <QObject>
 
-Verse::Verse(const BookInfoPairPtr argBook, const unsigned short argChapterNo,
+Verse::Verse(const int argBookIdx, const unsigned short argChapterNo,
+             const unsigned short argVerseNo, const QString &argText,
+             const ll::Level argCurrLvl) :
+    AbstractDataType{EModIds::BibleVerse},
+    book{&(bookTitles.at(argBookIdx))},
+    chapterNo{argChapterNo},
+    currLvl{argCurrLvl},
+    verseNo{argVerseNo},
+    text{argText}
+{
+}
+
+Verse::Verse(const BookTitleInfoPtr argBook, const unsigned short argChapterNo,
              const unsigned short argVerseNo, const QString &argText,
              const ll::Level argCurrLvl) :
     AbstractDataType{EModIds::BibleVerse},
@@ -40,7 +52,7 @@ QString Verse::GetBook() const
         qWarning() << "Text of not initialized Verse instance got requested";
         return QString{};
     }
-    return QObject::tr(book->second);
+    return QObject::tr(book->prettyTitle);
 }
 
 QByteArray Verse::GetData() const
@@ -50,7 +62,7 @@ QByteArray Verse::GetData() const
 
 QString Verse::GetIdentifier() const
 {
-    return QString{book->second}
+    return QString{book->prettyTitle}
             + "_" + QString::number(chapterNo)
             + "-" + QString::number(verseNo);
 }

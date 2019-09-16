@@ -1,1 +1,6 @@
+# Directories
+
+# Files
 /CMakeLists.txt.user*
+/LeitnerLearner.pro.user*
+/rpm/LeitnerLearner.spec

@@ -36,7 +36,7 @@ AbstractStorageBackend::AbstractStorageBackend(QObject *const argParent) :
 
 void AbstractStorageBackend::MoveDataOneLevelDown(AbstractDataTypeSharedPtr argData)
 {
-    const auto res{MoveData(argData, false)};
+    const MoveResult res{MoveData(argData, false)};
     if (res.errorOccurred == true) {
         emit DataMovingFailed();
         return;
@@ -52,7 +52,7 @@ void AbstractStorageBackend::MoveDataOneLevelDown(AbstractDataTypeSharedPtr argD
 
 void AbstractStorageBackend::MoveDataOneLevelUp(AbstractDataTypeSharedPtr argData)
 {
-    const auto res{MoveData(argData, true)};
+    const MoveResult res{MoveData(argData, true)};
     if (res.errorOccurred == true) {
         emit DataMovingFailed();
         return;

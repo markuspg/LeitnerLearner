@@ -17,25 +17,47 @@
  *  along with LeitnerLearner.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+#ifdef QML_APP
+#include <sailfishapp.h>
+#endif
+#ifdef WIDGETS_APP
 #include <QApplication>
+#endif // WIDGETS_APP
 #include <QDebug>
 #include <QDir>
 #include <QFile>
+#ifdef QML_APP
+#include <QGuiApplication>
+#include <QQuickView>
+#endif // QML_APP
 #include <QStandardPaths>
+#ifdef QML_APP
+#include <QtQml>
+#endif // QML_APP
+#ifdef WIDGETS_APP
 #include <QTimer>
+#endif // WIDGETS_APP
 
 #include "abstractdatatype.h"
 #ifdef WIDGETS_APP
 #include "mainwindow.h"
+#else
+#include "backend.h"
 #endif // WIDGETS_APP
 #include "modules/bibleVerse/booktitles.h"
 
 int main(int argc, char *argv[]) {
+#ifdef WIDGETS_APP
     QApplication app{argc, argv};
     app.setApplicationName("LeitnerLearner");
+#endif // WIDGETS_APP
+#ifdef QML_APP
+    QScopedPointer<QGuiApplication> app(SailfishApp::application(argc, argv));
+    QScopedPointer<QQuickView> view(SailfishApp::createView());
+#endif // QML_APP
 
     qRegisterMetaType<AbstractDataTypeSharedPtr>();
-    qRegisterMetaType<BookInfoPairPtr>();
+    qRegisterMetaType<BookTitleInfoPtr>();
 
     QDir dataDir{QStandardPaths::writableLocation(QStandardPaths::AppDataLocation)};
     if (QFile::exists(dataDir.absolutePath()) == false) {
@@ -45,12 +67,20 @@ int main(int argc, char *argv[]) {
         }
     }
 
+#ifdef QML_APP
+    qmlRegisterType<Backend>("com.github.leitnerlearner.backend", 1, 0, "Backend");
+
+    view->setSource(SailfishApp::pathTo("qml/LeitnerLearner.qml"));
+    view->show();
+
+    return app->exec();
+#endif // QML_APP
 #ifdef WIDGETS_APP
     MainWindow mainWin;
     mainWin.show();
 
     QTimer::singleShot(0, &mainWin, &MainWindow::Initialize);
-#endif // WIDGETS_APP
 
     return app.exec();
+#endif // WIDGETS_APP
 }
