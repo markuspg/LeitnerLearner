@@ -47,7 +47,7 @@ public:
     int GetSavedVerses() const noexcept { return savedVersesQty; }
     AbstractStorageBackend* GetStorageBcknd() const noexcept { return storageBackend; }
     void Initialize();
-    Q_INVOKABLE void saveVerse(const QString &argBook, int argChapterNo,
+    Q_INVOKABLE void saveVerse(int argBookIdx, int argChapterNo,
                                int argVerseNo, const QString &argVerseText);
 
 public slots:

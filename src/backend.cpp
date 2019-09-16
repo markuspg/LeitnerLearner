@@ -80,32 +80,25 @@ void Backend::RetrieveNewVerse(const AbstractDataTypeSharedPtr &argDataPtr)
     }
 }
 
-void Backend::saveVerse(const QString &argBook, int argChapterNo,
-                        int argVerseNo, const QString &argVerseText)
+void Backend::saveVerse(const int argBookIdx, const int argChapterNo,
+                        const int argVerseNo, const QString &argVerseText)
 {
-    BookTitleInfos::const_iterator foundCit = bookTitles.cend();
-
-    for (auto cit = bookTitles.cbegin(); cit != bookTitles.cend(); ++cit) {
-        if (QString{&(*cit->prettyTitle)} == argBook) {
-            foundCit = cit;
-            break;
-        }
-    }
-    if (foundCit == bookTitles.cend()) {
-        qWarning() << "Book title could not be found";
-        return;
+    // Filter invalid bible book indices
+    if (bookTitles.size() <= static_cast<unsigned int>(argBookIdx)) {
+        qWarning() << "Invalid book index given:" << argBookIdx;
     }
 
     // Filter invalid chapter and verse numbers
     if (((argChapterNo < 1) || argChapterNo > 150)
             || ((argVerseNo < 1) || argVerseNo > 176)) {
-        qWarning() << "Invalid chapter or verse number given";
+        qWarning() << "Invalid chapter or verse number given:"
+                   << argChapterNo << argVerseNo;
         return;
     }
 
     storageBackend->SaveData(
                 AbstractDataTypeSharedPtr{
-                    new Verse(&(*foundCit), argChapterNo,
+                    new Verse(argBookIdx, argChapterNo,
                               argVerseNo, argVerseText, 0)});
 }
 

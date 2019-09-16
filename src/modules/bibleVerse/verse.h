@@ -31,9 +31,12 @@
 class Verse : public AbstractDataType
 {
 public:
-    Verse(const BookTitleInfoPtr argBook, const unsigned short argChapterNo,
-          const unsigned short argVerseNo, const QString &argText,
-          const ll::Level argCurrLvl);
+    Verse(const int argBookIdx, unsigned short argChapterNo,
+          unsigned short argVerseNo, const QString &argText,
+          ll::Level argCurrLvl);
+    Verse(BookTitleInfoPtr argBook, unsigned short argChapterNo,
+          unsigned short argVerseNo, const QString &argText,
+          ll::Level argCurrLvl);
 
     QString GetBook() const;
     unsigned short GetChapterNo() const noexcept { return chapterNo; }
