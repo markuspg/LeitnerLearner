@@ -33,35 +33,33 @@ AbstractDataTypeSharedPtr AbstractDataType::ParseFromData(
         const QString &argIdentifier, const QByteArray &argData)
 {
     if (argMod == EModIds::BibleVerse) {
-        const QStringList splitRes{argIdentifier.split(QRegularExpression{"[-_]"})};
-        if (splitRes.size() != 3) {
+        // Retrieve the index of the book and its info structure
+        const QStringRef bookNum{argIdentifier.leftRef(2)};
+        bool convSucc = false;
+        unsigned int bookIdx = bookNum.toUInt(&convSucc) - 1u;
+        if (convSucc == false) {
+            qWarning() << "Book index could not be extracted from identifier";
+            return AbstractDataTypeSharedPtr{};
+        }
+        BookTitleInfoPtr bookTitleInfoPtr = &(bookTitles.at(bookIdx));
+
+        // Split everything after the technical title to get chapter and verse
+        const QString technicalTitle{bookTitles.at(bookIdx).technicalTitle};
+        const QStringList splitRes{argIdentifier.mid(technicalTitle.size() + 1)
+                                   .split(QRegularExpression{"[-]"})};
+        if (splitRes.size() != 2) {
             qWarning() << "Invalid identifier passed into Verse parser";
             return AbstractDataTypeSharedPtr{};
         }
-        const QString bookTitle{splitRes.at(0)};
-        if (bookTitle.isEmpty() == true) {
-            qWarning() << "Invalid book title encountered in Verse parsing";
-            return AbstractDataTypeSharedPtr{};
-        }
-        BookTitleInfoPtr bookTitleInfoPtr = nullptr;
-        for (const BookTitleInfos::value_type &bookTitleInfo : bookTitles) {
-            if (bookTitleInfo.prettyTitle == bookTitle) {
-                bookTitleInfoPtr = &bookTitleInfo;
-                break;
-            }
-        }
-        if (bookTitleInfoPtr == nullptr) {
-            qWarning() << "No fitting book title was found";
-            return AbstractDataTypeSharedPtr{};
-        }
-        bool convSucc = false;
-        const unsigned short chapterNo{splitRes.at(1).toUShort(&convSucc)};
+
+        convSucc = false;
+        const unsigned short chapterNo{splitRes.at(0).toUShort(&convSucc)};
         if (convSucc == false) {
             qWarning() << "Failed to parse chapter number for Verse";
             return AbstractDataTypeSharedPtr{};
         }
         convSucc = false;
-        const unsigned short verseNo{splitRes.at(2).toUShort(&convSucc)};
+        const unsigned short verseNo{splitRes.at(1).toUShort(&convSucc)};
         if (convSucc == false) {
             qWarning() << "Failed to parse verse number for Verse";
             return AbstractDataTypeSharedPtr{};

@@ -26,7 +26,7 @@ Verse::Verse(const int argBookIdx, const unsigned short argChapterNo,
              const unsigned short argVerseNo, const QString &argText,
              const ll::Level argCurrLvl) :
     AbstractDataType{EModIds::BibleVerse},
-    book{&(bookTitles.at(argBookIdx))},
+    book{&(bookTitles.at(static_cast<BookTitleInfos::size_type>(argBookIdx)))},
     chapterNo{argChapterNo},
     currLvl{argCurrLvl},
     verseNo{argVerseNo},
@@ -62,7 +62,7 @@ QByteArray Verse::GetData() const
 
 QString Verse::GetIdentifier() const
 {
-    return QString{book->prettyTitle}
+    return QString{book->technicalTitle}
             + "_" + QString::number(chapterNo)
             + "-" + QString::number(verseNo);
 }

@@ -6,8 +6,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- QML based application for Sailfish OS
+
 ### Changed
 - backport to C++11 since Sailfish OS (as of 3.0.3)  does not support C++17 yet
+- identify stored bible verses by their technical title
 
 ### Fixed
 - display widget in check not being hidden when a new data item is being checked
