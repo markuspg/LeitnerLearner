@@ -21,9 +21,11 @@
 #include "configurationhandler.h"
 #include "filestoragebackend.h"
 #include "sqlitestoragebackend.h"
+#ifdef QML_APP
 #include "modules/bibleVerse/verse.h"
 
 #include <QDebug>
+#endif // QML_APP
 
 Backend::Backend(QObject *const argParent) :
     QObject(argParent),
@@ -36,10 +38,12 @@ Backend::Backend(QObject *const argParent) :
     configHndlr->setParent(this);
     storageBackend->setParent(this);
 
+#ifdef QML_APP
     connect(storageBackend, &AbstractStorageBackend::DataSavingSucceeded,
             this, &Backend::VerseGotSuccessfullySaved);
     connect(storageBackend, &AbstractStorageBackend::DataRetrievalSucceeded,
             this, &Backend::RetrieveNewVerse);
+#endif // QML_APP
 }
 
 void Backend::Initialize()
