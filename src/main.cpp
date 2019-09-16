@@ -57,7 +57,7 @@ int main(int argc, char *argv[]) {
 #endif // QML_APP
 
     qRegisterMetaType<AbstractDataTypeSharedPtr>();
-    qRegisterMetaType<BookInfoPairPtr>();
+    qRegisterMetaType<BookTitleInfoPtr>();
 
     QDir dataDir{QStandardPaths::writableLocation(QStandardPaths::AppDataLocation)};
     if (QFile::exists(dataDir.absolutePath()) == false) {

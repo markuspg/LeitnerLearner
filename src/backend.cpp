@@ -83,10 +83,10 @@ void Backend::RetrieveNewVerse(const AbstractDataTypeSharedPtr &argDataPtr)
 void Backend::saveVerse(const QString &argBook, int argChapterNo,
                         int argVerseNo, const QString &argVerseText)
 {
-    BookTitles::const_iterator foundCit = bookTitles.cend();
+    BookTitleInfos::const_iterator foundCit = bookTitles.cend();
 
     for (auto cit = bookTitles.cbegin(); cit != bookTitles.cend(); ++cit) {
-        if (QString{&(*cit->second)} == argBook) {
+        if (QString{&(*cit->prettyTitle)} == argBook) {
             foundCit = cit;
             break;
         }
