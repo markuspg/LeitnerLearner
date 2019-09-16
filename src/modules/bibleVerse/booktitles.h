@@ -26,6 +26,28 @@
 
 #include <array>
 
+struct BookTitleInfo {
+    constexpr BookTitleInfo() = default;
+    constexpr BookTitleInfo(EBibleBook argEnumVal,
+                            const char * const argPrettyTitle,
+                            const char * const argAbbreviation,
+                            const char * const argTechnicalTitle) :
+        enumVal(argEnumVal),
+        prettyTitle(argPrettyTitle),
+        abbreviation(argAbbreviation),
+        technicalTitle(argTechnicalTitle)
+    {
+    }
+
+    const EBibleBook enumVal
+        = static_cast<EBibleBook>(
+            std::numeric_limits<std::underlying_type<EBibleBook>::type>::max());
+    const char * const prettyTitle = nullptr;
+    const char * const abbreviation = nullptr;
+    const char * const technicalTitle = nullptr;
+};
+Q_DECLARE_METATYPE(BookTitleInfo)
+
 using BookTitles = std::array<std::pair<EBibleBook, const char * const>, 66>;
 static constexpr BookTitles bookTitles{
     std::make_pair(EBibleBook::Gen, QT_TR_NOOP("Genesis")),
